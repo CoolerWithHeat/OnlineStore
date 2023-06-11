@@ -1,0 +1,181 @@
+/* body{
+    background:#eee;    
+}
+.chat-list {
+    padding: 0;
+    font-size: .8rem;
+}
+ */
+
+/* export function CreateChatDialog(side, first_name=null, last_name=null, image_url=null, message=null, Custom=false){
+    if (side == 'right')
+        return  <li className="in">
+                    <div className="chat-img">
+                        <img alt="Avtar" src={image_url}/>
+                    </div>
+                    <div className="chat-body">
+                        <div className="chat-message">
+                            <h5>{first_name} {last_name}</h5>
+                            <p>{message ? message : 'No Message'}</p>
+                        </div>
+                    </div>
+                </li>
+    else
+        return  <li className="out">
+                    <div className="chat-img">
+                        <img alt="Avtar" src={image_url}/>
+                    </div>
+                    <div className="chat-body">
+                        <div className="chat-message">
+                            <h5>{first_name} {last_name}</h5>
+                            <p>{message ? message : 'No Message'}</p>
+                        </div>
+                    </div>
+                </li>
+} */
+
+@media (min-width:450px){
+    #IndicatorStyle{
+        width: 50px;
+        height: 50px;
+        margin-left: 10px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: #2121c2;
+        
+        display: inline-block;
+        cursor: pointer;
+        background-color: rgb(255, 255, 255);
+
+    }
+
+    #inputFieldSupport{
+        position: fixed;
+        bottom: 5px;
+        width: 100%;
+        margin: auto;
+    }
+
+    #InidicatorText{
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #17242b;
+        margin-bottom: 3px;
+    }
+    
+    .row{
+        width: 80%;
+    
+        display: block; 
+        margin: auto;
+    }
+}
+@media (min-width:900px){
+    .row{
+        width: 55%;
+        display: block; 
+        margin: auto;
+    }
+
+}
+
+
+.chat-list li {
+    margin-bottom: 10px;
+    overflow-y: auto;
+    color: #ffffff;
+}
+
+.chat-list .chat-img {
+    float: left;
+    width: 48px;
+}
+
+.chat-list .chat-img img {
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    width: 100%;
+}
+
+.chat-list .chat-message {
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    background: #5a99ee;
+    display: inline-block;
+    padding: 10px 20px;
+    position: relative;
+}
+
+.chat-list .chat-message:before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    width: 0;
+    height: 0;
+}
+
+.chat-list .chat-message h5 {
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    line-height: 100%;
+    font-size: .9rem;
+}
+
+.chat-list .chat-message p {
+    line-height: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-list .chat-body {
+    margin-left: 20px;
+    float: left;
+    width: 70%;
+}
+
+.chat-list .in .chat-message:before {
+    left: -12px;
+    border-bottom: 20px solid transparent;
+    border-right: 20px solid #5a99ee;
+}
+
+.chat-list .out .chat-img {
+    float: right;
+}
+
+.chat-list .out .chat-body {
+    float: right;
+    margin-right: 20px;
+    text-align: right;
+}
+
+.chat-list .out .chat-message {
+    background: #fc6d4c;
+}
+
+.chat-list .out .chat-message:before {
+    right: -12px;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #fc6d4c;
+}
+
+.card .card-header:first-child {
+    -webkit-border-radius: 0.3rem 0.3rem 0 0;
+    -moz-border-radius: 0.3rem 0.3rem 0 0;
+    border-radius: 0.3rem 0.3rem 0 0;
+}
+.card .card-header {
+    background: #17202b;
+    border: 0;
+    font-size: 1rem;
+    padding: .65rem 1rem;
+    position: relative;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.content{
+    margin-top:40px;    
+}

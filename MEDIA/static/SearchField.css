@@ -1,0 +1,123 @@
+@media (max-width:360px){
+
+    #SearchBar{
+        
+        width:  130px;
+        height: 25px;
+        position: fixed;
+        right: 3px;
+        margin-top: 30px;
+        
+    }
+    
+    #SeachButtonLoop{
+
+        width:  20px;
+        height: 20px;
+        
+    }
+    
+    #SearchButton{
+    
+        background-color: rgba(255, 0, 0, 0.596);
+        border-style: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        float: right;
+    
+    }
+    
+    #SearchFieldInput{
+
+        display: inline-block;
+        position: absolute;
+        height: 19px;
+        width: 88px;
+
+    }
+
+}
+
+@media (min-width:360px) and (max-width:900px){
+
+    #SearchBar{
+
+        width:  178px;
+        height: 30px;
+        position: fixed;
+        right: 5px;
+        margin-top: 45px;
+        
+    }
+    
+    #SeachButtonLoop{
+
+        width:  27px;
+        height: 27px;
+        
+    }
+    
+    #SearchButton{
+    
+        background-color: rgba(255, 0, 0, 0.596);
+        border-style: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        float: right;
+    
+    }
+    
+    #SearchFieldInput{
+        display: inline-block;
+        position: absolute;
+        height: 27px;
+        width: 129px;
+    }
+
+}
+
+@media (min-width:900px){
+    
+    #SearchBar{
+        
+        width:  230px;
+        height: 30px;
+        /* border-style: solid; */
+        position: absolute;
+        right: 5px;
+        margin-top: 55px;
+        
+    }
+    
+    #SeachButtonLoop{
+        width:  28px;
+        height: 28px;
+    }
+    
+    #SearchButton{
+    
+        background-color: rgba(255, 0, 0, 0.596);
+        border-style: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: inline-block;
+        float: right;
+    
+    }
+    
+    #SearchFieldInput{
+        display: inline-block;
+        position: absolute;
+        height: 26px;
+        width: 179px;
+    }
+
+}
+
+
+#SearchButton:hover{
+    opacity: 0.5;
+}
+

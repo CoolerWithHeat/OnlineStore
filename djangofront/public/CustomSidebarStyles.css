@@ -1,0 +1,185 @@
+/* Position and sizing of burger button */
+.bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    left: 36px;
+    top: 60px;
+}
+    
+#BottomLine{
+    width: 100%;
+    max-height: 42  px;
+    min-height: 20px;
+    font-size: 18px;
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: rgba(183, 0, 255, 0.664);
+    border-width: 0px;
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    transition: Y (-100px);
+    cursor: pointer;
+}
+
+#BottomLine:hover{
+    opacity: 0.7;
+}
+
+#BottomLine:focus{
+    opacity: 10;
+}
+
+.bm-burger-bars {
+
+    background: #373a47;
+    
+}
+
+#PayloadAbsence{
+
+    width: 100%;
+    height: 25px;
+    background-color: rgba(39, 38, 35, 0.705);
+    border-radius: 15px;
+
+}
+
+#PayloadText{
+    
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    
+}
+
+@media screen {
+
+    #SidebarCart{
+
+        background-color: white;
+        height: 900px;
+        overflow-x  : scroll;
+        width: 260px;
+    }
+
+}
+#main{
+
+    width: 128px;
+    border-style: solid;
+    height: 52px;
+    display: block;
+    margin: auto;
+    bottom: 0;
+    top: 1;
+    
+}
+
+#LeftButton{
+
+    width: 50px;
+    height: 50px;
+    float: left;
+    border-style: solid;
+    border-color: blue;
+    text-align: center;
+
+}
+
+#RightButton{
+
+    width: 50px;
+    height: 50px;
+    float: right;
+    vertical-align: top;
+    border-style: solid;
+    border-color: rgb(255, 0, 187);
+    text-align: center;
+    
+}
+
+#ValueHolder{
+    display: inline-block;
+    margin-top: 12px;
+    margin-left: 3px;
+}   
+
+.bm-burger-bars-hover {
+    background: #a90000;
+    
+}
+
+.bm-cross-button {
+    height: 24px;
+    width: 24px;
+}
+
+.bm-cross {
+    background: #bdc3c7;
+    
+}
+
+
+.bm-menu-wrap {
+
+    position: fixed;
+    height: 100%;
+    
+}
+
+/* General sidebar styles */
+
+@media (max-width:360px) {
+    .bm-menu {
+        background: #FF6F61!important;
+        font-size: 1.15em;
+        max-width: 33px;
+    }    
+}
+
+@media (min-width:360px) and (max-width:650px) {
+    .bm-menu {
+        background: #FF6F61!important;
+        font-size: 1.15em;
+        max-width: 45px;
+    }    
+}
+
+@media (min-width:650px) and (max-width:900px) {
+    .bm-menu {
+        background: #FF6F61!important;
+        font-size: 1.15em;
+        max-width: 44px;
+    }    
+}
+
+@media (min-width:900px) {
+    .bm-menu {
+        background: #FF6F61!important;
+        font-size: 1.15em;
+        max-width: 60px;
+    }    
+}
+
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape {
+    fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+    color: #b8b7ad;
+    padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
+    display: inline-block;
+}
+
+/* Styling of overlay */
+.bm-overlay {
+
+    background: rgba(0, 0, 0, 0.3);
+}
