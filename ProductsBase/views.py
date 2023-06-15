@@ -313,12 +313,12 @@ def GetClient_Profile_info(request):
             user_credentials = {'image_url': user.image.url if user.image else models.IconsForFrontend.objects.get(file_code='default_user').file.url,'email':user.email, 'first_name': user.first_name if not (user.first_name == 'No Name') else None, 'last_name': user.last_name if not (user.last_name == 'Not Last Name') else None}
             return Response({"response": user_credentials})
 
-@api_view(['GET'])   
-def Check_User_Authenticity(request):
-    user = request.user
+# @api_view(['GET'])   
+# def Check_User_Authenticity(request):
+#     user = request.user
 
-    if user.is_authenticated:
-        return Response({'error': False}, status=200)
+#     if user.is_authenticated:
+#         return Response({'error': False}, status=200)
     
-    else:
-        return Response({'error': 'Unauthenticated user'}, status=500)
+#     else:
+#         return Response({'error': 'Unauthenticated user'}, status=500)
