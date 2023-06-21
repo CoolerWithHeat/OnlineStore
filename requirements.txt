@@ -101,3 +101,5 @@ zope.component==4.3.0
 zope.event==4.4
 zope.hookable==5.1.0
 zope.interface==6.0
+whitenoise==5.3.0
+gunicorn
