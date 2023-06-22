@@ -63,7 +63,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         
         'DIRS': [
-            os.path.join(BASE_DIR, 'djangofront/build')
+            os.path.join(BASE_DIR, 'build')
             ],
 
         'APP_DIRS': True,
@@ -98,8 +98,10 @@ DATABASES = {
 }
 
 CORS_ALLOWED_ORIGINS = [
+
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+
 ]
 
 
@@ -152,9 +154,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')
 
 STATICFILES_DIRS = [
 
-    os.path.join(BASE_DIR, 'djangofront/build'),
-    os.path.join(BASE_DIR, 'djangofront/src'),
-    os.path.join(BASE_DIR, 'djangofront/build/static'),
+    os.path.join(BASE_DIR, 'build'),
+    os.path.join(BASE_DIR, 'src'),
+    os.path.join(BASE_DIR, 'build/static'),
 
 ]
 
