@@ -35,3 +35,4 @@ redis==4.5.4
 reportlab==3.6.8
 requests==2.25.1
 whitenoise
+pipenv
