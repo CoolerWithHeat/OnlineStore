@@ -1,1 +1,1 @@
-web: gunicorn OnlineStore.asgi --log-file -
+web: gunicorn OnlineStore.asgi --preload -b 0.0.0.0:5000 
