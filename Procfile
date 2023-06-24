@@ -1,1 +1,1 @@
-web: gunicorn OnlineStore.asgi:application
+web: gunicorn OnlineStore.asgi --log-file -
