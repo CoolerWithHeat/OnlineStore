@@ -47,12 +47,12 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -85,7 +85,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-ASGI_APPLICATION = 'OnlineStore.asgi.application'
+ASGI_APPLICATION = 'OnlineStore.wsgi.application'
 AUTH_USER_MODEL = 'ProductsBase.User'
 
 # Database
@@ -158,6 +158,12 @@ STATICFILES_DIRS = [
 
 ]
 
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'MEDIA/static/')
 # Default primary key field type
