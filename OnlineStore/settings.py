@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-%1o4pw*#5!p8w7fuyiz5+3_z-n7xpql_fpxag8p)96ze&ql+ej
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mansurdev.store', 'onlinestore.herokuapp.com']
+ALLOWED_HOSTS = ['mansurdev.store', 'onlinestore.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -129,6 +129,7 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Asia/Tashkent'
 
+
 USE_I18N = True
 
 USE_TZ = True
@@ -158,15 +159,23 @@ STATICFILES_DIRS = [
 
 ]
 
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# STORAGES = {
+#     # ...
+#     "staticfiles": {
+#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#     },
+# }
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'MEDIA/static/')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = DEFAULT_FILE_STORAGE
+
+AWS_STORAGE_BUCKET_NAME = 'djangostaticfileshub'
+AWS_S3_ACCESS_KEY_ID = 'AKIAYAV6FHTRZHHJNHNB'
+AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_S3_SIGNATURE_VERSION = 's3v4'   
+AWS_S3_REGION_NAME = 'eu-north-1'
