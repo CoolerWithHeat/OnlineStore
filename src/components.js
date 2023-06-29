@@ -241,9 +241,9 @@ export function SidebarButton(BtnProperties){
 
     const btnIndexes = {
 
-        1: <img id='CartIcon' src={GetHost()+'/media/Cart_ICON.png'}/>,
-        2: <img id='UserIcon' src={GetHost()+'/media/user_ICON.png'}/>,
-        3: <img id='SupportIcon' src={GetHost()+'/media/support_ICON.png'}/>,
+        1: <img id='CartIcon' src='/media/Cart_ICON.png'/>,
+        2: <img id='UserIcon' src='/media/Cart_ICON.png'/>,
+        3: <img id='SupportIcon' src='/media/Cart_ICON.png'/>,
         
     }
     
@@ -620,7 +620,7 @@ export function ProductCard(CardProperties){
 
     const title = CardProperties.title
     const price = Number(CardProperties.price)
-    const image_url = Get_Static_Url(CardProperties.image)
+    const image_url = CardProperties.image
     const SlashedPrice = true;
 
     const [state, setState] = React.useState('idle');

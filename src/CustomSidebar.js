@@ -119,7 +119,7 @@ function UISideBar(){
         React.useEffect(Main=>{
             async function RequestData(){
 
-                const request = await fetch(GetHost()+"GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+                const request = await fetch(GetHost()+"/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
                 const rawData = await request.json()
                 UpdateCartProducts(DispatchHandler(rawData.result))
                 return rawData.result
