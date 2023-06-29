@@ -19,7 +19,7 @@ export const Get_Static_Url = (filename)=>{
 
 export function GetHost(WithProtocol=true){
     if (WithProtocol){
-        return window.location.protocol + '://' + window.location.host
+        return window.location.protocol + '//' + window.location.host
     }else{
         return window.location.host   
     }
