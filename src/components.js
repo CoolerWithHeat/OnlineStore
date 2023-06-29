@@ -1276,7 +1276,7 @@ export function NavbarCartMenu(){
 
     React.useState(Main=>{
         async function RequestData(){
-            const request = await fetch(GetHost()+'Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+            const request = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
             if (request.status == 200){
                 const request = await fetch(GetHost()+"/GetUsersCardProducts/", {
                     headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
