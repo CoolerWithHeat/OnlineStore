@@ -3,13 +3,11 @@
 from django.contrib import admin
 from django.urls import path, re_path
 from ProductsBase.views import *
-from django.conf import settings
-from django.conf.urls.static import static
 from django.shortcuts import render
 from django.views.generic import RedirectView
-
+from django.core.files.storage import default_storage
+from ProductsBase.models import IconsForFrontend
 def CentralCore(request, *args, **kwargs):
-    print(request.user)
     return render(request, 'index.html')
 
 urlpatterns = [
@@ -40,6 +38,3 @@ urlpatterns = [
     path('Authentication_Check/', Check_User_Authenticity),
     re_path(r'^.*/$', RedirectView.as_view(pattern_name='home'), name='catch-all'),
 ] 
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

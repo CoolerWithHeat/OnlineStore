@@ -37,7 +37,7 @@ function UISideBar(){
 
         React.useEffect(Main=>{
 
-            const socket = new ReconnectingWebSocket(SocketProtocol + GetHost(false) + 'chat/' + `token=${localStorage.getItem('WebKey')}`)
+            const socket = new ReconnectingWebSocket(SocketProtocol + GetHost(false) + '/chat/' + `token=${localStorage.getItem('WebKey')}`)
             
             socket.onmessage = (BaseData)=>{
                 
@@ -92,7 +92,7 @@ function UISideBar(){
                         <input id='TypeBox' type="text"/>
 
                         <button ref={SendButton} onClick={sendToSocket} id="CustomBootstrap">
-                            <img id="TextingButtonImage" src={Get_Static_Url('/media/send_ICON.png')}/>
+                            <img id="TextingButtonImage" src={GetHost()+'/media/send_ICON.png'}/>
                         </button>
 
                     </div>
@@ -110,7 +110,7 @@ function UISideBar(){
         const UpdateCartProducts = useDispatch()
     
         async function RequestData(){
-            const request = await fetch("http://127.0.0.1:8000/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+            const request = await fetch(GetHost()+"/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
             const rawData = await request.json()
             UpdateCartProducts(DispatchHandler(rawData.result))
             return rawData.result
@@ -119,7 +119,7 @@ function UISideBar(){
         React.useEffect(Main=>{
             async function RequestData(){
 
-                const request = await fetch("http://127.0.0.1:8000/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+                const request = await fetch(GetHost()+"GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
                 const rawData = await request.json()
                 UpdateCartProducts(DispatchHandler(rawData.result))
                 return rawData.result

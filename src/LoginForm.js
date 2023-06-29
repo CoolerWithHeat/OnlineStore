@@ -35,7 +35,7 @@ function AccountLoginRegisterform(){
                 const ProviderRequest = signInWithPopup(auth, googleProvider);
                 const data = await ProviderRequest
 
-                const BackendRequest = await fetch(Get_Static_Url(`/SignUp/`), {
+                const BackendRequest = await fetch(GetHost()+`/SignUp/`, {
 
                     method:'POST',
                     
@@ -69,7 +69,7 @@ function AccountLoginRegisterform(){
                 const ProviderRequest = signInWithPopup(auth, FacebookProvider);
                 const data = await ProviderRequest
 
-                const BackendRequest = await fetch(Get_Static_Url(`/SignUp/`), {
+                const BackendRequest = await fetch(GetHost()+`/SignUp/`, {
 
                     method:'POST',
                     
@@ -174,7 +174,7 @@ function AccountLoginRegisterform(){
 
             async function ManageRequest(){
                 
-                const BackendRequest = await fetch(Get_Static_Url(`/SignUp/`), {
+                const BackendRequest = await fetch(GetHost()+`/SignUp/`, {
 
                     method:'POST',
                     
@@ -229,7 +229,7 @@ function AccountLoginRegisterform(){
 
             async function ManageRequest(){
 
-                const BackendRequest = await fetch(Get_Static_Url(`/SignIn/`), {
+                const BackendRequest = await fetch(GetHost()+`/SignIn/`, {
 
                     method:'POST',
                     
