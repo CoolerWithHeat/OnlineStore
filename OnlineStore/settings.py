@@ -85,7 +85,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-ASGI_APPLICATION = 'OnlineStore.wsgi.application'
+ASGI_APPLICATION = 'OnlineStore.asgi.application'
 AUTH_USER_MODEL = 'ProductsBase.User'
 
 # Database
