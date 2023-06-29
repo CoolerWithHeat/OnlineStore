@@ -18,7 +18,11 @@ export const Get_Static_Url = (filename)=>{
 }
 
 export function GetHost(WithProtocol=true){
-    return window.location.protocol + '://' + window.location.host
+    if (WithProtocol){
+        return window.location.protocol + '://' + window.location.host
+    }else{
+        return window.location.host   
+    }
 }
 
 export function GetCartProducts(){
