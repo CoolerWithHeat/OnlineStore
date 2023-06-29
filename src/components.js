@@ -1234,7 +1234,7 @@ function CartItemForm(ItemProperties){
         return rawData.result
     }
 
-    const image_url = Get_Static_Url(ItemProperties.image_url)
+    const image_url = ItemProperties.image_url
     const RemoveFromCart = (id)=>{console.log(id, " removed from database!")}
 
     const RemoveRequestHandler = (id)=>{
@@ -1266,7 +1266,7 @@ function CartItemForm(ItemProperties){
             </div>
 
             <div onClick={()=>RemoveRequestHandler(ItemProperties.id)} id="CartItemMainTrashWindow">
-                <img id="CartItemTrashIcon" src={Get_Static_Url(ItemProperties.TrashIcon)}/>
+                <img id="CartItemTrashIcon" src={ItemProperties.TrashIcon}/>
             </div>
 
         </div>

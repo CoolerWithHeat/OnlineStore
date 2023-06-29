@@ -62,10 +62,9 @@ function ArrangeProducts(ProductsProperties){
 }
 
 function MainPageArrangement(WindowProperties){
+  
   const ProductsUpdatePath =  ResultProductsBase.actions.StoreProducts
   const dispatch = useDispatch()
-
-
 
   return (
 
