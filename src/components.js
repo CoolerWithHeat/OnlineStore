@@ -199,6 +199,7 @@ export function ProfileWindow(){
         
         GetProfileDetails()
         getStyle()
+
     }, [])
 
     const Style = {width:'60px', height:'60px', borderRadius:'50%',}
@@ -222,7 +223,7 @@ export function ProfileWindow(){
                 <br/>
                 <ul style={SmallerText}>Purchased products: 0</ul>
                 <ul style={SmallerText}>Balance: 0</ul>
-                <br/>
+                <br/>   
             </div>
 
             
@@ -241,9 +242,9 @@ export function SidebarButton(BtnProperties){
 
     const btnIndexes = {
 
-        1: <img id='CartIcon' src='/media/Cart_ICON.png'/>,
-        2: <img id='UserIcon' src='/media/Cart_ICON.png'/>,
-        3: <img id='SupportIcon' src='/media/Cart_ICON.png'/>,
+        1: <img id='CartIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Cart_ICON.png'/>,
+        2: <img id='UserIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/user_ICON.png'/>,
+        3: <img id='SupportIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/support_ICON.png'/>,
         
     }
     
@@ -287,8 +288,8 @@ export function SidebarProductCard(ProductProperties){
     
 
     const host = window.location.host == "localhost:3000" ? "http://127.0.0.1:8000/" : window.location.host
-    const image_url = Get_Static_Url(ProductProperties.image_url)
-    const TrashIcon = Get_Static_Url(ProductProperties.TrashIcon)
+    const image_url = ProductProperties.image_url
+    const TrashIcon = ProductProperties.TrashIcon
     
     const RemoveRequestHandler = (id)=>{
 
@@ -689,10 +690,10 @@ export function ProductDetailsLayer(LayerProperties){
 
     const component_adressed = {
 
-        cpu: GetHost()+"/media/cpu_ICON.png",
-        gpu: GetHost()+"/media/gpu_ICON.png",
-        ram: GetHost()+'/media/ram_ICON.png',
-        panel: GetHost()+'/media/display1080_ICON.png',
+        cpu: "https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/cpu_ICON.png",
+        gpu: "https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/gpu_ICON.png",
+        ram: 'https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/ram_ICON.png',
+        panel: 'https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/display1080_ICON.png',
 
     }
 
@@ -902,7 +903,7 @@ function Admin_Inidicator_Button(ButtonProperties){
         const Mail_Icon_code = 'mail_icon' 
         
         async function GetBackendData(){
-            const url = GetHost()+`GetIcon/${Mail_Icon_code}/`
+            const url = GetHost()+`/GetIcon/${Mail_Icon_code}/`
             const request = await fetch(url)
             const response = await request.json()
 
@@ -926,13 +927,13 @@ function Admin_Inidicator_Button(ButtonProperties){
 
 export function ConsumerChatDialog(ElementProperties){
     const RightSide =    <div class="d-flex flex-row p-3">
-                            <div class="bg-white mr-2 p-3"><span class="text-muted">Hello and thankyou for visiting birdlynind.</span></div>
+                            <div class="bg-white mr-2 p-3"><span class="text-muted">Hello and thankyou for visiting .</span></div>
                             <img src="https://img.icons8.com/color/48/000000/circled-user-male-skin-type-7.png" width="30" height="30"/>
                         </div>
     
     const LeftSide =    <div class="d-flex flex-row p-3">
                             <img src="https://img.icons8.com/color/48/000000/circled-user-female-skin-type-7.png" width="30" height="30"/>
-                            <div class="chat ml-2 p-3">Hello and thankyou for visiting birdlymind. Please click the video above</div>
+                            <div class="chat ml-2 p-3">Hello and thankyou for visiting. Please click the video above</div>
                         </div>
     return (
         ElementProperties.Side == 'left' ? LeftSide : RightSide
