@@ -17,7 +17,7 @@ export const Get_Static_Url = (filename)=>{
     return window.location.protocol + '//' + host + filename
 }
 
-function GetHost(WithProtocol=true){
+export function GetHost(WithProtocol=true){
     return window.location.protocol + '://' + window.location.host
 }
 
