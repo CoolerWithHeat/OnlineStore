@@ -29,7 +29,7 @@ function ArrangeProducts(ProductsProperties){
 
   async function RequestProducts(type){
 
-    const request = await fetch(host+"/GetProducts/all/")
+    const request = await fetch(GetHost()+"/GetProducts/all/")
     const requestResult = await request.json()
     dispatch(ProductsUpdatePath(requestResult.products))
 
@@ -98,7 +98,7 @@ function PaymentWindow(){
   React.useEffect(Main=>{
             
     async function RequestData(){
-        const request = await fetch("http://127.0.0.1:8000/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+        const request = await fetch(GetHost()+"/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
         const rawData = await request.json()
         UpdateCartProducts(DispatchHandler(rawData.result))
         return rawData.result

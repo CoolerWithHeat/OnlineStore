@@ -26,7 +26,7 @@ export function GetCartProducts(){
     const UpdateCartProducts = useDispatch(DispatchHandler)
 
     async function RequestData(){
-        const request = await fetch("http://127.0.0.1:8000/GetUsersCardProducts/")
+        const request = await fetch(GetHost()+"/GetUsersCardProducts/")
         const rawData = await request.json()
         UpdateCartProducts(DispatchHandler(rawData.result))
         return rawData.result
@@ -77,7 +77,7 @@ export function SearchField(){
 
     async function GetProducts(){
         const Keyword = inputData[0] == ' ' ? inputData.substring(1) : inputData
-        const request = await fetch(Get_Static_Url(`/GetFilteredData/${inputData ? Keyword : ' '}/`))
+        const request = await fetch(GetHost()+`/GetFilteredData/${inputData ? Keyword : ' '}/`)
         const requestResult = await request.json()
         UpdateCartProducts(DispatchHandler(requestResult.result))
 
@@ -125,7 +125,7 @@ export function SearchField(){
             
             <input defaultValue={inputData} type={"text"} id='SearchFieldInput'/>
             
-            <button ref={SearchButton} onClick={AddRequestDataToUrl} id="SearchButton"><img id="SeachButtonLoop" src="http://127.0.0.1:8000/media/SearchLoop_ICON.png/"/></button>
+            <button ref={SearchButton} onClick={AddRequestDataToUrl} id="SearchButton"><img id="SeachButtonLoop" src={GetHost()+"/media/SearchLoop_ICON.png/"}/></button>
 
         </div>
 
@@ -163,9 +163,9 @@ export function ProfileWindow(){
     const dispatch = useDispatch()
     
     async function GetProfileDetails(){
-        const request = await fetch(GetHost()+'Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+        const request = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
         if (request.status == 200){
-            const request = await fetch(GetHost()+'Get_UserInfo/', {
+            const request = await fetch(GetHost()+'/Get_UserInfo/', {
                 method: 'GET',
                 headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
             })
@@ -237,9 +237,9 @@ export function SidebarButton(BtnProperties){
 
     const btnIndexes = {
 
-        1: <img id='CartIcon' src='http://127.0.0.1:8000/media/Cart_ICON.png'/>,
-        2: <img id='UserIcon' src='http://127.0.0.1:8000/media/user_ICON.png'/>,
-        3: <img id='SupportIcon' src='http://127.0.0.1:8000/media/support_ICON.png'/>,
+        1: <img id='CartIcon' src={GetHost()+'/media/Cart_ICON.png'}/>,
+        2: <img id='UserIcon' src={GetHost()+'/media/user_ICON.png'}/>,
+        3: <img id='SupportIcon' src={GetHost()+'/media/support_ICON.png'}/>,
         
     }
     
@@ -287,16 +287,15 @@ export function SidebarProductCard(ProductProperties){
     const TrashIcon = Get_Static_Url(ProductProperties.TrashIcon)
     
     const RemoveRequestHandler = (id)=>{
-        const link = Get_Static_Url(`/AdjustCartProducts/0/${id}/`, {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
 
         async function RequestStatus(){
 
-            const request = await fetch(link, {method:"POST", headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+            const request = await fetch(GetHost()+`/AdjustCartProducts/0/${id}/`, {method:"POST", headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
             
             if (request.status == 200){ 
             
                 async function RequestData(){
-                    const request = await fetch("http://127.0.0.1:8000/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+                    const request = await fetch(GetHost()+"/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
                     const rawData = await request.json()
                     UpdateCartProducts(DispatchHandler(rawData.result))
                     return rawData.result
@@ -310,7 +309,8 @@ export function SidebarProductCard(ProductProperties){
         RequestStatus()
 
     }
-    return (        //keys: id title price description image_url
+    return (        
+        //keys: id title price description image_url
         <div className="wrapper">
             <div className="container">
                 <div className="top">
@@ -387,8 +387,8 @@ export function Navbar(){
                 <button onClick={()=>Redirect("Home/")} id="navbarOption"><a id="MainLink">Home</a></button>
                 <button className="btn btn-primary" onClick={ButtonStateChange} style={CartState[1]} id="NavbarCart">
                     
-                    <img id="NavbarCartIconArrow" src={"http://127.0.0.1:8000/media/LeftArrow_ICON.png"}/>
-                    <img id="NavbarCartIcon" src={"http://127.0.0.1:8000/media/cartMain_ICON.png"}/>
+                    <img id="NavbarCartIconArrow" src={GetHost()+"/media/LeftArrow_ICON.png"}/>
+                    <img id="NavbarCartIcon" src={GetHost()+"/media/cartMain_ICON.png"}/>
                 
                 </button>
                 
@@ -454,7 +454,7 @@ export function Custom_HighEnd_Button(btnProps){
             <input id='TypeBox' type={"text"}/>
 
             <button type="submit" id="CustomBootstrap">
-                <img id="TextingButtonImage" src="http://127.0.0.1:8000/media/send_ICON.png"/>
+                <img id="TextingButtonImage" src={GetHost()+"/media/send_ICON.png"}/>
             </button>
 
         </div>
@@ -474,7 +474,7 @@ export function ThirdWindow(){
 
 export function AnimatedButton(ButtonProps){
     var [btnState, UpdateBtnState] = React.useState({text:"Add To Card", loading:false}) 
-    const CartAddRequestLink = (id)=>`http://127.0.0.1:8000/AdjustCartProducts/1/${id}/`
+    const CartAddRequestLink = (id)=>GetHost()+`/AdjustCartProducts/1/${id}/`
     const ProductId = ButtonProps.id
     const DispatchMethodHandler = CartProducts.actions.UpdateButtonState
     const dispatch = useDispatch()
@@ -514,7 +514,7 @@ export function AnimatedButton(ButtonProps){
 
             <div id='CardMessage'>
 
-                {btnState.loading ? <img id="CartMessageImage" src="http://127.0.0.1:8000/media/ShoppingCart.png"/> : null}
+                {btnState.loading ? <img id="CartMessageImage" src={GetHost()+'/media/ShoppingCart.png/'}/> : null}
 
                 <p id="CartMessageText">{btnState.text}</p>
 
@@ -528,7 +528,7 @@ export function AnimatedButton(ButtonProps){
         const ProductEndpoint = CartAddRequestLink(ProductId)
 
         async function AddToCart(){ 
-            const Authentication_Check = await fetch("http://localhost:8000/Authentication_Check/", {
+            const Authentication_Check = await fetch(GetHost()+"/Authentication_Check/", {
                 headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
             })
             if (Authentication_Check.status == 200){
@@ -579,7 +579,7 @@ export function AnimatedButton(ButtonProps){
     return (
 
         <button onClick={()=>ChangeState(ButtonProps.id)} className="AnimatedButton">
-            {btnState.text == "success!" ? <img id="CartMessageImage" src="http://127.0.0.1:8000/media/ShoppingCart.png"/> : null}
+            {btnState.text == "success!" ? <img id="CartMessageImage" src={GetHost()+"/media/ShoppingCart.png"}/> : null}
             <span>{btnState.text}</span><i className={StateIndexes[btnState.loading]}></i>
         </button>
 
@@ -593,7 +593,7 @@ function GetProducts(single=false, id=0){
 
     const dispatch = useDispatch()
     const AddtoProducts = FetchedProductsBase.actions.UpdateProducts
-    const API_endpoint = `http://127.0.0.1:8000/GetProducts/${single ? id : "all"}`;
+    const API_endpoint = GetHost()+`/GetProducts/${single ? id : "all"}`;
 
 
     
@@ -609,12 +609,6 @@ function GetProducts(single=false, id=0){
 
     const products = useSelector(Main=>Main.ProductsBase.RawProducts)
     
-    
-    // if (products[0]){
-    //     const data = products.map(each => <TrialCardForm key={each.id} title={each.title}/>)
-    //     return data
-    // }
-
 
 }
 
@@ -691,10 +685,10 @@ export function ProductDetailsLayer(LayerProperties){
 
     const component_adressed = {
 
-        cpu: "http://127.0.0.1:8000/media/cpu_ICON.png",
-        gpu: "http://127.0.0.1:8000/media/gpu_ICON.png",
-        ram: 'http://127.0.0.1:8000/media/ram_ICON.png',
-        panel: 'http://127.0.0.1:8000/media/display1080_ICON.png',
+        cpu: GetHost()+"/media/cpu_ICON.png",
+        gpu: GetHost()+"/media/gpu_ICON.png",
+        ram: GetHost()+'/media/ram_ICON.png',
+        panel: GetHost()+'/media/display1080_ICON.png',
 
     }
 
@@ -790,7 +784,7 @@ export function ChatForm(FormProperties){
     
     async function GetMessages(){
 
-        var chatMessages = await fetch(GetHost()+'GetClientMessages/'+localStorage.getItem('TempID'), {
+        var chatMessages = await fetch(GetHost()+'/GetClientMessages/'+localStorage.getItem('TempID'), {
             method:'GET',
             headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
         })
@@ -813,7 +807,6 @@ export function ChatForm(FormProperties){
         
         <div className="container">
 
-            {/* <div className={FormProperties.focused ? "content-wrapperAltered" : "content-wrapper"}> */}
             <div className={FormProperties.focused ? "content-wrapperAltered" : "content-wrapper"}>
 
                 {/* <!-- Row start --> */}
@@ -995,7 +988,7 @@ export function StaffClientsMonitor(ComponentProperties){
 
     async function GetMessages(){
 
-        var chatMessages = await fetch(GetHost()+'GetClientMessages/'+localStorage.getItem('ConnectingClient'), {
+        var chatMessages = await fetch(GetHost()+'/GetClientMessages/'+localStorage.getItem('ConnectingClient'), {
             method:'GET',
             headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
         })
@@ -1044,7 +1037,7 @@ export function StaffClientsMonitor(ComponentProperties){
     
     React.useEffect(Main=>{
         
-        var socket = new ReconnectingWebSocket(SocketProtocol + GetHost(false) + 'SupportStaff/' + `${localStorage.getItem('Client')}CW${localStorage.getItem('Staff')}/token=${localStorage.getItem('WebKey')}`)
+        var socket = new ReconnectingWebSocket(SocketProtocol + GetHost(false) + '/SupportStaff/' + `${localStorage.getItem('Client')}CW${localStorage.getItem('Staff')}/token=${localStorage.getItem('WebKey')}`)
     
         socket.onmessage = (data) => {
             
@@ -1110,7 +1103,7 @@ export function StaffClientsMonitor(ComponentProperties){
                 <input id='TypeBox' type={"text"}/>
 
                 <button onClick={SendDataToSocket} type="submit" id="CustomBootstrap">
-                    <img id="TextingButtonImage" src={Get_Static_Url('/media/send_ICON.png')}/>
+                    <img id="TextingButtonImage" src={GetHost()+'/media/send_ICON.png'}/>
                 </button>
 
             </div>
@@ -1141,7 +1134,7 @@ export function AdminChatBox(WindowProperties){
 
     const Id_buttons  = ClientID_base.map(EachID=><UserThread id={EachID}/>)
 
-    const StaffBaselink = 'http://127.0.0.1:8000/getSupportClients'
+    const StaffBaselink = GetHost()+'/getSupportClients/'
 
     async function GetStaffClients(){
 
@@ -1162,7 +1155,7 @@ export function AdminChatBox(WindowProperties){
         GetStaffClients()
         
         const SocketProtocol = window.location.protocol == "https:" ? 'wss://' : 'ws://'
-        const socket = new ReconnectingWebSocket(SocketProtocol+GetHost(false)+'ClientsMonitor/' + `token=${localStorage.getItem('WebKey')}`)
+        const socket = new ReconnectingWebSocket(SocketProtocol+GetHost(false)+'/ClientsMonitor/' + `token=${localStorage.getItem('WebKey')}`)
     
         socket.onmessage = (WebsocketResponse) => {
             const response = JSON.parse(WebsocketResponse.data)    
@@ -1221,19 +1214,13 @@ export function SeperateContactMode(){
     )
 }
 
-// #CartItemMainImageWindow{}
-
-// #CartItemMainTitleWindow{}
-
-// #CartItemMainTrashWindow{}
-
 function CartItemForm(ItemProperties){
 
     const DispatchHandler = CartProducts.actions.UpdateButtonState
     const UpdateCartProducts = useDispatch(DispatchHandler)
 
     async function RequestData(){
-        const request = await fetch(Get_Static_Url('/GetUsersCardProducts/'), {
+        const request = await fetch(GetHost()+'/GetUsersCardProducts/', {
             method:"GET",
             headers: {'Authorization': `Token ${localStorage.getItem('WebKey')}`} 
         })
@@ -1246,7 +1233,7 @@ function CartItemForm(ItemProperties){
     const RemoveFromCart = (id)=>{console.log(id, " removed from database!")}
 
     const RemoveRequestHandler = (id)=>{
-        const link = Get_Static_Url(`/AdjustCartProducts/0/${id}/`)
+        const link = GetHost()+`/AdjustCartProducts/0/${id}/`
         async function RequestStatus(){
             const request = await fetch(link, {
                 method:"POST",
@@ -1291,7 +1278,7 @@ export function NavbarCartMenu(){
         async function RequestData(){
             const request = await fetch(GetHost()+'Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
             if (request.status == 200){
-                const request = await fetch("http://localhost:8000/GetUsersCardProducts/", {
+                const request = await fetch(GetHost()+"/GetUsersCardProducts/", {
                     headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
                 })
                 const rawData = await request.json()
@@ -1352,7 +1339,7 @@ export function UserThread(ObjectProperties){
         
         async function GetBackendData(){
             
-            const url = GetHost()+`GetIcon/${Mail_Icon_code}/`
+            const url = GetHost()+`/GetIcon/${Mail_Icon_code}/`
             const request = await fetch(url)
             const response = await request.json()
             
@@ -1385,7 +1372,7 @@ export function IntroHomePage(){
     var [images, Update_images] = React.useState([])
     async function GetImages(){
 
-        const images = await fetch(GetHost()+'GetIcon/MainPageImages/ForMainPage/')
+        const images = await fetch(GetHost()+'/GetIcon/MainPageImages/ForMainPage/')
         const response = await images.json()
         Update_images(Main=>response.MainPageImages)
 
