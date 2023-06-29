@@ -31,17 +31,3 @@ application = ProtocolTypeRouter({
         )
     ),
 })
-
-# Start Daphne with the correct address and port
-from daphne import server
-from daphne.cli import CommandLineInterface
-port = int(os.environ.get('PORT', 8000))
-
-# Start Daphne with the correct address and port
-cli_args = [
-    'OnlineStore.asgi:application',
-    f'--port={port}',
-    f'--bind=0.0.0.0',
-]
-
-CommandLineInterface.cli(cli_args)
