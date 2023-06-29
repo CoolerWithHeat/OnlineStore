@@ -129,7 +129,7 @@ export function SearchField(){
             
             <input defaultValue={inputData} type={"text"} id='SearchFieldInput'/>
             
-            <button ref={SearchButton} onClick={AddRequestDataToUrl} id="SearchButton"><img id="SeachButtonLoop" src={GetHost()+"/media/SearchLoop_ICON.png/"}/></button>
+            <button ref={SearchButton} onClick={AddRequestDataToUrl} id="SearchButton"><img id="SeachButtonLoop" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/SearchLoop_ICON.png"/></button>
 
         </div>
 
@@ -392,8 +392,8 @@ export function Navbar(){
                 <button onClick={()=>Redirect("Home/")} id="navbarOption"><a id="MainLink">Home</a></button>
                 <button className="btn btn-primary" onClick={ButtonStateChange} style={CartState[1]} id="NavbarCart">
                     
-                    <img id="NavbarCartIconArrow" src={GetHost()+"/media/LeftArrow_ICON.png"}/>
-                    <img id="NavbarCartIcon" src={GetHost()+"/media/cartMain_ICON.png"}/>
+                    <img id="NavbarCartIconArrow" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/LeftArrow_ICON.png"/>
+                    <img id="NavbarCartIcon" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/cartMain_ICON.png"/>
                 
                 </button>
                 
