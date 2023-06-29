@@ -17,8 +17,8 @@ export const Get_Static_Url = (filename)=>{
     return window.location.protocol + '//' + host + filename
 }
 
-export function GetHost(WithProtocol=true){
-    return window.location.host == "localhost:8000" ? (WithProtocol ? "http://127.0.0.1:8000/" : '127.0.0.1:8000/') : window.location.host
+function GetHost(WithProtocol=true){
+    return window.location.protocol + '://' + window.location.host
 }
 
 export function GetCartProducts(){
