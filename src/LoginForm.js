@@ -1,6 +1,6 @@
 import React from "react";
 import { ErrorWindow, GetHost, Get_Static_Url, ProviderButton } from "./components";
-import {GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, getAuth} from "firebase/auth";
+import {GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, getAuth, getRedirectResult, signInWithRedirect, onAuthStateChanged} from "firebase/auth";
 import firebaseConfig from "./firebase";
 import { initializeApp, registerVersion } from "firebase/app";
 import jwtDecode from 'jwt-decode'
@@ -10,7 +10,7 @@ function AccountLoginRegisterform(){
     const LoginButton = React.useRef() 
     const SignUpButton = React.useRef()
     var [LoginWindow, Update_openedWindow] = React.useState(false)
-
+    console.log(localStorage.getItem("user"))
 
     async function getStyle(){
         let obj = await import('./loginForm.css');
@@ -21,80 +21,55 @@ function AccountLoginRegisterform(){
     var [RegisterCredentials, UpdateRegisterCredentials] = React.useState({email: '', password1: '', password2: ''})
     var [LoginCredentials, UpdateLoginCredentials] = React.useState({email: '', password: ''})
     var [ErrorState, UpdateErrorState] = React.useState(false)
-
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    React.useEffect(() => {
+        const auth = getAuth();
+      
+        async function check_if_signed_up() {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log(jwtDecode(user.stsTokenManager.accessToken))
+                
+            const providerId = user.providerData[0].providerId;
+            const providerName = providerId.split('.')[0];
+            
+            const BackendRequest = fetch(GetHost() + '/SignUp/', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                },
+                body: JSON.stringify({ [providerName]: {user: user} }),
+            }).then(Main=>{
+                if (Main.status == 200)
+                    Main.json().then(UserCreds=>{
+                        localStorage.setItem('WebKey', UserCreds.token)
+                    })
+                    window.location.pathname = '../Main'
+            });
+    
+            unsubscribe(); // Unsubscribe from the onAuthStateChanged listener
+            } 
+            else {
+                console.log('User is signed out');
+            }
+        });
+        }
+      
+        check_if_signed_up();
+      }, []);
 
     const StartOauth2Authentication = (AuthType) => {
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
 
-        if (AuthType == "google"){
-
-            async function ManageRequest(){
-
-                const googleProvider = new GoogleAuthProvider();
-                const ProviderRequest = signInWithPopup(auth, googleProvider);
-                const data = await ProviderRequest
-
-                const BackendRequest = await fetch(GetHost()+`/SignUp/`, {
-
-                    method:'POST',
-                    
-                    headers: {
-                        
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-
-                    },
-
-                    body: JSON.stringify({google: data}),
-
-                })
-
-                const response = await BackendRequest.json()
-                if (BackendRequest.status == 200)
-                    localStorage.setItem('WebKey', response.token)
-                    window.location.href = '../Main/'
-
+            if (AuthType === 'google') {
+              const googleProvider = new GoogleAuthProvider();
+              signInWithRedirect(auth, googleProvider);
+            } else if (AuthType === 'facebook') {
+              const facebookProvider = new FacebookAuthProvider();
+              signInWithRedirect(auth, facebookProvider);
             }
-
-            ManageRequest()
-            
-
-        }
-
-        else if (AuthType == "facebook"){
-
-            async function ManageRequest(){
-                const FacebookProvider = new FacebookAuthProvider();
-                const ProviderRequest = signInWithPopup(auth, FacebookProvider);
-                const data = await ProviderRequest
-
-                const BackendRequest = await fetch(GetHost()+`/SignUp/`, {
-
-                    method:'POST',
-                    
-                    headers: {
-                        
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-
-                    },
-
-                    body: JSON.stringify({facebook: data}),
-
-                })
-
-                const response = await BackendRequest.json()
-                if (BackendRequest.status == 200)
-                    localStorage.setItem('WebKey', response.token)
-                    window.location.href = '../Main/'
-
-
-            }
-
-            ManageRequest()
-
-        }
+          
         
     }
 

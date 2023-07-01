@@ -166,9 +166,9 @@ class Authentication(APIView):
             'Facebook': FacebookResponseParser,
         
         }
-        
+
         Auth_type = 'Facebook' if data.get('facebook', None) else 'Google' if data.get('google', None) else 'Custom-Authentication'
-        
+
         if Auth_type == 'Custom-Authentication':
 
             CredentialsBase = data['custom']
@@ -193,7 +193,7 @@ class Authentication(APIView):
                 
                 user = get_user_model().objects.get(email=SpecifiedCredentials.get_EmailAdress)
                 token = Token.objects.create(user=user) if Token.objects.get(user=user).delete() else None
-                print(token.user)
+
                 if user:
                     return Response({'success': True, 'token': str(token)}, status=200)
                     
