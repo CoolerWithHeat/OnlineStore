@@ -194,17 +194,29 @@ export function ProfileWindow(){
                 window.location.pathname = 'login/'
         }, 111);
     }
+    const emailRef = React.useRef(null);
     
     React.useEffect(Main=>{
-        
+ 
+        const emailElement = emailRef.current;
+        const containerWidth = emailElement.offsetWidth;
+        const textWidth = emailElement.scrollWidth;
+        console.log(emailElement)
+        console.log(containerWidth)
+        console.log(textWidth)
+        if (textWidth > containerWidth) {
+            const fontSize = containerWidth / textWidth * 18; // Adjust the initial font size (18px) based on the container width
+            emailElement.style.fontSize = `${fontSize}px`;
+        }
+
         GetProfileDetails()
         getStyle()
 
     }, [])
 
     const Style = {width:'60px', height:'60px', borderRadius:'50%',}
-    const SmallerText = {fontSize: 'smaller'}
-    const BiggerText = {fontSize: '18px'}
+    const SmallerText = {fontSize: '12px'}
+    const BiggerText = {fontSize: '17px'}
     
     return (
         <div id="login-container">
@@ -218,7 +230,7 @@ export function ProfileWindow(){
             </h1>
 
             <div className="description">
-                <ul style={BiggerText}>{ProfileInfos.email}</ul>
+                <ul ref={emailRef} style={BiggerText}>{ProfileInfos.email}</ul>
                 <br/>
                 <br/>
                 <ul style={SmallerText}>Purchased products: 0</ul>
