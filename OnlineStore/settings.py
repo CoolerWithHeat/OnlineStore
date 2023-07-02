@@ -18,7 +18,6 @@ import logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-import django_heroku
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -160,7 +159,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-REDIS_URL = os.environ.get('REDIS_URL')
+REDIS_URL = os.environ.get('REDIS_HOST')
 
 CHANNEL_LAYERS = {
     "default": {
