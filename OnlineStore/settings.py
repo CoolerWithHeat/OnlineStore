@@ -159,15 +159,16 @@ TIME_ZONE = 'Asia/Tashkent'
 USE_I18N = True
 
 USE_TZ = True
-redis_host = os.environ.get('REDIS_HOST', 'localhost')    
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [os.environ.get(redis_host, 6379)],
+            "hosts": [os.environ.get('REDIS_HOST', 'localhost')],
         },
     },
 }
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
