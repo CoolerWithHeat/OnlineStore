@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'sslserver'
 ]
 
 MIDDLEWARE = [
@@ -75,6 +76,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'OnlineStore.urls'
+SSLSERVER_HTTPS = True
+
+DEBUG = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+
 
 TEMPLATES = [
     {

@@ -37,7 +37,7 @@ function UISideBar(){
 
 
         React.useEffect(Main=>{
-
+            console.log(SocketProtocol + GetHost(false) + '/chat/' + `token=${localStorage.getItem('WebKey')}`)
             const socket = new ReconnectingWebSocket(SocketProtocol + GetHost(false) + '/chat/' + `token=${localStorage.getItem('WebKey')}`)
             
             socket.onmessage = (BaseData)=>{
