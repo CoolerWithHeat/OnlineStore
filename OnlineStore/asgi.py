@@ -19,7 +19,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'OnlineStore.settings')
 
 application = ProtocolTypeRouter({
 
-    "http": default_http_settings,
+    "https": default_http_settings,
 
     "websocket": AllowedHostsOriginValidator(
         AuthMiddlewareStack(
