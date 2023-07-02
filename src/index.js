@@ -137,9 +137,9 @@ function PaymentWindow(){
         <br/>
         
         <img src={PaymentImageIndices[PaymentID]} id={`PaymentImage${PaymentID}`}/>
-        <br/>
-          <span className={Bottom_Line ? "price": 'No_Payload_Message'}>{Bottom_Line ? `$${Bottom_Line}` : 'No Products Found In Your Cart'}</span>
-        <br/>
+          <br/>
+            <span className={Bottom_Line ? "price": 'No_Payload_Message'}>{Bottom_Line ? `Total: $${Bottom_Line}` : 'No Products Found In Your Cart'}</span>
+          <br/>
         <br/>
 
         <div id="Products_Window">

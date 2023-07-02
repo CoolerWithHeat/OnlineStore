@@ -1441,6 +1441,7 @@ export function IntroHomePage(){
                 <ul>
                 <li><a href="../Main/" className="button large icon solid fa-arrow-circle-right">Go Find out what we have</a></li>
                 </ul>
+                
             </div>
             </div>
         </div>
