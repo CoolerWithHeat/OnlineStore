@@ -142,7 +142,7 @@ class FacebookResponseParser:
 
     @property
     def get_EmailAdress(self):
-        return self.data_file['facebook']['user']['email']
+        return self.data_file['facebook']['user']['providerData'][0]['email']
     
 
     @property
@@ -166,6 +166,8 @@ class Authentication(APIView):
             'Facebook': FacebookResponseParser,
         
         }
+        # print(data)
+        # return Response({'success': True}, status=500)
 
         Auth_type = 'Facebook' if data.get('facebook', None) else 'Google' if data.get('google', None) else 'Custom-Authentication'
 

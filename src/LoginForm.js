@@ -10,7 +10,7 @@ function AccountLoginRegisterform(){
     const LoginButton = React.useRef() 
     const SignUpButton = React.useRef()
     var [LoginWindow, Update_openedWindow] = React.useState(false)
-    console.log(localStorage.getItem("user"))
+
 
     async function getStyle(){
         let obj = await import('./loginForm.css');
@@ -21,54 +21,54 @@ function AccountLoginRegisterform(){
     var [RegisterCredentials, UpdateRegisterCredentials] = React.useState({email: '', password1: '', password2: ''})
     var [LoginCredentials, UpdateLoginCredentials] = React.useState({email: '', password: ''})
     var [ErrorState, UpdateErrorState] = React.useState(false)
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    const app = initializeApp(firebaseConfig)
+    const auth = getAuth(app)
     React.useEffect(() => {
-        const auth = getAuth();
-      
-        async function check_if_signed_up() {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log(jwtDecode(user.stsTokenManager.accessToken))
-                
-            const providerId = user.providerData[0].providerId;
-            const providerName = providerId.split('.')[0];
-            
-            const BackendRequest = fetch(GetHost() + '/SignUp/', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                },
-                body: JSON.stringify({ [providerName]: {user: user} }),
-            }).then(Main=>{
-                if (Main.status == 200)
-                    Main.json().then(UserCreds=>{
-                        localStorage.setItem('WebKey', UserCreds.token)
+
+        getRedirectResult(auth)
+            .then((ProviderResponse) => {
+                if (ProviderResponse){
+                    const ProviderSource = ProviderResponse.providerId;
+                    const providerName = ProviderSource.split('.')[0];
+                    const BackendRequest = fetch(GetHost() + '/SignUp/', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({[providerName]: ProviderResponse}),
                     })
-                    window.location.pathname = '../Main'
-            });
-    
-            unsubscribe(); // Unsubscribe from the onAuthStateChanged listener
-            } 
-            else {
-                console.log('User is signed out');
+                    .then((Main) => {
+                        
+                        if (Main.status === 200) {
+                            Main.json().then(UserCreds=>{
+                                localStorage.setItem('WebKey', UserCreds.token)
+                                return window.location.pathname = '../Main'
+                            })
+                        }
+                        
+
+                    })
+
+                }
             }
-        });
-        }
-      
-        check_if_signed_up();
+                )
+                
+            .catch((error) => {
+                console.error(error)
+            });
+
       }, []);
 
     const StartOauth2Authentication = (AuthType) => {
-
-            if (AuthType === 'google') {
-              const googleProvider = new GoogleAuthProvider();
-              signInWithRedirect(auth, googleProvider);
-            } else if (AuthType === 'facebook') {
-              const facebookProvider = new FacebookAuthProvider();
-              signInWithRedirect(auth, facebookProvider);
-            }
+        
+        if (AuthType === 'google') {
+            const googleProvider = new GoogleAuthProvider();
+            signInWithRedirect(auth, googleProvider);
+        } else if (AuthType === 'facebook') {
+            const facebookProvider = new FacebookAuthProvider();
+            signInWithRedirect(auth, facebookProvider);
+        }
           
         
     }

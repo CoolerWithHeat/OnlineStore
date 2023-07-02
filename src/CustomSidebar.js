@@ -24,6 +24,7 @@ function UISideBar(){
 
 
     function Supportwindow(){
+
         const SendButton = React.useRef()
         function sendToSocket() {
             const userInput = document.getElementById('TypeBox').value;
@@ -92,7 +93,7 @@ function UISideBar(){
                         <input id='TypeBox' type="text"/>
 
                         <button ref={SendButton} onClick={sendToSocket} id="CustomBootstrap">
-                            <img id="TextingButtonImage" src={GetHost()+'/media/send_ICON.png'}/>
+                            <img id="TextingButtonImage" src={'https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/send_ICON.png'}/>
                         </button>
 
                     </div>
@@ -160,7 +161,7 @@ function UISideBar(){
             
             <div id='Window1'>
 
-                <SidebarButton index={1}/>  
+                <SidebarButton index={1}/> 
                 <SidebarButton index={2}/>
                 <SidebarButton Animate={true} index={3}/>
 

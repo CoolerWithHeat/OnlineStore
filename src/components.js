@@ -596,7 +596,7 @@ export function AnimatedButton(ButtonProps){
     return (
 
         <button onClick={()=>ChangeState(ButtonProps.id)} className="AnimatedButton">
-            {btnState.text == "success!" ? <img id="CartMessageImage" src={GetHost()+"/media/ShoppingCart.png"}/> : null}
+            {btnState.text == "success!" ? <img id="CartMessageImage" src={"https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/ShoppingCart.png"}/> : null}
             <span>{btnState.text}</span><i className={StateIndexes[btnState.loading]}></i>
         </button>
 
