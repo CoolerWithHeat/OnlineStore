@@ -160,7 +160,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+REDIS_URL = os.environ.get('REDIS_URL')
 
 CHANNEL_LAYERS = {
     "default": {
