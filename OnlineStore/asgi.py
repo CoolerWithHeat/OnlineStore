@@ -17,9 +17,12 @@ from channels.security.websocket import AllowedHostsOriginValidator
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'OnlineStore.settings')
 
+
 application = ProtocolTypeRouter({
 
-    "https": default_http_settings,
+    "http": default_http_settings,
+
+    "https": default_http_settings, 
 
     "websocket": AllowedHostsOriginValidator(
         AuthMiddlewareStack(
