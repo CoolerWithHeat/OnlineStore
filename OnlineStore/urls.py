@@ -1,5 +1,3 @@
-
-
 from django.contrib import admin
 from django.urls import path, re_path
 from ProductsBase.views import *
@@ -7,6 +5,7 @@ from django.shortcuts import render
 from django.views.generic import RedirectView
 from django.core.files.storage import default_storage
 from ProductsBase.models import IconsForFrontend
+
 def CentralCore(request, *args, **kwargs):
     return render(request, 'index.html')
 
@@ -16,7 +15,7 @@ urlpatterns = [
     path('GetProducts/', ProductCentre.as_view()),
     path('GetUsersCardProducts/', UsersCartProducts.as_view()),
     path('AdjustCartProducts/<int:actionType>/<int:product_ID>/', UsersCartProducts.as_view()),
-    path('', CentralCore),
+    path('', RedirectView.as_view(pattern_name='home'), name='catch-all'),
     path('Main/', CentralCore),
     path('Main/<str:data>/', CentralCore),
     path('login/', CentralCore),
