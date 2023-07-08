@@ -10,7 +10,6 @@ def CentralCore(request, *args, **kwargs):
     return render(request, 'index.html')
 
 urlpatterns = [
-    
     path('admin/', admin.site.urls),
     path('GetProducts/', ProductCentre.as_view()),
     path('GetUsersCardProducts/', UsersCartProducts.as_view()),
