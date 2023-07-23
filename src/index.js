@@ -109,8 +109,8 @@ function PaymentWindow(){
 }
 
 root.render(
-
   <Provider store={store}>
+
     <BrowserRouter>
 
       <Routes>

@@ -8,6 +8,8 @@ import { slide } from "react-burger-menu";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import debounce from 'lodash.debounce';
 import $ from 'jquery';
+import { settings } from "firebase/analytics";
+import './css_files/proto_chat.css'
 window.jQuery = $;
 window.$ = $;
 
@@ -37,6 +39,7 @@ export function GetHost(WithProtocol=true){
 }
 
 export function ProductsPage(){
+
     const languagePack = useSelector(Main=>Main.LanguagePack)
     const languageUpdatePath = WebsiteTranslationPack.actions.Update_Language
     const SideBarLanguagePack = languagePack.sidebar
@@ -59,7 +62,6 @@ export function ProductsPage(){
         setTimeout(() => {
             CartButton[0].click()
         }, 0);
-        console.log("button is clicked")
     }
 
     async function GetProducts(searchKey){
@@ -89,18 +91,14 @@ export function ProductsPage(){
     }
     
     var processedProducts;
-    
     if (window.location.search){
-        console.log('search products processed')
+
         processedProducts = SearchBase.Products.map(Each=><AdvancedProductCard key={Each.id} ProductData={Each}/>)
     }
   
     else {
   
-        processedProducts = Base.Products.map(Each=>{
-            console.log(Each.id)
-            return <AdvancedProductCard key={Each.id} ProductData={Each}/>
-        })
+        processedProducts = Base.Products.map(Each=><AdvancedProductCard key={Each.id} ProductData={Each}/>)
   
     }
 
@@ -135,6 +133,7 @@ export function ProductsPage(){
         link.type = 'text/css';
         link.href = 'https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/bootstrap.min.css';
         document.head.appendChild(link);
+        console.log(Base)
       }, []);
 
     React.useEffect(Main=>{
@@ -222,7 +221,7 @@ export function ProductsPage(){
                  <div className="header_box">
                     <div className="lang_box ">
                        <a title="Language" className="nav-link" data-toggle="dropdown" aria-expanded="true">
-                       {language_details[0]} {language_details[1]} <i className="fa fa-angle-down ml-2" aria-hidden="true"></i>
+                       <small id="LanguageDetails">{language_details[0]} {language_details[1]}</small> <i className="fa fa-angle-down ml-2" aria-hidden="true"></i>
                        </a>
                        <div className="dropdown-menu ">
                           <a onClick={()=>UpdateLanguage(1)} href="#" className="dropdown-item">
@@ -236,12 +235,12 @@ export function ProductsPage(){
                        </div>
                     </div>
                     <div className="login_menu">
-                       {/* <ul > */}
+
                         <button className="btn btn-secondary" onClick={handleClickLogic}>
                             <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                             <span className="padding_10">{ProductsPageLanguagePack[selectedLanguage][4]}</span>
                         </button>
-                       {/* </ul> */}
+            
                     </div>
                  </div>
               </div>
@@ -314,6 +313,7 @@ export function ProductsPage(){
      </div>
 
      <SideBarAdvanced/>
+
      <div className="footer_section layout_padding">
         
         <div className="container">
@@ -333,11 +333,12 @@ export function ProductsPage(){
 }
 
 export function AdvancedProductCard(ProductDetails){
-    console.log(ProductDetails)
     const [colorState, Update_colorState] = React.useState(0)
+    
     const ChangeColorState = (digit)=>{
         Update_colorState(Main=>digit)
     }
+
     function GetRateStars(rate=0){
         var star = []
         for (let i = 0; i < rate; i++) {
@@ -380,7 +381,7 @@ export function AdvancedProductCard(ProductDetails){
                         <span className="product-title">
                             {ProductDetails.ProductData.title}
                             <br/>
-                            <AnimatedButton id={ProductDetails.ProductData.id}/>
+                            <AnimatedButton key={5} id={ProductDetails.ProductData.id}/>
                         </span>
                         <span className="product-caption">
                                 TopStore Lnc.
@@ -394,10 +395,10 @@ export function AdvancedProductCard(ProductDetails){
 
                     <div className="product-properties">
                         <span className="product-size">
-                            <ProductDetailsLayer type={'cpu'} text={ProductDetails.ProductData.CPU_details}/>
-                            <ProductDetailsLayer type={'gpu'} text={ProductDetails.ProductData.GPU_details}/>
-                            <ProductDetailsLayer type={'ram'} text={ProductDetails.ProductData.RAM_details}/>
-                            <ProductDetailsLayer type={'panel'} text={ProductDetails.ProductData.Panel_details}/>
+                            <ProductDetailsLayer key={1} type={'cpu'} text={ProductDetails.ProductData.CPU_details}/>
+                            <ProductDetailsLayer key={2} type={'gpu'} text={ProductDetails.ProductData.GPU_details}/>
+                            <ProductDetailsLayer key={3} type={'ram'} text={ProductDetails.ProductData.RAM_details}/>
+                            <ProductDetailsLayer key={4} type={'panel'} text={ProductDetails.ProductData.Panel_details}/>
                         </span>
                     </div>
                     
@@ -568,7 +569,7 @@ export function BottomLine(CheckProperties){
 
     if(Bottom_Line > 0)
         return (
-            <button onClick={()=>Redirect('Payment')} id="BottomLine">{localStorage.getItem('languageID') == 1 ? "Pay off" : 'Отплатить'}: ${Bottom_Line}</button>
+            <button onClick={()=>Redirect('Payment')} id="BottomLine">{localStorage.getItem('languageID') == 2 ? "Отплатить" : "Pay off"}: ${Bottom_Line}</button>
         )
     
     return (
@@ -1742,6 +1743,7 @@ export function NavbarCartMenu(){
 }
 
 export function ChatComponent(ResponseProperties){
+
     const bodyIndecies = {
 
         left:   <li className="in">
@@ -1751,7 +1753,7 @@ export function ChatComponent(ResponseProperties){
                     <div className="chat-body">
                         <div className="chat-message">
                             <h5>{ResponseProperties.username}</h5>
-                            <p>Raw denim heard of them tofu master cleanse</p>
+                            <p>{ResponseProperties.message}</p>
                         </div>
                     </div>
                 </li>,
@@ -1769,14 +1771,6 @@ export function ChatComponent(ResponseProperties){
                 </li>
 
     }
-    React.useEffect(Main=>{
-        
-        // async function getStyle(){
-        //     await import('./UserChatStyles.css')
-        // }
-        // getStyle()
-
-    }, [])
 
     return bodyIndecies[ResponseProperties.side]
 }
@@ -2116,19 +2110,8 @@ export function IntroHomePage(){
 }
 
 
-// const btnIndexes = {
-
-//     1: <img id='CartIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Cart_ICON.png'/>,
-//     2: <img id='UserIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/user_ICON.png'/>,
-//     3: <img id='SupportIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/support_ICON.png'/>,
-    
-// }
-
-// <button onClick={ChangeState} style={CurrentAnimationNeededButton == BtnProperties.index ? Animate : null } id={`SideBarButton_${BtnProperties.index}`}>
-// {btnIndexes[BtnProperties.index]}
-// </button>
-
 export function SideBarAdvanced() {
+
     const languagePack = useSelector(Main=>Main.LanguagePack)
     const languageUpdatePath = WebsiteTranslationPack.actions.Update_Language
     const SideBarLanguagePack = languagePack.sidebar
@@ -2147,11 +2130,15 @@ export function SideBarAdvanced() {
 
         const DispatchHandler = CartProducts.actions.UpdateButtonState
         const UpdateCartProducts = useDispatch()
+        
         async function getStyle(){
             await import('./SideBarProductsStyles.scss');
         }
+
         React.useEffect(Main=>{
+
             getStyle()
+            
             async function RequestData(){
 
                 const request = await fetch(GetHost()+"/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
@@ -2162,7 +2149,7 @@ export function SideBarAdvanced() {
             }
 
             RequestData()
-            
+        
         
         }, [])
 
@@ -2275,8 +2262,9 @@ export function SideBarAdvanced() {
         const SocketProtocol = window.location.protocol == "https:" ? 'wss://' : 'ws://'
         const userdataField = React.useRef()
         const SendButton = React.useRef()
-        const ChatWindow = React.useRef()
-
+        const responseWindowRef = React.useRef(null);
+        // const animationDuration = 500;
+        // const framesPerSecond = 60;
         function sendToSocket() {
             const userInput = userdataField.current.value;
             if (userInput) {
@@ -2298,6 +2286,7 @@ export function SideBarAdvanced() {
             const response = await messagesRequest.json()
             dispatch(MessagesPath(response.response))
             scrollToBottom()
+            
         }
 
         const processedMessages = Messages.map(Main=>{
@@ -2305,22 +2294,26 @@ export function SideBarAdvanced() {
         })
 
         function scrollToBottom() {
-            const scrollElement = ChatWindow.current;
-            if (scrollElement) {
+            const window = responseWindowRef.current
+            if (responseWindowRef.current) {
               setTimeout(() => {
-                scrollElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-              }, 10);
+                window.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+                console.log('scrolled!')
+              }, 66);
             }
         }
 
+        
+
+
         React.useEffect(Main=>{
-            // console.log(SocketProtocol + GetHost(false) + '/chat/' + `token=${localStorage.getItem('WebKey')}`)
+
+            
             const socket = new ReconnectingWebSocket(SocketProtocol + GetHost(false) + '/chat/' + `token=${localStorage.getItem('WebKey')}`)
             
             socket.onmessage = (BaseData)=>{
                 
                 const response = JSON.parse(BaseData.data)
-                console.log(response)
                 if (response.status == 500){
                     window.location.pathname = '../login'
                 }
@@ -2333,11 +2326,13 @@ export function SideBarAdvanced() {
 
                         dispatch(AddToExistingBase(processedData))
                         scrollToBottom()
+
        
                     }
                 }
     
             }
+
             GetClientMessages()
             
             
@@ -2353,9 +2348,9 @@ export function SideBarAdvanced() {
             async function getStyle(){
                 await import('./UserChatStyles.css')
             }
+            
             getStyle()
-
-            console.log(Messages)
+    
             document.addEventListener('keydown', handleKeyPress);
             return () => {
                 socket.close();
@@ -2364,18 +2359,21 @@ export function SideBarAdvanced() {
     
         }, [])
         return (
-            <ul ref={ChatWindow} className="chat-list">
-                <li id="ResponsesWindow">
-                    {processedMessages.length == 0 ? <div id="QuestionAlert">{SideBarLanguagePack[selectedLanguage][4]}</div> : processedMessages    }
-                </li>
 
+            <div id="MainChatBar">
+                <ul className="chat-list">
+                    <div className="ResponsesWindow" ref={responseWindowRef}>
+                        {processedMessages.length == 0 ? <div id="QuestionAlert">{SideBarLanguagePack[selectedLanguage][4]}</div> : processedMessages}
+                    </div>
+                </ul>
                 <li id="TextFormField">
                     <input ref={userdataField} id="UserTextField" className="form-control" placeholder={SideBarLanguagePack[selectedLanguage][5]}/>
                     <button ref={SendButton} onClick={sendToSocket} id="SendButton" className="btn btn-warning">
                     <img src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/send_ICON.png" alt="Send" />
                     </button>
                 </li>
-            </ul>
+            </div>
+            
         )
     }
 
@@ -2424,15 +2422,15 @@ export function SideBarAdvanced() {
       <div id="Sidebar_AS_Whole">
 
             <nav ref={navRef}>
-
+                
                 <button id="button_1" onClick={() => OpenBarWindow(1)} className="round-button-1">
                     <img id="ButtonIcon" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Cart_ICON.png" />
                 </button>
-
+                <label id="space"/>
                 <button onClick={() => OpenBarWindow(2)} className="round-button-2">
                     <img id="UserIcon" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/user_ICON.png" />
                 </button>
-
+                <label id="space"/>
                 <button onClick={() => OpenBarWindow(3)} className="round-button-3">
                     <img id="SupportIcon" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/support_ICON.png" />
                 </button>
@@ -2449,5 +2447,3 @@ export function SideBarAdvanced() {
       
     );
   }
-  
-  

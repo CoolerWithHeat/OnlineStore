@@ -4,6 +4,18 @@
 
 }
 
+
+@media (max-width: 767px){
+  #LanguageDetails{
+    font-size: 13px;
+    color: white;
+  }
+}
+
+.nav-link{
+  display: none;
+}
+
 #USA-flag, #RUSSIA-flag{
   width: 35px;
   height: 20px;

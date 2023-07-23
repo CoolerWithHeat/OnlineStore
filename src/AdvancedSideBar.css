@@ -8,17 +8,17 @@
     --contrast-color: #F2E527;
     --light-color: #D2A9D9;
   }
-  
+
   #DisplayWindow{
 
     position: relative;
     width: 80%;
-    height: 93%;
+    height: 100%;
     border-style: solid;
     border-color: #88BFB5;
     float: right;
     border-width: 1px;
-    overflow-y: scroll;
+    overflow: hidden;
     margin-right: 5px;
     margin-top: 5px;
 
@@ -101,7 +101,7 @@
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    height: 140px;
+    height: 173px;
     width: 38px;
     background: rgb(44, 40, 40);
     border-style: none;
@@ -133,6 +133,24 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-top: 5px;
+
+  }
+
+  .round-button-1:hover, .round-button-2:hover, .round-button-3:hover {
+
+    transform: translateX(25%);
+  
+  }
+
+  .round-button-1:focus, .round-button-2:focus, .round-button-3:focus {
+    
+    position: relative;
+    animation: moveButton 1.7s ease-in-out infinite;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(48, 160, 126);
+    box-shadow: 0 0 1px 1.5px rgba(0, 0, 0, 0.5); 
 
   }
 }
@@ -148,7 +166,7 @@
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    height: 140px;
+    height: 173px;
     width: 38px;
     background: rgb(44, 40, 40);
     border-style: none;
@@ -180,9 +198,26 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-top: 5px;
 
   }
   
+  .round-button-1:hover, .round-button-2:hover, .round-button-3:hover {
+
+    transform: translateX(25%);
+  
+  }
+
+  .round-button-1:focus, .round-button-2:focus, .round-button-3:focus {
+    
+    position: relative;
+    animation: moveButton 1.7s ease-in-out infinite;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(48, 160, 126);
+    box-shadow: 0 0 1px 1.5px rgba(0, 0, 0, 0.5); 
+
+  }
 }
 
 @media (min-width:450px) and (max-width:650px){
@@ -195,7 +230,7 @@
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    height: 140px;
+    height: 173px;
     width: 38px;
     background: rgb(44, 40, 40);
     border-style: none;
@@ -226,7 +261,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer;  
+    margin-top: 5px;
+
+  }
+
+  .round-button-1:hover, .round-button-2:hover, .round-button-3:hover {
+
+    transform: translateX(25%);
+  
+  }
+
+  .round-button-1:focus, .round-button-2:focus, .round-button-3:focus {
+    
+    position: relative;
+    animation: moveButton 1.7s ease-in-out infinite;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(48, 160, 126);
+    box-shadow: 0 0 1px 1.5px rgba(0, 0, 0, 0.5); 
 
   }
 }
@@ -241,7 +294,7 @@
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    height: 140px;
+    height: 173px;
     width: 38px;
     background: rgb(44, 40, 40);
     border-style: none;
@@ -272,6 +325,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-top: 5px;
 
   }
 
@@ -289,7 +343,7 @@
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    height: 140px;
+    height: 173px;
     width: 38px;
     background: rgb(44, 40, 40);
     border-style: none;
@@ -321,6 +375,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-top: 5px;
 
   }
 }
@@ -336,8 +391,8 @@
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    height: 140px;
-    width: 38px;
+    height: 173px;
+    width: 37px;
     background: rgb(44, 40, 40); 
     border-width: 1px;
     border-style: none;
@@ -368,7 +423,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer;  
+    margin-top: 5px;
 
   }
 
