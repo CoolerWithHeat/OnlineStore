@@ -199,13 +199,6 @@ export function ProductsPage(){
         <div className="header_section">
            <div className="container">
               <div className="containt_main">
-                 <div id="mySidenav" className="sidenav">
-                    <a href="#" className="closebtn">multiplied data</a>
-                    <a href="index.html">Home</a>
-                    <a href="fashion.html">Fashion</a>
-                    <a href="electronic.html">Electronic</a>
-                    <a href="jewellery.html">Jewellery</a>
-            </div>
 
             <div className="main">
                 <div className="input-group">

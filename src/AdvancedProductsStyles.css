@@ -8,9 +8,16 @@
 @media (max-width: 767px){
   #LanguageDetails{
     font-size: 13px;
-    color: white;
+    color: rgb(255, 255, 255);
   }
 }
+
+@media (min-width: 768px) {
+  #LanguageDetails{
+    font-size: 13px;
+    color: rgb(0, 0, 0);
+  }
+} 
 
 .nav-link{
   display: none;

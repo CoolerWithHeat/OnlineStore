@@ -42,7 +42,7 @@ SECRET_KEY = 'django-insecure-%1o4pw*#5!p8w7fuyiz5+3_z-n7xpql_fpxag8p)96ze&ql+ej
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 # '127.0.0.1', "localhost"
-ALLOWED_HOSTS = ['www.mansurdev.store']
+ALLOWED_HOSTS = ['www.mansurdev.store', 'localhost']
 
 
 # Application definition
@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ProductsBase.https_middleware.HttpsMiddleware',
 ]
 
 ROOT_URLCONF = 'OnlineStore.urls'
