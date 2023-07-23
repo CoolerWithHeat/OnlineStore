@@ -291,29 +291,29 @@ def GetClientMessages(request, ClientID):
 @api_view(['GET'])
 def GetClient_Profile_info(request):
     user = request.user
-    print(user)
+    print('Clinet', user, " accessed personal card")
     if str(user) == 'AnonymousUser':
         return Response({'errors':'Invalid User'}, status=500)
     else:
         if user.SupportStaff or user.admin:
-            return Response({'errors':'Staff Needs other Regular Account To access This Page'}, status=500)
+            return Response({'errors':'Staffs Need regular Account To access This Page'}, status=500)
         else:
             user_credentials = {'image_url': user.image.url if user.image else models.IconsForFrontend.objects.get(file_code='default_user').file.url,'email':user.email, 'first_name': user.first_name if not (user.first_name == 'No Name') else None, 'last_name': user.last_name if not (user.last_name == 'Not Last Name') else None}
             return Response({"response": user_credentials})
         
 
-@api_view(['GET'])
-def GetClient_Profile_info(request):
-    user = request.user
-    print(user)
-    if str(user) == 'AnonymousUser':
-        return Response({'errors':'Invalid User'}, status=500)
-    else:
-        if user.SupportStaff or user.admin:
-            return Response({'errors':'Staff Needs other Regular Account To access This Page'}, status=500)
-        else:
-            user_credentials = {'image_url': user.image.url if user.image else models.IconsForFrontend.objects.get(file_code='default_user').file.url,'email':user.email, 'first_name': user.first_name if not (user.first_name == 'No Name') else None, 'last_name': user.last_name if not (user.last_name == 'Not Last Name') else None}
-            return Response({"response": user_credentials})
+# @api_view(['GET'])
+# def GetClient_Profile_info(request):
+#     user = request.user
+#     print(user)
+#     if str(user) == 'AnonymousUser':
+#         return Response({'errors':'Invalid User'}, status=500)
+#     else:
+#         if user.SupportStaff or user.admin:
+#             return Response({'errors':'Staff Needs other Regular Account To access This Page'}, status=500)
+#         else:
+#             user_credentials = {'image_url': user.image.url if user.image else models.IconsForFrontend.objects.get(file_code='default_user').file.url,'email':user.email, 'first_name': user.first_name if not (user.first_name == 'No Name') else None, 'last_name': user.last_name if not (user.last_name == 'Not Last Name') else None}
+#             return Response({"response": user_credentials})
 
 @api_view(['GET'])   
 def Check_User_Authenticity(request):

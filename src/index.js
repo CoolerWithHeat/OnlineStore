@@ -1,7 +1,7 @@
 import App from "./App";
 import { createRoot } from 'react-dom/client';
 import React from 'react';
-import { IntroHomePage, UserThread, ErrorMessage, ProductCard, StaffClientsMonitor, AdminChatBox, Navbar, SeperateContactMode, NavbarCartMenu, SearchField, ErrorWindow, ProviderButton, ProfileWindow, SidebarProductCard, NoPayloadSignal, BottomLine, GetCartProducts, GetHost } from "./components";
+import { ChatComponent, ProductsPage, SideBarAdvanced, AdvancedProductCard, IntroHomePage, UserThread, ErrorMessage, ProductCard, StaffClientsMonitor, AdminChatBox, Navbar, SeperateContactMode, NavbarCartMenu, SearchField, ErrorWindow, ProviderButton, ProfileWindow, SidebarProductCard, NoPayloadSignal, BottomLine, GetCartProducts, GetHost } from "./components";
 import AccountLoginRegisterform from "./LoginForm";
 import UISideBar from './CustomSidebar';
 import { Provider } from 'react-redux'
@@ -9,75 +9,28 @@ import { CartProducts, ProductsBase, ResultProductsBase } from "./features/count
 import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { store } from "./app/store";
+import { each } from "jquery";
 
 
 const container = document.getElementById('root');
 const root = createRoot(container);
-// CartProducts
-
-// const store = createStore(reducer)
 
 
-function ArrangeProducts(ProductsProperties){
-  var ProductsUpdatePath =  ProductsBase.actions.StoreProducts
-  var processedProducts;
-  const Base = useSelector(Main=>Main.ProductsPool)
-  const SearchBase = useSelector(Main=>Main.ProductsSearchResult)
-
-  const dispatch = useDispatch()
-  const host = window.location.host == "localhost:3000" ? "http://127.0.0.1:8000/" : (window.location.protocol+'//'+window.location.host)
-
-  async function RequestProducts(type){
-
-    const request = await fetch(GetHost()+"/GetProducts/all/")
-    const requestResult = await request.json()
-    dispatch(ProductsUpdatePath(requestResult.products))
-
-  }
-
-  React.useEffect(Main=>{RequestProducts()}, [])
-
-  // CPU_details price title image CPU_details GPU_details RAM_details Panel_details
-
-  if (window.location.search){
-    processedProducts = SearchBase.Products.map(Each=><ProductCard id={Each.id} title={Each.title} price={Each.price} key={Each.id} image={Each.image} cpu={Each.CPU_details} gpu={Each.GPU_details} ram={Each.RAM_details} panel={Each.Panel_details}/>)
-  }
-
-  else {
-      processedProducts = Base.Products.map(Each=>
-      <ProductCard id={Each.id} title={Each.title} price={Each.price} key={Each.id} image={Each.image} cpu={Each.CPU_details} gpu={Each.GPU_details} ram={Each.RAM_details} panel={Each.Panel_details}/>
-    )
-  }
-
-  return (
-
-    <div id='ProductsWindow'>
-
-      {processedProducts}
-
-    </div>
-
-  )
-
-}
 
 function MainPageArrangement(WindowProperties){
   
-  const ProductsUpdatePath =  ResultProductsBase.actions.StoreProducts
-  const dispatch = useDispatch()
 
   return (
 
-    <div>
+    <div id="MainContainerOfProducts">
 
-      <Navbar/> 
-      <SearchField/>
-      <UISideBar/>
-      <ArrangeProducts/>
+      <ProductsPage/>
+      
 
     </div>
     
   )
+
 }
 
 function PaymentWindow(){
@@ -92,6 +45,7 @@ function PaymentWindow(){
   
   async function getStyle(){
     await import('./PaymentDropDown.css');
+    await import('./SideBarProductsStyles.scss');
   }
 
   React.useEffect(Main=>{
@@ -102,6 +56,7 @@ function PaymentWindow(){
         UpdateCartProducts(DispatchHandler(rawData.result))
         return rawData.result
     }
+
     RequestData()
     getStyle()
 
@@ -118,6 +73,7 @@ function PaymentWindow(){
     2: 'https://help.payme.uz/img/payme-logo.svg'
 
   }
+
 
   return (
     <div id="WholePaymentWindow">
@@ -138,7 +94,8 @@ function PaymentWindow(){
         
         <img src={PaymentImageIndices[PaymentID]} id={`PaymentImage${PaymentID}`}/>
           <br/>
-            <span className={Bottom_Line ? "price": 'No_Payload_Message'}>{Bottom_Line ? `Total: $${Bottom_Line}` : 'No Products Found In Your Cart'}</span>
+            <span className={Bottom_Line ? "price": 'No_Payload_Message'}>{Bottom_Line ? `${localStorage.getItem('languageID') == 2 ? 'Общий' : 'Total'}: $${Bottom_Line}` : localStorage.getItem('languageID') == 2 ? 
+            'В вашей корзине нет товаров' : 'No Products Found In Your Cart'}</span>
           <br/>
         <br/>
 
@@ -151,15 +108,13 @@ function PaymentWindow(){
   )
 }
 
-
 root.render(
 
   <Provider store={store}>
-    
     <BrowserRouter>
-      
-      <Routes>
 
+      <Routes>
+        
         <Route path="Main/" element={<MainPageArrangement />} />
         <Route path="Main/:str/" element={<MainPageArrangement />} />
         <Route path="login/" element={<AccountLoginRegisterform />} />

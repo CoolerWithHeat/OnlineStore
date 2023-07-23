@@ -1,0 +1,392 @@
+
+  
+  :root {
+
+    --primary-color: #cf7eab;
+    --secondary-color: #6b5797;
+    --complimentary-color: #88BFB5;
+    --contrast-color: #F2E527;
+    --light-color: #D2A9D9;
+  }
+  
+  #DisplayWindow{
+
+    position: relative;
+    width: 80%;
+    height: 93%;
+    border-style: solid;
+    border-color: #88BFB5;
+    float: right;
+    border-width: 1px;
+    overflow-y: scroll;
+    margin-right: 5px;
+    margin-top: 5px;
+
+  }
+
+  .SidebarContainer {
+
+    position: fixed;
+    background: #191919;
+    height: 100%;
+    width: 50%;
+    font-family: Montserrat, sans-serif;
+    transition: transform 0.5s;
+    transform: translateX(-100%);
+    z-index: 9999999;
+
+  }
+  
+  
+
+
+  nav {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 150px;
+    width: 42px;
+    background: rgb(44, 40, 40);
+    border-width: 1px;
+    border-color: var(--primary-color);
+    border-style: solid;
+    display: none;
+  }
+  
+
+
+
+  @keyframes moveButton {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+    100% {
+        transform: translate(0);
+    }
+  }
+
+
+
+
+
+.round-button-1 img, .round-button-2 img, .round-button-3 img {
+
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+
+}
+
+#Sidebar_AS_Whole {
+  height: 100vh;
+  width: 100%;
+}
+
+
+@media (max-width:360px){
+  
+  nav {
+    
+    position: fixed;
+    left: 28px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 140px;
+    width: 38px;
+    background: rgb(44, 40, 40);
+    border-style: none;
+    z-index: 99999999;
+  
+  }
+
+  .SidebarContainer.active {
+    
+    transform: translateX(30px);
+    transform: translateY(25px);
+    background-color: rgb(44, 40, 40);
+    position: fixed;
+    z-index: 9999999;
+    width: 90%;
+    height: 100%;
+    margin-left: 0;
+
+  }
+
+  .round-button-1, .round-button-2, .round-button-3 {
+        
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+  }
+}
+
+@media (min-width:360px) and (max-width:450px){
+
+  nav {
+    
+    position: fixed;
+    left: 28px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 140px;
+    width: 38px;
+    background: rgb(44, 40, 40);
+    border-style: none;
+    z-index: 99999999;
+  
+  }
+
+  .SidebarContainer.active {
+    
+    transform: translateX(30px);
+    transform: translateY(37px);
+    background-color: rgb(44, 40, 40);
+    position: fixed;
+    width: 82%;
+    height: 100%;
+    margin-left: 0;
+    z-index: 9999999;
+
+  }
+
+  .round-button-1, .round-button-2, .round-button-3 {
+        
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+  }
+  
+}
+
+@media (min-width:450px) and (max-width:650px){
+  nav {
+    
+    position: fixed;
+    left: 28px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 140px;
+    width: 38px;
+    background: rgb(44, 40, 40);
+    border-style: none;
+    z-index: 99999999;
+  
+  }
+
+  .SidebarContainer.active {
+    
+    transform: translateX(30px);
+    transform: translateY(38px);
+    background-color: rgb(44, 40, 40);
+    position: fixed;
+    width: 64%;
+    height: 100%;
+    margin-left: 0;
+    z-index: 9999999;
+
+  }
+
+  .round-button-1, .round-button-2, .round-button-3 {
+        
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+  }
+}
+
+@media (min-width:650px) and (max-width:780px){
+  nav {
+    
+    position: fixed;
+    left: 28px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 140px;
+    width: 38px;
+    background: rgb(44, 40, 40);
+    border-style: none;
+    z-index: 99999999;
+  
+  }
+
+  .SidebarContainer.active {
+    
+    transform: translateX(30px);
+    transform: translateY(38px);
+    background-color: rgb(44, 40, 40);
+    position: fixed;
+    width: 60%;
+    height: 100%;
+    z-index: 9999999;
+
+  }
+
+  .round-button-1, .round-button-2, .round-button-3 {
+        
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+  }
+
+}
+
+
+@media (min-width:780px) and (max-width:900px){
+
+  nav {
+    
+    position: fixed;
+    left: 27px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 140px;
+    width: 38px;
+    background: rgb(44, 40, 40);
+    border-style: none;
+    z-index: 99999999;
+    
+  
+  }
+
+  .SidebarContainer.active {
+    
+    transform: translateX(30px);
+    transform: translateY(50px);
+    background-color: rgb(44, 40, 40);
+    position: fixed;
+    width: 50%;
+    height: 100%;
+    z-index: 9999999;
+
+  }
+
+  .round-button-1, .round-button-2, .round-button-3 {
+        
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+  }
+}
+
+@media (min-width:900px){
+
+  nav {
+    
+    position: fixed;
+    left: 27px;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 140px;
+    width: 38px;
+    background: rgb(44, 40, 40); 
+    border-width: 1px;
+    border-style: none;
+    z-index: 99999999;
+    
+  
+  }
+
+  .SidebarContainer.active {
+    
+    transform: translateX(30px);
+    transform: translateY(50px);
+    background-color: rgb(44, 40, 40);
+    position: fixed;
+    width: 480px;
+    height: 100%;
+    z-index: 9999999;
+
+  }
+
+  .round-button-1, .round-button-2, .round-button-3 {
+        
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+  }
+
+  .round-button-1:hover, .round-button-2:hover, .round-button-3:hover {
+
+    transform: translateX(25%);
+  
+  }
+
+  .round-button-1:focus, .round-button-2:focus, .round-button-3:focus {
+    
+    position: relative;
+    animation: moveButton 1.7s ease-in-out infinite;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(48, 160, 126);
+    box-shadow: 0 0 1px 1.5px rgba(0, 0, 0, 0.5); 
+
+  }
+
+}

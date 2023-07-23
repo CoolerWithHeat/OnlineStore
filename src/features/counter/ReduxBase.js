@@ -319,3 +319,26 @@ export const ProfileInfo = createSlice({
     }
 
 })
+
+export const WebsiteTranslationPack = createSlice({
+
+    name: 'LanguagePack',
+
+    initialState: {
+        selected_language : localStorage.getItem('languageID') == 2 ? 2 : 1,
+        'products_page': {russian:{1: 'Связаться с Мансуром', 2: 'Домашняя страница', 3:"Найдите ноутбук своей мечты", 4: "Корзина", 5: {1: 'НОУТБУКИ, О КОТОРЫХ ВЫ МЕЧТАЛИ', 2:"ПРЕМИУМ И СОВРЕМЕННЫЕ НОУТБУКИ HP", 3: "ЛИНЕЙКА DELL XPS ПО НИЖНЕЙ ЦЕНЕ!"}}, english:{1: "Contact Mansur", 2:'Home Page', 3:'Search Your Dream Laptop', 4: 'Cart', 5:{1:"LAPTOPS YOU DREAMED ABOUT", 2:'PREMIUM HP LAPTOPS OF TODAY', 3:'XPS LINE-UPs AT LOWER PRICE!'}}},
+        'sidebar': {russian:{1: 'товары еще не выбраны', 2: 'Купленные продукты', 3: 'баланс', 4: "Есть вопросы?", 5: 'Введите вопросы здесь'}, english:{1: "No Products Yet", 2: "Purchased Products", 3: "Balance", 4: 'Any Questions So Far?', 5: "Type Your questions Here"}},
+    },
+    
+    reducers: {
+
+        Update_Language: (state, languageChoice) => {
+
+            state.selected_language = languageChoice.payload
+
+        },
+
+    }
+
+
+})

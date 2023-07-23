@@ -173,7 +173,6 @@ function UISideBar(){
 
             </div>
 
-            {/* </div>   */}
         </Menu>
     );
 }

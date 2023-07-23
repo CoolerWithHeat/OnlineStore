@@ -268,15 +268,15 @@ function AccountLoginRegisterform(){
                         {ErrorState ? <ErrorWindow text={ErrorState}/> : null}
                             
                             <label onClick={ChangeOpenedWindow} htmlFor="chk" aria-hidden="true">Sign up</label>
-                            <input onChange={UpdateCredentials} type="email" name="email" placeholder="Email adress" required={true}/>
-                            <input onChange={UpdateCredentials} type="password" name="password1" placeholder="Password" required={true}/>
-                            <input onChange={UpdateCredentials} type="password" name="password2" placeholder="confirm your password" required={true}/>
+                            <input className="form-control" onChange={UpdateCredentials} type="email" name="email" placeholder="Email adress" required={true}/>
+                            <input className="form-control" onChange={UpdateCredentials} type="password" name="password1" placeholder="Password" required={true}/>
+                            <input className="form-control" onChange={UpdateCredentials} type="password" name="password2" placeholder="confirm your password" required={true}/>
                             <button onClick={SubmitToBackend} ref={SignUpButton} >Sign up</button>
                             
                             <div id="ButtonWindow">
                     
-                                <button onClick={()=>StartOauth2Authentication("google")} id="AuthButton"><img id="ProviderButtonImage" src="https://cdn-icons-png.flaticon.com/512/2504/2504739.png"/></button>
-                                <button onClick={()=>StartOauth2Authentication("facebook")} id="AuthButton"><img id="ProviderButtonImage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"/></button>
+                                <button className="btn btn-light" onClick={()=>StartOauth2Authentication("google")} id="AuthButton"><img id="ProviderButtonImage" src="https://cdn-icons-png.flaticon.com/512/2504/2504739.png"/></button>
+                                <button className="btn btn-light" onClick={()=>StartOauth2Authentication("facebook")} id="AuthButton"><img id="ProviderButtonImage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"/></button>
                                 
                             </div>
 
@@ -284,14 +284,14 @@ function AccountLoginRegisterform(){
 
                     <div className="login">
                             <label onClick={ChangeOpenedWindow} htmlFor="chk" aria-hidden="true">Login</label>
-                            <input onChange={UpdateCredentialsForLogin} type="email" name="email" placeholder="Email" required=""/>
-                            <input onChange={UpdateCredentialsForLogin} type="password" name="password" placeholder="Password" required=""/>
+                            <input className="form-control" onChange={UpdateCredentialsForLogin} type="email" name="email" placeholder="Email" required=""/>
+                            <input className="form-control" onChange={UpdateCredentialsForLogin} type="password" name="password" placeholder="Password" required=""/>
                             <button ref={LoginButton} id="LoginButton" onClick={SubmitToBackendForLogin}>Login</button>
                             <div id="ButtonWindow">
                     
-                                <button onClick={()=>StartOauth2Authentication("google")} id="AuthButton"><img id="ProviderButtonImage" src="https://cdn-icons-png.flaticon.com/512/2504/2504739.png"/></button>
-                                <button onClick={()=>StartOauth2Authentication("facebook")} id="AuthButton"><img id="ProviderButtonImage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"/></button>
-                                
+                                <button className="btn btn-light" onClick={()=>StartOauth2Authentication("google")} id="AuthButton-login"><img id="ProviderButtonImage" src="https://cdn-icons-png.flaticon.com/512/2504/2504739.png"/></button>
+                                <button className="btn btn-light" onClick={()=>StartOauth2Authentication("facebook")} id="AuthButton-login"><img id="ProviderButtonImage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"/></button>
+ 
                             </div>
                     </div>
             </div>

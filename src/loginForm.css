@@ -9,6 +9,12 @@ body{
 	background-color: rgba(255, 38, 0, 0.596);
 }
 
+.form-control{
+	width: 70%;
+	height: 30px;
+	box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
 #ErrorWindow{
     color: rgb(255, 255, 255);
     height: 20px;
@@ -19,35 +25,29 @@ body{
     margin-top: -15px;
 }
 
-#AuthButton{
+#AuthButton, #AuthButton-login{
     
-    width: 50px;
-    height: 50px;
+    width: 15%;
+    height: 15%;
     background-color: transparent;
     display: inline-block;
-    margin-left: 15px;
+    margin-left: 8px;
+	border-style: none;
 
 }
 
 #AuthButton:focus{
-    background-color: white;
+    background-color: rgb(255, 255, 255);
+}
+
+#AuthButton-login:focus{
+    background-color: rgb(20, 20, 20);
 }
 
 
 #ButtonWindow{
-    /* background-color: white; */
     display: inline-block;
     margin-left: 35px;
-}
-
-#ProviderButtonImage{   
-    width: 50px;
-    height: 50px;
-    display: block;
-    margin-left: -5px;
-    border-radius: 15px;
-
-
 }
 
 .main{
@@ -60,6 +60,7 @@ body{
 	box-shadow: 5px 20px 50px #000;
     background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
 }
+
 #chk{
 	display: none;
 }

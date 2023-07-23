@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { ProfileInfo, CustomCounterBase, FetchedProductsBase, AnimatedButtonStates, SideBarButtonsState, CartProducts, ProductsBase, ResultProductsBase, SupportStaffClients } from '../features/counter/ReduxBase';
+import { WebsiteTranslationPack, ProfileInfo, CustomCounterBase, FetchedProductsBase, AnimatedButtonStates, SideBarButtonsState, CartProducts, ProductsBase, ResultProductsBase, SupportStaffClients } from '../features/counter/ReduxBase';
 
 export const store = configureStore({
 
@@ -14,6 +14,7 @@ export const store = configureStore({
     ProductsSearchResult: ResultProductsBase.reducer,
     SupportStaff_Clients: SupportStaffClients.reducer,
     Profile: ProfileInfo.reducer,
+    LanguagePack: WebsiteTranslationPack.reducer,
   },
   
 });

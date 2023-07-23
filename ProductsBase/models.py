@@ -7,7 +7,6 @@ from django.db.models.signals import pre_save, post_save, post_delete, pre_delet
 from django.dispatch import receiver
 from django.db.models.query import QuerySet
 from django.contrib.auth.hashers import make_password 
-# needed database tabels for product model are CPU_details price title image CPU_details GPU_details RAM_details Panel_details
 
 Authentication_Types = [
 
@@ -118,16 +117,20 @@ class User(AbstractBaseUser):
         "Is the user a admin member?"
         return self.admin
 
-
+from django.core.validators import MaxValueValidator
 class Product(models.Model):
     
     title = models.CharField(max_length=35, default='No title', null=True, blank=False)
     price = models.DecimalField(max_digits=7, decimal_places=3)
+    price_for_rose = models.DecimalField(max_digits=7, decimal_places=3, default=0.00)
+    price_for_silver = models.DecimalField(max_digits=7, decimal_places=3, default=0.00)
+    price_for_black = models.DecimalField(max_digits=7, decimal_places=3, default=0.00)
     image = models.FileField(default=None, null=True, blank=True)
     CPU_details = models.CharField(max_length=22, default='Not Specified Yet', null=False, blank=True)
     GPU_details = models.CharField(max_length=22, default='Not Specified Yet', null=False, blank=True)
     RAM_details = models.CharField(max_length=24, default='Not Specified Yet', null=False, blank=True)
     Panel_details = models.CharField(max_length=25, default='Not Specified Yet', null=False, blank=True)
+    rating = models.IntegerField(validators=[MaxValueValidator(5)], default=1)
     discount = models.FloatField(default=None, null=True, blank=True)
     
     @property

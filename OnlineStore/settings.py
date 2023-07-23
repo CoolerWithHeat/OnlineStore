@@ -41,7 +41,7 @@ SECRET_KEY = 'django-insecure-%1o4pw*#5!p8w7fuyiz5+3_z-n7xpql_fpxag8p)96ze&ql+ej
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
+# '127.0.0.1', "localhost"
 ALLOWED_HOSTS = ['www.mansurdev.store']
 
 
@@ -122,8 +122,11 @@ DATABASES = {
 
 CORS_ALLOWED_ORIGINS = [
 
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
+    'https://www.mansurdev.store',
+    'http://www.mansurdev.store'
+    # 'http://localhost:8000',
+    # 'http://127.0.0.1:8000',
+    # 'http://localhost:3000'
 
 ]
 
@@ -165,6 +168,7 @@ CHANNEL_LAYERS = {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [os.environ.get('REDIS_URL')],
+            # "hosts": [("localhost", 6379)],
         },
     },
 }

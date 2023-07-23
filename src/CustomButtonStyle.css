@@ -1,0 +1,253 @@
+  
+  .AnimatedButton {
+    border-radius: 4px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(77, 70, 70);
+    border-right: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 12px;
+    width: 50px;
+    height: 45px;
+    transition: all 0.6s;
+    cursor: pointer;
+    float: right;
+    margin-right: -20px;
+
+  }
+
+  .AnimatedButton:focus{
+    border-style: none;
+  }
+
+  .fa.fa-spinner.fa-spin {
+    color: black;
+    font-size: 18px;
+  }
+
+  .AnimatedButton span {
+
+    cursor: pointer;
+    display: inline-block;
+    transition: 0.3s;
+    font-size: 12px;
+
+    
+
+  }
+  
+  .AnimatedButton span:after {
+
+    content: '\00bb';
+    opacity: 0;
+    top: 0;
+    transition: 0.5s;
+    font-size: 2px;
+    position: absolute;
+    display: inline-block;
+    
+
+  }
+  
+  .AnimatedButton:hover span {
+
+    padding-right: 25px;
+    font-size: 12px;
+    margin-top: -10px;
+    display: inline-block;
+
+  }
+  
+  .AnimatedButton:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+@media (max-width:360px){
+
+  #SideBarButton_3{
+
+    background: #a2a6a8; 
+    cursor: pointer; 
+    border-style: none;
+    transition: color 1s ease;  
+    transition: background 1s ease;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+  
+  }
+  
+  #SideBarButton_1, #SideBarButton_2 { 
+    
+    background: #a2a6a8; 
+    cursor: pointer; 
+    border-style: none;
+    transition: color 1s ease;  
+    transition: background 1s ease;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+  
+  }
+
+
+}
+
+@media (min-width: 360px) and (max-width: 650px){
+
+  #SideBarButton_3{
+
+    background: #a2a6a8; 
+    cursor: pointer; 
+    border-style: none;
+    transition: color 1s ease;  
+    transition: background 1s ease;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+  
+  
+  }
+  
+  #SideBarButton_1, #SideBarButton_2 { 
+    
+    background: #a2a6a8; 
+    cursor: pointer; 
+    border-style: none;
+    transition: color 1s ease;  
+    transition: background 1s ease;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+  
+  }
+
+}
+
+@media (min-width: 650px) and (max-width: 900px){
+
+  #SideBarButton_3{
+
+    background: #a2a6a8; 
+    cursor: pointer; 
+    border-style: none;
+    transition: color 1s ease;  
+    transition: background 1s ease;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+  
+  
+  }
+  
+  #SideBarButton_1, #SideBarButton_2 { 
+    
+    background: #a2a6a8; 
+    cursor: pointer; 
+    border-style: none;
+    transition: color 1s ease;  
+    transition: background 1s ease;
+    border-radius: 5px;
+    width: 40px;
+    height: 40px;
+  
+  }
+
+}
+
+
+@media (min-width: 900px){
+
+  #SideBarButton_3{
+
+    background: #a2a6a8; 
+    cursor: pointer; 
+    border-style: none;
+    transition: color 1s ease;  
+    transition: background 1s ease;
+    border-radius: 5px;
+    width: 45px;
+    height: 45px;
+    margin-top: 3px;
+  
+  
+  }
+  
+  #SideBarButton_1, #SideBarButton_2 { 
+    
+    background: #a2a6a8; 
+    cursor: pointer; 
+    border-style: none;
+    transition: color 1s ease;  
+    transition: background 1s ease;
+    border-radius: 5px;
+    width: 45px;
+    height: 45px;
+    margin-top: 3px;
+  
+  }
+
+}
+
+
+#SideBarButton_1:hover, #SideBarButton_2:hover, #SideBarButton_3:hover { 
+
+  background: #dbf300; 
+
+}
+
+#CustomBootstrap{
+
+  width: 45px;
+  height: 38px;   
+  border: solid ;
+  position: absolute;
+  display: inline-block;
+  background-color: rgb(255, 174, 0);
+  border-width: 1px;
+  border-radius: 5px;
+  border: 0;
+  display: inline-block;
+  cursor: pointer;
+
+}
+
+#CustomBootstrap:hover{
+
+  opacity: 0.7;
+  
+  transition: all, 1s;
+
+}
+
+#CustomBootstrap:focus{
+
+
+  box-shadow: 2px 2px #0edbd1ad;
+  transition: all 0.3s;
+  
+
+}
+
+#TextingButtonImage{
+  
+  width: 100%;
+  height: 100%;
+
+}
+
+
+@-webkit-keyframes squashstretch {
+
+  0% {
+
+    -webkit-transform: translateY(2px);
+    transform: translateY(-5px);
+  }
+  
+}

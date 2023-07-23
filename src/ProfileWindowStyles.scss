@@ -4,33 +4,51 @@ $accent: #ff6b6c;
 $otherAccent: #ffc145;
 $darkBackground: #5b5f97;
 
+// EmailText PurchasedProductsText BalanceText
 
-// * {
-//   margin: 0;
-//   padding: 0;
-//   box-sizing: border-box;
-// }
-// body {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 100vh;
-//   font-family: "Roboto", arial, sans-serif;
-//   color: #222
-// }
+#EmailText{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
+
+}
+
+#LogoutButton{
+  font-size: 10px;
+}
+
+#PurchasedProductsText{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-size: auto;
+  white-space: normal;
+}
+
+#BalanceText{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  white-space: normal;
+}
+
 #login-container {
+  display: block;
+  margin: auto;
   margin-top: 30px;
-  height: 400px;
-  width: 200px;
+  height: 55%;
+  width: 65%;
   padding: 20px;
   border-radius: 5px;
   background: $background;
   position: relative;
   box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+
   .profile-img {
     height: 60px;
     width: 60px;
-    background: url('https://images.unsplash.com/photo-1504933350103-e840ede978d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80');
+    background: url('https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/user.png');
     background-size: cover;
     background-position: center;
     position: absolute;
@@ -70,7 +88,7 @@ $darkBackground: #5b5f97;
   button {
     width: 80%;
     height: 80px;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 30px 10% 0 10%;
     color: $background;
     border: none;
@@ -141,4 +159,49 @@ $darkBackground: #5b5f97;
   // 100% {
   //   background-position: 0% 50%;
   // }
+}
+
+@media (max-width:450px){
+  #login-container{
+    display: block;
+    margin: auto;
+    margin-top: 30px;
+    height: 62%;
+    width: 96%;
+    padding: 20px;
+    border-radius: 5px;
+    background: $background;
+    position: relative;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+  }
+}
+
+@media (min-width:450px) and (max-width:800px){
+  #login-container{
+    display: block;
+    margin: auto;
+    margin-top: 30px;
+    height: 62%;
+    width: 90%;
+    padding: 20px;
+    border-radius: 5px;
+    background: $background;
+    position: relative;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+  }
+}
+
+@media screen {
+  #login-container{
+    display: block;
+    margin: auto;
+    margin-top: 30px;
+    height: 62%;
+    width: 90%;
+    padding: 20px;
+    border-radius: 5px;
+    background: $background;
+    position: relative;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+  }
 }

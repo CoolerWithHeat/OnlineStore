@@ -1,11 +1,12 @@
-import React from "react";
-import {CustomCounterBase, FetchedProductsBase, AnimatedButtonStates, SideBarButtonsState} from './features/counter/ReduxBase';
+import React, { Component } from "react";
+import {WebsiteTranslationPack, CustomCounterBase, FetchedProductsBase, AnimatedButtonStates, SideBarButtonsState} from './features/counter/ReduxBase';
 import { useSelector, useDispatch } from "react-redux";
 import { CartProducts, ProductsBase, ResultProductsBase, SupportStaffClients, ProfileInfo } from "./features/counter/ReduxBase";
 import { RecaptchaVerifier, updateProfile } from "firebase/auth";
 import { Link, json } from "react-router-dom";
 import { slide } from "react-burger-menu";
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import debounce from 'lodash.debounce';
 import $ from 'jquery';
 window.jQuery = $;
 window.$ = $;
@@ -18,11 +19,409 @@ export const Get_Static_Url = (filename)=>{
 }
 
 export function GetHost(WithProtocol=true){
+
+    
     if (WithProtocol){
-        return window.location.protocol + '//' + window.location.host
+        const url = window.location.protocol + '//' + window.location.host
+        if (url === "http://localhost:3000")
+            return 'http://localhost:8000' 
+        else    
+            return url
     }else{
-        return window.location.host   
+        const url = window.location.host
+        if (url === "localhost:3000")
+            return 'localhost:8000' 
+        else    
+            return url
     }
+}
+
+export function ProductsPage(){
+    const languagePack = useSelector(Main=>Main.LanguagePack)
+    const languageUpdatePath = WebsiteTranslationPack.actions.Update_Language
+    const SideBarLanguagePack = languagePack.sidebar
+    const ProductsPageLanguagePack = languagePack.products_page
+    const LanguageState = useSelector(Main=>Main.LanguagePack.selected_language)
+    const selectedLanguage = LanguageState == 2 ? 'russian' : 'english'
+    const Base = useSelector(Main=>Main.ProductsPool)
+    const SearchBase = useSelector(Main=>Main.ProductsSearchResult)
+    const SearchProductsUpdatePath =  ResultProductsBase.actions.StoreProducts
+    const ProductsUpdatePath =  ProductsBase.actions.StoreProducts
+    const dispatch = useDispatch()
+    const [typedText, setTypedText] = React.useState('');
+    const SearchInputField = React.useRef(null)
+    const SearchButton = React.useRef(null)
+    const language_details = [selectedLanguage == "english" ? <img id="USA-flag" src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" className="mr-2" alt="flag"/> :  <img id="RUSSIA-flag" src="https://www.youngpioneertours.com/wp-content/uploads/2020/03/russian-flag-russian-flag-russia-flag-of-russia.jpg" className="mr-2" alt="flag"/>, selectedLanguage]
+    
+
+    const handleClickLogic =  () => {
+        const CartButton = document.getElementsByClassName("round-button-1")
+        setTimeout(() => {
+            CartButton[0].click()
+        }, 0);
+        console.log("button is clicked")
+    }
+
+    async function GetProducts(searchKey){
+        
+        const request = await fetch(GetHost()+`/GetFilteredData/${searchKey}/`)
+        const requestResult = await request.json()
+        if (request.status == 200)
+            dispatch(SearchProductsUpdatePath(requestResult.result))
+
+    }
+
+    function StartSearch(){
+
+        const RequestedKeyword = SearchInputField.current.value
+
+        if (RequestedKeyword){
+            const url_Parameter = new URL(window.location.protocol + '//' + window.location.host + '/');
+            url_Parameter.searchParams.append('Search', RequestedKeyword);
+            window.location.href = url_Parameter.search
+        }
+
+        else{
+
+            window.location.href = '../Main/'
+        }
+
+    }
+    
+    var processedProducts;
+    
+    if (window.location.search){
+        console.log('search products processed')
+        processedProducts = SearchBase.Products.map(Each=><AdvancedProductCard key={Each.id} ProductData={Each}/>)
+    }
+  
+    else {
+  
+        processedProducts = Base.Products.map(Each=>{
+            console.log(Each.id)
+            return <AdvancedProductCard key={Each.id} ProductData={Each}/>
+        })
+  
+    }
+
+    async function Request_All_Products(type){
+
+        const request = await fetch(GetHost()+"/GetProducts/all/")
+        const requestResult = await request.json()
+        dispatch(ProductsUpdatePath(requestResult.products))
+        
+    }
+
+    async function ImportStyles(type){
+
+        await import('./AdvancedProductsStyles.css')
+        
+    }
+
+    function GetCurrentLanguage(){
+
+    }
+
+    function UpdateLanguage(LanguageID){
+        localStorage.setItem("languageID", LanguageID)
+        if (!(localStorage.getItem('languageID') == LanguageState)){
+            dispatch(languageUpdatePath(localStorage.getItem('languageID')))
+        }
+    }
+
+    React.useEffect(() => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/bootstrap.min.css';
+        document.head.appendChild(link);
+      }, []);
+
+    React.useEffect(Main=>{
+        const SearchFieldSpot = SearchInputField.current
+
+        const handleKeyPress = (event) => {
+            if (event.keyCode === 13) {
+                SearchButton.current.click()
+            }
+        };
+
+        if (SearchFieldSpot) {
+            SearchFieldSpot.addEventListener('keydown', handleKeyPress);
+            }
+
+        ImportStyles()
+
+        if (GetSearchKey()){
+            SearchInputField.current.value = GetSearchKey()
+            GetProducts(GetSearchKey())
+        }else{
+            Request_All_Products()
+        }
+        console.log("Current language id is", LanguageState)
+
+    }, [])
+
+    const imageStyle = {width:"270px", height:"160px"}
+    
+    return (
+        <div>
+        <div className="banner_bg_main">
+
+        <div className="container">
+           <div className="header_section_top">
+              <div className="row">
+                 <div className="col-sm-12">
+                    <div className="custom_menu">
+                       
+                       <ul>
+
+                          <li><a href="#">| {ProductsPageLanguagePack[selectedLanguage][1]}: +998 99 045 17 68 |</a></li>
+                          <li><a href="../Home">{ProductsPageLanguagePack[selectedLanguage][2]}</a></li>
+                          
+                       </ul>
+
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        <div className="logo_section">
+           <div className="container">
+              <div className="row">
+                 <div className="col-sm-12">
+                    <div className="logo"><img style={imageStyle} src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Into+(1)-fotor-bg-remover-20230718235349.png"/></div>
+                 </div>
+              </div>
+           </div>
+        </div>
+
+        <div className="header_section">
+           <div className="container">
+              <div className="containt_main">
+                 <div id="mySidenav" className="sidenav">
+                    <a href="#" className="closebtn">multiplied data</a>
+                    <a href="index.html">Home</a>
+                    <a href="fashion.html">Fashion</a>
+                    <a href="electronic.html">Electronic</a>
+                    <a href="jewellery.html">Jewellery</a>
+            </div>
+
+            <div className="main">
+                <div className="input-group">
+                    <input ref={SearchInputField} type="text" className="form-control" placeholder={ProductsPageLanguagePack[selectedLanguage][3]}/>
+                    <div className="input-group-append">
+                        <button onClick={StartSearch} ref={SearchButton} className="btn btn-secondary" type="button">
+                        <i className="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+                 
+                 <div className="header_box">
+                    <div className="lang_box ">
+                       <a title="Language" className="nav-link" data-toggle="dropdown" aria-expanded="true">
+                       {language_details[0]} {language_details[1]} <i className="fa fa-angle-down ml-2" aria-hidden="true"></i>
+                       </a>
+                       <div className="dropdown-menu ">
+                          <a onClick={()=>UpdateLanguage(1)} href="#" className="dropdown-item">
+                          <img id="USA-flag" src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" className="mr-2" alt="flag"/> English    
+
+                          </a>
+                          <a onClick={()=>UpdateLanguage(2)} href="#" className="dropdown-item">
+                          <img id="RUSSIA-flag" src="https://www.youngpioneertours.com/wp-content/uploads/2020/03/russian-flag-russian-flag-russia-flag-of-russia.jpg" className="mr-2" alt="flag"/> русский    
+
+                          </a>
+                       </div>
+                    </div>
+                    <div className="login_menu">
+                       {/* <ul > */}
+                        <button className="btn btn-secondary" onClick={handleClickLogic}>
+                            <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+                            <span className="padding_10">{ProductsPageLanguagePack[selectedLanguage][4]}</span>
+                        </button>
+                       {/* </ul> */}
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div className="banner_section layout_padding">
+           <div className="container">
+              <div id="my_slider" className="carousel slide" data-ride="carousel">
+                 <div className="carousel-inner">
+                    <div className="carousel-item active">
+                       <div className="row">
+                          <div className="col-sm-12">
+                             <h1 className="banner_taital"><br/>{ProductsPageLanguagePack[selectedLanguage][5][1]}</h1>
+                          </div>
+                       </div>
+                    </div>
+                    <div className="carousel-item">
+                       <div className="row">
+                          <div className="col-sm-12">
+                             <h1 className="banner_taital"><br/>{ProductsPageLanguagePack[selectedLanguage][5][2]}</h1>
+                          </div>
+                       </div>
+                    </div>
+                    <div className="carousel-item">
+                       <div className="row">
+                          <div className="col-sm-12">
+                             <h1 className="banner_taital"><br/>{ProductsPageLanguagePack[selectedLanguage][5][3]}</h1>
+                          </div>
+                       </div>
+                    </div>
+                 </div>
+                 <a className="carousel-control-prev" href="#my_slider" role="button" data-slide="prev">
+                 <i className="fa fa-angle-left"></i>
+                 </a>
+                 <a className="carousel-control-next" href="#my_slider" role="button" data-slide="next">
+                 <i className="fa fa-angle-right"></i>
+                 </a>
+              </div>
+           </div>
+        </div>
+
+        
+
+     </div>
+     
+        
+     <div className="fashion_section">
+        <div id="main_slider" className="carousel slide" data-ride="carousel">
+           <div className="carousel-inner">
+              <div className="carousel-item active">
+                 <div className="container">
+                    <div className="fashion_section_2">
+                       <div className="row">
+
+                          {processedProducts}
+ 
+                       </div>
+                    </div>
+                 </div>
+              </div>
+            
+           </div>
+           <a className="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
+           <i className="fa fa-angle-left"></i>
+           </a>
+           <a className="carousel-control-next" href="#main_slider" role="button" data-slide="next">
+           <i className="fa fa-angle-right"></i>
+           </a>
+        </div>
+     </div>
+
+     <SideBarAdvanced/>
+     <div className="footer_section layout_padding">
+        
+        <div className="container">
+        <div className="logo"><img style={imageStyle} src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Into+(1)-fotor-bg-remover-20230718235349.png"/></div>
+ 
+           <div className="input_bt">
+              
+
+
+           </div>
+           <div className="location_main">{ProductsPageLanguagePack[selectedLanguage][1]} : <a href="#">+998 99 045 17 68</a></div> 
+           <div className="location_main">Email : <a href="#">mansurdavlatov@webster.edu</a></div>
+        </div>
+     </div>
+     </div>
+    )
+}
+
+export function AdvancedProductCard(ProductDetails){
+    console.log(ProductDetails)
+    const [colorState, Update_colorState] = React.useState(0)
+    const ChangeColorState = (digit)=>{
+        Update_colorState(Main=>digit)
+    }
+    function GetRateStars(rate=0){
+        var star = []
+        for (let i = 0; i < rate; i++) {
+            star.push(<i className="fa fa-star"></i>)
+          }
+
+        const empty_stars_needed_amount = 5-(star.length)
+        for (let i = 0; i < empty_stars_needed_amount; i++) {
+            star.push(<i className="fa fa-star grey"></i>)
+          }
+
+        return star
+    }
+    
+    async function GetStyle(){
+        await import('./CustomButtonStyle.css')
+    }
+
+
+
+    const ProductColorPrices = {
+        1: ProductDetails.ProductData.price_for_rose,
+        2: ProductDetails.ProductData.price_for_silver,
+        3: ProductDetails.ProductData.price_for_black
+    }
+
+    React.useEffect(Main=>{
+        GetStyle()
+        
+    }, [])
+
+    return (
+        <div id="mainCardBody">
+            <div className="container">
+                <div className="card">
+                    <img id="ProductImage" width="100%" height="100%" src={ProductDetails.ProductData.image}/>
+                    
+                    <div className="card-body">
+                    <div className="product-desc">
+                        <span className="product-title">
+                            {ProductDetails.ProductData.title}
+                            <br/>
+                            <AnimatedButton id={ProductDetails.ProductData.id}/>
+                        </span>
+                        <span className="product-caption">
+                                TopStore Lnc.
+                            </span>
+                        <span className="product-rating">
+                                
+                                {GetRateStars(ProductDetails.ProductData.rating)}
+
+                        </span>
+                    </div>
+
+                    <div className="product-properties">
+                        <span className="product-size">
+                            <ProductDetailsLayer type={'cpu'} text={ProductDetails.ProductData.CPU_details}/>
+                            <ProductDetailsLayer type={'gpu'} text={ProductDetails.ProductData.GPU_details}/>
+                            <ProductDetailsLayer type={'ram'} text={ProductDetails.ProductData.RAM_details}/>
+                            <ProductDetailsLayer type={'panel'} text={ProductDetails.ProductData.Panel_details}/>
+                        </span>
+                    </div>
+                    
+
+                    </div>
+                    <div id="Color_and_Price">
+                            <span className="product-color">
+                                    <h4>{localStorage.getItem('languageID') == 1 ? "Colours" : "Варианты"}</h4>
+                                    <ul className="ul-color">
+                                        <li><a onClick={()=>ChangeColorState(1)} className={colorState===1 ? "orange"+" active" : 'orange'}></a></li>
+                                        <li><a onClick={()=>ChangeColorState(2)} className={colorState===2 ? "green"+" active" : 'green'}></a></li>
+                                        <li><a onClick={()=>ChangeColorState(3)} className={colorState===3 ? "yellow"+" active" : 'yellow'}></a></li>
+                                    </ul>
+                            </span>
+                            <span className="product-price">
+                                    USD<b>{colorState == 0 ? ProductDetails.ProductData.price : ProductColorPrices[colorState]}</b>
+                            </span>
+                        </div>
+                    </div>
+                
+                </div>
+
+        </div>
+    )
 }
 
 export function GetCartProducts(){
@@ -87,6 +486,10 @@ export function SearchField(){
 
     }
 
+    if (!(GetSearchKey() == ' ')){
+        GetProducts()
+    }
+
     function AddRequestDataToUrl(){
         
         const RequestedKeyword = document.getElementById("SearchFieldInput").value
@@ -104,7 +507,11 @@ export function SearchField(){
     }
 
     React.useEffect(Main=>{
+        async function GetStyle(){
+            await import('./SearchField.css')
+        }
 
+        GetStyle()
         const handleKeyPress = (event) => {
 
             if (event.key == 'Enter'){
@@ -140,28 +547,37 @@ export function SearchField(){
 export function ErrorMessage(){
     
     return (<div id="ErrorWindow">
-        <h5 id="ErrorText">Unfortunately, Payment Systems not fully Integrated Yet</h5>
+        <h5 id="ErrorText">{localStorage.getItem('languageID') == 2 ? 'К сожалению, платежные системы еще не полностью интегрированы' : "Unfortunately, Payment Systems not fully Integrated Yet"}</h5>
     </div>)
 
 }
 
-export function BottomLine(){
-
+export function BottomLine(CheckProperties){
+    
     const Bottom_Line = useSelector(Main=>Main.UserCartProducts.BottomLine)
+    
     function Redirect(url){
         window.location.pathname = `../${url}/`
     }
+
+    React.useEffect(Main=>{
+        async function getStyles(){
+
+        }
+    }, [])
+
     if(Bottom_Line > 0)
         return (
-            <button onClick={()=>Redirect('Payment')} id="BottomLine">Pay off: ${Bottom_Line}</button>
+            <button onClick={()=>Redirect('Payment')} id="BottomLine">{localStorage.getItem('languageID') == 1 ? "Pay off" : 'Отплатить'}: ${Bottom_Line}</button>
         )
     
     return (
-            <button id="BottomLine">Not Products Yet</button>
+            <button id="BottomLine">{CheckProperties.translated_text}</button>
         )    
 }
 
 export function ProfileWindow(){
+
     const ProfileUpdatePath = ProfileInfo.actions.Save_Prifile_Infos
     const ProfileInfos = useSelector(Main=>Main.Profile.ProfileDetails)
     const dispatch = useDispatch()
@@ -194,6 +610,7 @@ export function ProfileWindow(){
                 window.location.pathname = 'login/'
         }, 111);
     }
+
     const emailRef = React.useRef(null);
     
     React.useEffect(Main=>{
@@ -204,6 +621,7 @@ export function ProfileWindow(){
         console.log(emailElement)
         console.log(containerWidth)
         console.log(textWidth)
+
         if (textWidth > containerWidth) {
             const fontSize = containerWidth / textWidth * 18; // Adjust the initial font size (18px) based on the container width
             emailElement.style.fontSize = `${fontSize}px`;
@@ -211,6 +629,7 @@ export function ProfileWindow(){
 
         GetProfileDetails()
         getStyle()
+        console.log(ProfileInfos)
 
     }, [])
 
@@ -287,17 +706,10 @@ export function SidebarProductCard(ProductProperties){
 
     const DispatchHandler = CartProducts.actions.UpdateButtonState
     const UpdateCartProducts = useDispatch(DispatchHandler)
-    
-    async function getStyle(){
-        let obj = await import('./SideBarProductsStyles.scss');
-    }
 
-    getStyle()
     const DeleteStyle = {cursor: "pointer"};
     const TitleStyle = {fontSize:"22px"};
     const PriceStyle = {fontSize:"18px", position:"absolute", bottom:'0', right:'30%'};
-
-    
 
     const host = window.location.host == "localhost:3000" ? "http://127.0.0.1:8000/" : window.location.host
     const image_url = ProductProperties.image_url
@@ -326,36 +738,29 @@ export function SidebarProductCard(ProductProperties){
         RequestStatus()
 
     }
+
     return (        
         //keys: id title price description image_url
         <div className="wrapper">
             <div className="container">
-                <div className="top">
-                    <img width="100%" height="85%" src={image_url}></img>
-                </div>
-
-                <div className="bottom">
-                    
-                    <div className="left">  
-                        <div className="details">
-                        <h1 style={TitleStyle}>{ProductProperties.title}</h1>
-                        <p style={PriceStyle}>${ProductProperties.price}</p>
+                
+                    <div className="top">
+                        <img width="100%" height="85%" src={image_url}></img>
                     </div>
 
-                    <div onClick={()=>RemoveRequestHandler(ProductProperties.id)} style={DeleteStyle} className="buy">
-                        <img width={'88px'} height={'88px'} src={TrashIcon}></img>
-                    </div>
+                    <div className="bottom">
+                        
+                        <div className="left">  
+                            <div className="details">
+                            <h1 style={TitleStyle}>{ProductProperties.title}</h1>
+                            <p style={PriceStyle}>${ProductProperties.price}</p>
+                        </div>
 
-                </div>
+                        <div onClick={()=>RemoveRequestHandler(ProductProperties.id)} style={DeleteStyle} className="buy">
+                            <img width={'88px'} height={'88px'} src={TrashIcon}></img>
+                        </div>
 
-                <div className="right">
-                    <div className="done"><i className="material-icons">done</i></div>
-                    <div className="details">
-                    <h1>Chair</h1>
-                    <p>Added to your cart</p>
                     </div>
-                    <div className="remove"><i className="material-icons">clear</i></div>
-                </div>
 
                 </div>
             </div>
@@ -396,10 +801,15 @@ export function Navbar(){
 
     )
 
+    async function getStyle(){
+        await import('./CustomNavbar.css');
+    }
+    getStyle()
+    const image_style = {borderStyle:'none', borderRadius:'28px', marginLeft:"20px",  height:'100%'}
     return (
 
             <div id="NavBarMain">
-                
+                <img style={image_style} src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/topstore.jpg"/>
                 <button id="navbarOption"><a id="MainLink">Contact</a></button>
                 <button onClick={()=>Redirect("Home/")} id="navbarOption"><a id="MainLink">Home</a></button>
                 <button className="btn btn-primary" onClick={ButtonStateChange} style={CartState[1]} id="NavbarCart">
@@ -490,7 +900,7 @@ export function ThirdWindow(){
 }
 
 export function AnimatedButton(ButtonProps){
-    var [btnState, UpdateBtnState] = React.useState({text:"Add To Card", loading:false}) 
+    var [btnState, UpdateBtnState] = React.useState({initialImage:<img width='38px' height='37px' src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/add-cart.png"/>, loading:false}) 
     const CartAddRequestLink = (id)=>GetHost()+`/AdjustCartProducts/1/${id}/`
     const ProductId = ButtonProps.id
     const DispatchMethodHandler = CartProducts.actions.UpdateButtonState
@@ -510,7 +920,7 @@ export function AnimatedButton(ButtonProps){
 
     };
 
-    const StatusText = {
+    const StatusImage = {
 
         true: "Adding",
         false: "Done!",
@@ -545,9 +955,11 @@ export function AnimatedButton(ButtonProps){
         const ProductEndpoint = CartAddRequestLink(ProductId)
 
         async function AddToCart(){ 
+            
             const Authentication_Check = await fetch(GetHost()+"/Authentication_Check/", {
                 headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
             })
+
             if (Authentication_Check.status == 200){
                 const request = await fetch(ProductEndpoint, {
                     method:"POST",
@@ -567,37 +979,32 @@ export function AnimatedButton(ButtonProps){
 
         UpdateBtnState(Initial=>{
             
-            const PreparedState = {text:'loading', loading:true};
+            const PreparedState = {loading:true};
             return PreparedState;
             
     
-            }) 
+        }) 
         
         setTimeout(() => {
 
             UpdateBtnState(Initial=>{
-            
-                const PreparedState = {text:'success!', loading:false};
 
-                return PreparedState;
-                
+                const style = {color:'white'}
+                const PreparedState = {initialImage:<img style={style} width='36px' height='36px' src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/success.png"/>, loading:false};
+                return PreparedState;   
         
-                })  
+            })  
 
         }, 999);
     
-        setTimeout(() => {
-            resetButton()
-        }, 1999);
-    
 }
-    
+
 
     return (
 
         <button onClick={()=>ChangeState(ButtonProps.id)} className="AnimatedButton">
-            {btnState.text == "success!" ? <img id="CartMessageImage" src={"https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/ShoppingCart.png"}/> : null}
-            <span>{btnState.text}</span><i className={StateIndexes[btnState.loading]}></i>
+            {btnState.text == "success!" ? <img id="CartMessageImage" src={'https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/add-cart.png'}/> : null}
+            <span>{btnState.initialImage}</span><i className={StateIndexes[btnState.loading]}></i>
         </button>
 
     )
@@ -1290,7 +1697,9 @@ function CartItemForm(ItemProperties){
 export function NavbarCartMenu(){
     const DispatchHandler = CartProducts.actions.UpdateButtonState
     const UpdateCartProducts = useDispatch(DispatchHandler)
-
+    // async function GetStyles(){
+    //     await import('./Cart.css')
+    // }
     React.useState(Main=>{
         async function RequestData(){
             const request = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
@@ -1308,6 +1717,7 @@ export function NavbarCartMenu(){
         }    
 
         RequestData()
+        // GetStyles()
     }, [])
 
     const Products = useSelector(Main=>Main.UserCartProducts.Products)
@@ -1329,6 +1739,46 @@ export function NavbarCartMenu(){
 
     )
 
+}
+
+export function ChatComponent(ResponseProperties){
+    const bodyIndecies = {
+
+        left:   <li className="in">
+                    <div className="chat-img">
+                        <img alt="Avtar" src={ResponseProperties.user_image}/>
+                    </div>
+                    <div className="chat-body">
+                        <div className="chat-message">
+                            <h5>{ResponseProperties.username}</h5>
+                            <p>Raw denim heard of them tofu master cleanse</p>
+                        </div>
+                    </div>
+                </li>,
+        
+        right:  <li className="out">
+                    <div className="chat-img">
+                        <img alt="Avtar" src={ResponseProperties.user_image}/>
+                    </div>
+                    <div className="chat-body">
+                        <div className="chat-message">
+                            <h5>{ResponseProperties.username}</h5>
+                            <p>{ResponseProperties.message}</p>
+                        </div>
+                    </div>
+                </li>
+
+    }
+    React.useEffect(Main=>{
+        
+        // async function getStyle(){
+        //     await import('./UserChatStyles.css')
+        // }
+        // getStyle()
+
+    }, [])
+
+    return bodyIndecies[ResponseProperties.side]
 }
 
 export function UserThread(ObjectProperties){
@@ -1385,7 +1835,58 @@ export function UserThread(ObjectProperties){
     )
   }
 
+
+   // ###########################################################################################################################
+    // ###########################################################################################################################
+    // ###########################################################################################################################
+    // ###########################################################################################################################
+    class ShadowDOMComponent extends Component {
+        constructor(props) {
+          super(props);
+          this.PageRef = React.createRef();
+        }
+
+        // async GetallStyles() {
+        //     await import('./HomePage/assets/css/main.css');
+        // }
+      
+        async componentDidMount() {
+
+          const shadowRoot = this.PageRef.current.attachShadow({ mode: 'open' });
+          shadowRoot.innerHTML = `
+
+          `
+        }
+      
+        render() {
+            import('./HomePage/assets/css/main.css')
+            .then((cssModule) => {
+              // Create a <style> element and set its content to the imported CSS module
+              const style = document.createElement('style');
+              style.textContent = cssModule.default;
+              this.shadowRoot.appendChild(style);
+            })
+            .catch((error) => {
+              console.error('Error loading CSS file:', error);
+            });
+          return (      
+            <div ref={this.PageRef}>
+                
+            </div>
+          );
+        }
+      }
+
+    // ###########################################################################################################################
+    // ###########################################################################################################################
+    // ###########################################################################################################################
+    // ###########################################################################################################################
+
+
+
 export function IntroHomePage(){
+    
+    const PageRef = React.useRef()
     var [images, Update_images] = React.useState([])
     async function GetImages(){
 
@@ -1395,6 +1896,10 @@ export function IntroHomePage(){
 
     }
     
+    const RedirectToMainPage = ()=> setTimeout(() => {
+        window.location.pathname='../Main'
+    }, 333);
+
     async function GetallStyles(){
         await import('./HomePage/assets/css/main.css')
     } 
@@ -1403,203 +1908,546 @@ export function IntroHomePage(){
       
         GetallStyles()
         GetImages()
+        
     }, [])
 
     React.useEffect(Main=>{
 
     }, [images])
-    if (images)
-        return (
-        <div id="page-wrapper">
+
+    return (
+
+        <div >
+          <div  id="page-wrapper">
 
         <div id="header-wrapper">
         <header id="header" className="container">
 
-            <div id="logo">
-            <h1><a>TopStore</a></h1>
-            <span>By Mansur</span>
-            </div>
+        <div id="logo">
+        <h1><a>TopStore</a></h1>
+        <span>By Mansur</span>
+        </div>
 
-            <nav id="nav">
-            <ul>
-                <li><a>Fully Developed and Maintained By Mansur Davlatov</a></li>
-            </ul>
-            </nav>
+        <nav id="nav">
+        <ul>
+            <li><a>Fully Developed and Maintained By Mansur Davlatov</a></li>
+        </ul>
+        </nav>
 
         </header>
         </div>
 
-        {/* <!-- Banner --> */}
         <div id="banner-wrapper">
         <div id="banner" className="box container">
-            <div className="row">
-            <div className="col-7 col-12-medium">
-                <h2>Welcome !</h2>
-                <p>Find the Best Laptop For Yourself!</p>
-            </div>
-            <div className="col-5 col-12-medium">
-                <ul>
+        <div className="row">
+        
+        <div className="col-7 col-12-medium">
+            <h2>Welcome !</h2>
+                <img id="arrowSignal" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/curve-down-arrow.png"/>
+                <button onClick={RedirectToMainPage} id="RedirectButton">Find the Best Laptop For Yourself!</button>
+        </div>
+
+        <div className="col-5 col-12-medium">
+
+            {/* <ul>
+                <img id="arrowSignal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Curved_Arrow.svg/640px-Curved_Arrow.svg.png"/>
                 <li><a href="../Main/" className="button large icon solid fa-arrow-circle-right">Go Find out what we have</a></li>
-                </ul>
-                
-            </div>
-            </div>
+            </ul> */}
+            
+        </div>
+        </div>
         </div>
         </div>
 
-        {/* <!-- Features --> */}
         <div id="features-wrapper">
         <div className="container">
-            <div className="row">
-            <div className="col-4 col-12-medium">
+        <div className="row">
+        <div className="col-4 col-12-medium">
 
-                {/* <!-- Box --> */}
-                <section className="box feature">
-                <a className="image featured"><img src={images[0]} alt="" /></a>
-                <div className="inner">
-                    <header>
-                    <h2>Dell XPS Premium Laptops</h2>
-                    {/* <p>Maybe here as well I think</p> */}
-                    </header>
-                    <p>Dell has been one of the top premium laptop manifacturers today and as well as our business sponsor!</p>
-                </div>
-                </section>
-
+            <section className="box feature">
+            <a className="image featured"><img src={images[0]} alt="" /></a>
+            <div className="inner">
+                <header>
+                <h2>Dell XPS Premium Laptops</h2>
+  
+                </header>
+                <p>Dell has been one of the top premium laptop manifacturers today and as well as our business sponsor!</p>
             </div>
-            <div className="col-4 col-12-medium">
+            </section>
 
-                {/* <!-- Box --> */}
-                <section className="box feature">
-                <a className="image featured"><img src={images[1]} alt="" /></a>
-                <div className="inner">
-                    <header>
-                    <h2>HP Spectre x360 series</h2>
-                    {/* <p>the most powerful ryzen 6000 series to handle most of your tasks at once </p> */}
-                    </header>
-                    <p>Introducing the extraordinary HP Spectre x360 with the groundbreaking Ryzen 6000 series CPU! Prepare to be amazed by its unparalleled performance and unrivaled versatility</p>
-                </div>
-                </section>
+        </div>
+        <div className="col-4 col-12-medium">
 
+
+            <section className="box feature">
+            <a className="image featured"><img src={images[1]} alt="" /></a>
+            <div className="inner">
+                <header>
+                <h2>HP Spectre x360 series</h2>
+     
+                </header>
+                <p>Introducing the extraordinary HP Spectre x360 with the groundbreaking Ryzen 6000 series CPU! Prepare to be amazed by its unparalleled performance and unrivaled versatility</p>
             </div>
-            <div className="col-4 col-12-medium">
+            </section>
 
-                {/* <!-- Box --> */}
-                <section className="box feature">
-                <a className="image featured"><img src={images[2]} alt=""/></a>
-                
-                <div className="inner">
-                    <header>
-                        <h2>Oh, and finally ...</h2>
-                        <p>Dell's Latest Alienware Gaming Laptops</p>
-                    </header>
-                        <p>Get ready to immerse yourself in the world of high-octane gaming with the Alienware m18's powerful Intel's 13th Gen series CPU </p>
-                </div>
-                
-                </section>
+        </div>
+        <div className="col-4 col-12-medium">
 
+            <section className="box feature">
+            <a className="image featured"><img src={images[2]} alt=""/></a>
+            
+            <div className="inner">
+                <header>
+                    <h2>Oh, and finally ...</h2>
+                    <p>Dell's Latest Alienware Gaming Laptops</p>
+                </header>
+                    <p>Get ready to immerse yourself in the world of high-octane gaming with the Alienware m18's powerful Intel's 13th Gen series CPU </p>
             </div>
-            </div>
+            
+            </section>
+
+        </div>
+        </div>
         </div>
         </div>
 
-        {/* <!-- Main --> */}
+
         <div id="main-wrapper">
         <div className="container">
-            <div className="row gtr-200">
-            <div className="col-4 col-12-medium">
+        <div className="row gtr-200">
+        <div className="col-4 col-12-medium">
 
 
-                <div id="sidebar">
-                <section className="widget thumbnails">
+            <div id="sidebar">
+            <section className="widget thumbnails">
+
+                <button className="btn btn-secondary"> About Mansur Davlatov</button>
+                <div className="grid">
             
-                    <a className="button icon fa-file-alt">More Personal Details</a>
-                    <div className="grid">
-
-                    </div>
-
-                </section>
                 </div>
 
+            </section>
             </div>
-            <div className="col-8 col-12-medium imp-medium">
 
-                <div id="content">
-                <section className="last">
-                    <h2>So what's all about me?</h2>
-                    <p>
-                        This Website,  
-                        <strong> TopStore</strong>, is fully developed by me using <strong>html</strong>, <strong>css</strong>, <strong>javascript/React</strong>, <strong>Python/Django </strong> 
-                        as well as <strong>Django Rest Framework</strong> toolkit specifically designed for django as a part of back-end functionality. 
-                        You can explore the whole application experience once you click blue button on the top. 
-                        My full name is Mansur Davlatov Sheralliyevich, born in 2004, currently sophomore student of Information Management Systems at Webster University</p>
-                        <strong>Contact: +1 347 588 7492</strong>
-                        <br/>
-                            or
-                        <br/>
-                        <strong>Contact: +998 99 045 17 68</strong>
-                        
-                </section>
-                </div>
+        </div>
+        <div className="col-8 col-12-medium imp-medium">
 
+            <div id="content">
+            <section className="last">
+                <h2>So what's all about me?</h2>
+                <p>
+                    This Website,  
+                    <strong> TopStore</strong>, is fully developed by me using <strong>html</strong>, <strong>css</strong>, <strong>javascript/React</strong>, <strong>Python/Django </strong> 
+                    as well as <strong>Django Rest Framework</strong> toolkit specifically designed for django as a part of back-end functionality. 
+                    You can explore the whole application experience once you click blue button on the top. 
+                    My full name is Mansur Davlatov Sheralliyevich, born in 2004, currently sophomore student of Information Management Systems at Webster University</p>
+                    <strong>Contact: +1 347 588 7492</strong>
+                    <br/>
+                        or
+                    <br/>
+                    <strong>Contact: +998 99 045 17 68</strong>
+                    
+            </section>
             </div>
-            </div>
+
+        </div>
+        </div>
         </div>
         </div>
 
         <div id="footer-wrapper">
         <footer id="footer" className="container">
-            <div className="row">
-            <div className="col-3 col-6-medium col-12-small">
+        <div className="row">
+        <div className="col-3 col-6-medium col-12-small">
 
-            </div>
-            <div className="col-3 col-6-medium col-12-small">
+        </div>
+        <div className="col-3 col-6-medium col-12-small">
 
-            </div>
-            <div className="col-3 col-6-medium col-12-small">
+        </div>
+        <div className="col-3 col-6-medium col-12-small">
 
-            </div>
-            <div className="col-3 col-6-medium col-12-small">
+        </div>
 
-       
-                <section className="widget contact last">
-                <h3>Contact Me</h3>
-                <ul>
-                    <li><a className="icon brands fa-twitter"><span className="label">Twitter</span></a></li>
-                    <li><a className="icon brands fa-facebook-f"><span className="label">Facebook</span></a></li>
-                    <li><a className="icon brands fa-instagram"><span className="label">Instagram</span></a></li>
-                    <li><a className="icon brands fa-dribbble"><span className="label">Dribbble</span></a></li>
-                    <li><a className="icon brands fa-pinterest"><span className="label">Pinterest</span></a></li>
-                </ul>
-                <p>Abay Street, 16A<br />
-                    Tashkent, Shaykhontoxur<br />
-                    <strong>Contact: +998 99 045 17 68</strong>, only for phone calls</p>
-                    
-                    <br/> 
-                    <strong>Contact: +1 347 588 7492 </strong>,  for both phone calls and messangers like Telegram or whatsApp
-                </section>
+        <div className="col-3 col-6-medium col-12-small">
 
-            </div>
-            </div>
-            <div className="row">
+
+            <section className="widget contact last">
+            <h3>Contact Me</h3>
+            <ul>
+                <li><a className="icon brands fa-twitter"><span className="label">Twitter</span></a></li>
+                <li><a className="icon brands fa-facebook-f"><span className="label">Facebook</span></a></li>
+                <li><a className="icon brands fa-instagram"><span className="label">Instagram</span></a></li>
+                <li><a className="icon brands fa-dribbble"><span className="label">Dribbble</span></a></li>
+                <li><a className="icon brands fa-pinterest"><span className="label">Pinterest</span></a></li>
+            </ul>
+            <p>Abay Street, 16A<br />
+                Tashkent, Shaykhontoxur<br />
+                <strong>Contact: +998 99 045 17 68</strong>, only for phone calls</p>
+                
+                <br/> 
+                <strong>Contact: +1 347 588 7492 </strong>,  for both phone calls and messangers like Telegram or whatsApp
+            </section>
+
+        </div>
+
+        </div>
+        <div className="row">
             <div className="col-12">
 
-         
+
                 <section className="widget blurbs">
                 <h3>About</h3>
-                <p>Explore the best laptops you could find in the current tech industry, while being cheap as it is, our service also feature free delivery if you do a purchase worth of over $999, so make sure you do not miss out this opportunity !</p>
+                <p>Explore the best laptops you could find in the current tech industry, while being cheap as it is, our service also features free delivery if you do a purchase worth of over $999, so make sure you do not miss out this opportunity !</p>
                 </section>
 
             </div>
+        </div>
+        <div className="row">
+            <div className="col-12">
+                
             </div>
-            <div className="row">
-                <div className="col-12">
-
-                </div>
-            </div>
+        </div>
         </footer>
         </div>
 
         </div>
-
-    )
+</div>
+    );
 }
+
+
+// const btnIndexes = {
+
+//     1: <img id='CartIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Cart_ICON.png'/>,
+//     2: <img id='UserIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/user_ICON.png'/>,
+//     3: <img id='SupportIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/support_ICON.png'/>,
+    
+// }
+
+// <button onClick={ChangeState} style={CurrentAnimationNeededButton == BtnProperties.index ? Animate : null } id={`SideBarButton_${BtnProperties.index}`}>
+// {btnIndexes[BtnProperties.index]}
+// </button>
+
+export function SideBarAdvanced() {
+    const languagePack = useSelector(Main=>Main.LanguagePack)
+    const languageUpdatePath = WebsiteTranslationPack.actions.Update_Language
+    const SideBarLanguagePack = languagePack.sidebar
+    const LanguageState = useSelector(Main=>Main.LanguagePack.selected_language)
+    const selectedLanguage = LanguageState == 2 ? 'russian' : 'english'
+    const dispatch = useDispatch()
+    
+    const containerRef = React.useRef(null);
+    const navRef = React.useRef(null);
+    const [clickedButton, Update_clickedButton] = React.useState(1)
+
+
+
+
+    function Cart_Products_Window(){
+
+        const DispatchHandler = CartProducts.actions.UpdateButtonState
+        const UpdateCartProducts = useDispatch()
+        async function getStyle(){
+            await import('./SideBarProductsStyles.scss');
+        }
+        React.useEffect(Main=>{
+            getStyle()
+            async function RequestData(){
+
+                const request = await fetch(GetHost()+"/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+                const rawData = await request.json()
+                UpdateCartProducts(DispatchHandler(rawData.result))
+                return rawData.result
+
+            }
+
+            RequestData()
+            
+        
+        }, [])
+
+        const Products = useSelector(Main=>Main.UserCartProducts.Products)
+        const TrashIcon = useSelector(Main=>Main.UserCartProducts.TrashIcon)
+        
+        const processedProducts = Products.map(each=><SidebarProductCard TrashIcon={TrashIcon} title={each.title} id={each.id} key={each.id} price={each.price} description={each.description} image_url={each.image} gpu={each.GPU_details} cpu={each.CPU_details} panel={each.Panel_details} ram={each.RAM_details}/>)
+       
+        return (
+
+            <div id='SidebarCart'>
+                {processedProducts}
+                <BottomLine translated_text={SideBarLanguagePack[selectedLanguage][1]}/>
+                <br/>
+                <br/>
+            </div>
+
+        )
+    }
+
+    function Profile_Window(){
+
+        const ProfileUpdatePath = ProfileInfo.actions.Save_Prifile_Infos
+        const ProfileInfos = useSelector(Main=>Main.Profile.ProfileDetails)
+        const dispatch = useDispatch()
+
+        async function GetProfileDetails(){
+
+            const request = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+            if (request.status==200){
+                const UserDetailsRequest = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+                const request = await fetch(GetHost()+'/Get_UserInfo/', {
+                    method: 'GET',
+                    headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
+                })
+                if (request.status==200){
+                    const parsedData = await request.json()
+                    dispatch(ProfileUpdatePath(parsedData.response))
+                }
+            }
+            
+            else{
+                window.location.pathname = '../login'
+            }
+
+        }
+
+        async function getStyle(){
+            let obj = await import('./ProfileWindowStyles.scss');
+        } 
+
+        function Logout(){
+            localStorage.removeItem('WebKey')
+            setTimeout(() => {
+                if (!localStorage.getItem('WebKey'))
+                    window.location.pathname = 'login/'
+            }, 111);
+        }
+
+        const emailRef = React.useRef(null);
+    
+        React.useEffect(Main=>{
+
+            GetProfileDetails()
+            getStyle()
+
+        }, [])
+    
+        const Style = {width:'60px', height:'60px', borderRadius:'50%',}
+        const SmallerText = {fontSize: '12px'}
+        const BiggerText = {fontSize: '15px'}
+            
+        return (
+
+            <div id="login-container">
+
+                <div className="profile-img">
+                    <img style={Style} src={ProfileInfos.image_url}/>
+                </div>
+                
+                <h1>
+                    {localStorage.getItem("languageID") == 1 ? "Profile" : 'Профиль'}
+                </h1>
+                
+                <div className="description">
+                    <ul ref={emailRef} id="EmailText">{ProfileInfos.email}</ul>
+                    <br/>
+                    <br/>
+                    <ul id="PurchasedProductsText">{SideBarLanguagePack[selectedLanguage][2]}: 0</ul>
+                    <ul id="BalanceText">{SideBarLanguagePack[selectedLanguage][3]}: 0</ul>
+                    <br/>   
+                </div>
+
+                
+                <button id="LogoutButton" onClick={Logout}>Log Out</button>
+
+            </div>
+
+        )
+    }
+
+    function Support_Window(){
+
+        const socketRef = React.useRef(null);
+        const CurrentAnimationNeededButton = useSelector(Main=>Main.SideBarButtons.BtnID)
+        const MessagesPath = SupportStaffClients.actions.UpdateMessages
+        const Messages = useSelector(Main=>Main.SupportStaff_Clients.AllMessages)
+        const AddToExistingBase = SupportStaffClients.actions.UpdateExistingMessages
+        const dispatch = useDispatch()
+        const SocketProtocol = window.location.protocol == "https:" ? 'wss://' : 'ws://'
+        const userdataField = React.useRef()
+        const SendButton = React.useRef()
+        const ChatWindow = React.useRef()
+
+        function sendToSocket() {
+            const userInput = userdataField.current.value;
+            if (userInput) {
+
+                socketRef.current.send(JSON.stringify({ UsersText: userInput, token: localStorage.getItem('WebKey') }));
+                userdataField.current.value = null
+            }
+        }
+        
+        async function GetClientMessages(){
+
+            const messagesRequest = await fetch(GetHost()+'/GetClientMessages/' + localStorage.getItem('TempID'), {
+                method: "GET",
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('WebKey')}`
+                }
+            })
+            
+            const response = await messagesRequest.json()
+            dispatch(MessagesPath(response.response))
+            scrollToBottom()
+        }
+
+        const processedMessages = Messages.map(Main=>{
+            return <ChatComponent user_image={Main.SenderImage} key={Main.id} username={Main.sender} message={Main.message} side={Main.SenderID == localStorage.getItem('TempID') ? 'right' : 'left'}/>
+        })
+
+        function scrollToBottom() {
+            const scrollElement = ChatWindow.current;
+            if (scrollElement) {
+              setTimeout(() => {
+                scrollElement.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+              }, 10);
+            }
+        }
+
+        React.useEffect(Main=>{
+            // console.log(SocketProtocol + GetHost(false) + '/chat/' + `token=${localStorage.getItem('WebKey')}`)
+            const socket = new ReconnectingWebSocket(SocketProtocol + GetHost(false) + '/chat/' + `token=${localStorage.getItem('WebKey')}`)
+            
+            socket.onmessage = (BaseData)=>{
+                
+                const response = JSON.parse(BaseData.data)
+                console.log(response)
+                if (response.status == 500){
+                    window.location.pathname = '../login'
+                }
+
+                const UserKey = response.TempID ? localStorage.setItem('TempID', response.TempID) : null
+
+                if (!response.TempID){
+                    if (response.message){
+                        const processedData = {id: response.id, SenderID: response.SenderID, SenderImage: response.SenderImage, SenderIsStaff: response.SenderIsStaff, StaffImage: response.StaffImage, message:response.message, sender:response.sender}
+
+                        dispatch(AddToExistingBase(processedData))
+                        scrollToBottom()
+       
+                    }
+                }
+    
+            }
+            GetClientMessages()
+            
+            
+            socketRef.current = socket;
+            const handleKeyPress = (event) => {
+
+                if (event.key == 'Enter'){
+                    SendButton.current.click()
+                }
+                
+            };
+
+            async function getStyle(){
+                await import('./UserChatStyles.css')
+            }
+            getStyle()
+
+            console.log(Messages)
+            document.addEventListener('keydown', handleKeyPress);
+            return () => {
+                socket.close();
+            };
+
+    
+        }, [])
+        return (
+            <ul ref={ChatWindow} className="chat-list">
+                <li id="ResponsesWindow">
+                    {processedMessages.length == 0 ? <div id="QuestionAlert">{SideBarLanguagePack[selectedLanguage][4]}</div> : processedMessages    }
+                </li>
+
+                <li id="TextFormField">
+                    <input ref={userdataField} id="UserTextField" className="form-control" placeholder={SideBarLanguagePack[selectedLanguage][5]}/>
+                    <button ref={SendButton} onClick={sendToSocket} id="SendButton" className="btn btn-warning">
+                    <img src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/send_ICON.png" alt="Send" />
+                    </button>
+                </li>
+            </ul>
+        )
+    }
+
+    const WindowIndicies = {
+        1: <Cart_Products_Window/>,
+        2: <Profile_Window/>,
+        3: <Support_Window/>,
+    }
+    
+    React.useEffect(() => {
+      async function GetallStyles() {
+        await import('./AdvancedSideBar.css');
+      }
+      GetallStyles();
+    });
+  
+    function OpenBarWindow(button_ID) {
+      const container = containerRef.current
+      container.classList.add('active');
+      Update_clickedButton(Main=>button_ID)
+    }
+  
+    const handleClickOutside = (event) => {
+
+        if (
+          containerRef.current &&
+          !containerRef.current.contains(event.target) &&
+          !navRef.current.contains(event.target)
+        ) {
+          containerRef.current.classList.remove('active');
+        }
+    };
+  
+    React.useEffect(() => {
+    
+        document.addEventListener('click', handleClickOutside);
+        
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+
+    }, []);
+  
+    return (
+
+      <div id="Sidebar_AS_Whole">
+
+            <nav ref={navRef}>
+
+                <button id="button_1" onClick={() => OpenBarWindow(1)} className="round-button-1">
+                    <img id="ButtonIcon" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Cart_ICON.png" />
+                </button>
+
+                <button onClick={() => OpenBarWindow(2)} className="round-button-2">
+                    <img id="UserIcon" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/user_ICON.png" />
+                </button>
+
+                <button onClick={() => OpenBarWindow(3)} className="round-button-3">
+                    <img id="SupportIcon" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/support_ICON.png" />
+                </button>
+
+            </nav>
+    
+            <div ref={containerRef} className="SidebarContainer">
+                <div id="DisplayWindow">
+                    {WindowIndicies[clickedButton]}
+                </div>
+            </div>
+
+      </div>
+      
+    );
+  }
+  
+  

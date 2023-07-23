@@ -1,0 +1,497 @@
+
+html, body{ 
+    width:100%;
+    min-width: 200px;
+}
+
+#ButtonSpace{
+
+    border-style: solid;
+    display:flex;
+    position: relative;
+    
+}
+
+#CartMessageImage{
+
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+    margin-top: -2px;
+    position: absolute;
+    float: left;
+    margin-left: -20px;
+
+}
+
+#PriceFieldLocation{
+    
+    display: block;
+    float: right;
+    
+}
+
+#Card:hover{
+
+    transform: scale(1.05);
+    box-shadow: 0 0 -40px 10px rgba(0, 0, 0, 0.25);
+    -webkit-transition: transform 0.20s ease-in-out;
+    cursor:pointer;
+
+}
+
+
+#EachDetail{
+    
+    height: 30px;
+    display: flex;
+    padding: 12px;
+
+}
+
+
+#PCComponentIcons{
+
+    max-width: 100%;
+    max-height: 100%;
+
+}
+
+
+@media (max-width: 360px){
+
+    #Card{
+
+        max-width: 220px;
+
+        margin: auto;
+        border-style: solid;
+
+        background: linear-gradient(to right, #ffffff, #ffffff);
+        
+        border-width: 1px;
+
+        padding: 2px;
+
+        border-radius: 6px;
+        
+        margin-top: 3%;
+    
+    }
+
+    #CardImage{
+
+        max-width: 100%;
+        height: 150px;
+        object-fit: cover;
+        display: block;
+        margin: auto;
+    
+    }
+
+    #TitleLocation{
+
+
+        display: block; 
+        font-family: 'Source Sans Pro';
+        font-size: 90%;
+        padding: 5px;
+        
+    
+    }
+    
+    #PriceTagSlashed{
+        
+        background-color: #AAAAAA;
+        color: rgb(255, 0, 0);
+        text-decoration: line-through;
+        font-size: 65%;
+        display: flex;
+        margin: 0px;
+        float: right;
+        display: block;
+        margin-left: -4px;
+    
+    }
+    
+    
+    #PriceTagWithoutSlashedPrice{
+    
+        background-color: #FF851B;
+        border-width: 1px;
+        border-radius: 3px;
+        color: white;
+        font-size: 85%;
+
+        margin-left: -60px;
+        
+    }
+    
+    
+    #PriceTag{
+    
+        background-color: #FF851B;
+        border-width: 1px;
+        border-radius: 3px;
+        margin-left: -6px;
+        color: white;
+        font-size: 85%;
+
+        
+    
+    }
+
+
+    #PCComponentIcons{
+
+        max-width: 85%;
+        max-height: 85%;
+        
+    }
+
+    #TextClosure{
+        
+        margin-left: 3%;
+        font-size: 8px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    
+    }
+
+    #ProductsWindow{
+
+        display: inline-block;
+        z-index: 0;
+        margin-top: 25px;
+        min-width: 300px;
+
+    }
+
+    
+
+
+
+} 
+
+@media (min-width: 360px) and (max-width: 650px) {
+
+
+    #PCComponentIcons{        
+
+        max-width: 95%;
+        max-height: 95%;
+
+    }
+
+    #ProductsWindow{
+
+        padding: 25px;
+        display: inline-block;
+        z-index: 0;
+        margin-top: 25px;
+        padding: 50px;
+        min-width: 500px;
+
+    }
+
+
+
+    #Card{
+    
+        
+
+        max-width: 65%;
+    
+        border-style: solid;
+        
+        border-width: 1px;
+
+        display: block;
+
+        margin: auto;
+    
+        padding: 2px;
+
+        border-radius: 6px;
+
+        margin-top: 3%;
+    
+    
+    }
+
+    #CardImage{
+
+        max-width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        margin: auto;
+    
+    }
+
+
+    #TitleLocation{
+
+
+        display: block;
+        font-family: 'Source Sans Pro';
+        font-size: 105%;
+        padding: 5px;
+        /* border-style: solid; */
+        
+    
+    }
+    
+    #PriceTagSlashed{
+        
+        background-color: #AAAAAA;
+        color: rgb(255, 0, 0);
+        text-decoration: line-through;
+        font-size: 75%;
+        display: flex;
+        margin: 0px;
+        float: right;
+        display: block;
+        margin-left: -4px;  
+    
+    }
+    
+    
+    #PriceTagWithoutSlashedPrice{
+    
+        background-color: #FF851B;
+        border-width: 1px;
+        border-radius: 3px;
+        color: white;
+        font-size: 102%;
+
+        margin-left: -60px;
+        
+    }
+    
+    
+    #PriceTag{
+    
+        background-color: #FF851B;
+        border-width: 1px;
+        border-radius: 3px;
+        margin-top: 18px;
+        margin-left: -5px;
+        color: white;
+        font-size: 102%;
+
+        
+    
+    }
+
+    #TextClosure{
+
+        margin-left: 3%;
+        font-size: 10px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+
+}
+
+
+
+@media (min-width: 650px) and (max-width: 900px) {
+
+    #Card{
+    
+        display: none;
+        max-width: 45%;
+        border-style: solid;
+        border-width: 1px;
+        display: inline-block;
+        margin-left: 3%;
+        margin-top: 3%;
+        padding: 2px;
+        border-radius: 6px;
+    
+    }
+
+    #CardImage{
+
+        max-width: 100%;
+        height: 200px;
+        object-fit: cover;
+    
+    }
+
+    #TitleLocation{
+
+
+        display: block;
+        font-family: 'Source Sans Pro';
+        font-size: 110%;
+        padding: 5px;
+        /* border-style: solid; */
+        
+    
+    }
+    
+    #PriceTagSlashed{
+        
+        background-color: #AAAAAA;
+        color: rgb(255, 0, 0);
+        text-decoration: line-through;
+        font-size: 85%;
+        display: flex;
+        margin: 0px;
+        float: right;
+        display: block;
+        margin-left: -4px;
+    
+    }
+    
+    
+    #PriceTagWithoutSlashedPrice{
+    
+        background-color: #FF851B;
+        border-width: 1px;
+        border-radius: 3px;
+        color: white;
+        font-size: 115%;
+        position: absolute;
+        margin-left: -60px;
+        
+    }
+    
+    
+    #PriceTag{
+    
+        background-color: #FF851B;
+        border-width: 1px;
+        border-radius: 3px;
+        margin-left: -6px;
+        color: white;
+        font-size: 115%;
+        position: absolute;
+        
+    
+    }
+    
+    #ProductsWindow {
+        /* display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: flex-start;
+        border-style: solid;
+        gap: 50px;
+        float: right;
+        margin-top: 100px; */
+    }
+      
+    
+    
+    #TextClosure{
+
+        margin-left: 3%;
+        font-size: 10px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    }
+
+}
+
+
+@media (min-width: 900px) {
+
+    #ProductsWindow {
+
+        position: relative;
+        width: 85%;
+        min-height: 777px;
+        display: block;
+        border-style: solid;
+        float: right;
+        margin-top: 100px;
+      
+
+    }
+
+    #Card{
+    
+        
+        min-width: 320px;
+        border-style: solid;   
+        border-width: 1px;
+        display: inline-block;
+        margin-left: 2%;
+        margin-top: 3%;
+        padding: 2px;
+        border-radius: 6px;
+
+    
+    }
+
+    #TitleLocation{
+
+
+        display: block;
+        font-family: 'Source Sans Pro';
+        font-size: 120%;
+        padding: 5px;
+        /* border-style: solid; */
+        
+    
+    }
+
+    #CardImage{
+
+        max-width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+        margin: auto;
+    
+    }
+    
+    #PriceTagSlashed{
+        
+        background-color: #AAAAAA;
+        color: rgb(255, 0, 0);
+        text-decoration: line-through;
+        font-size: 93%;
+        display: flex;
+        margin: 0px;
+        float: right;
+        display: block;
+        margin-left: -4px;
+    
+    }
+    
+    
+    #PriceTagWithoutSlashedPrice{
+    
+        background-color: #FF851B;
+        border-width: 1px;
+        border-radius: 3px;
+        color: white;
+        font-size: 127%;
+
+        margin-left: -60px;
+        
+    }
+    
+    
+    #PriceTag{
+    
+        background-color: #FF851B;
+        border-width: 1px;
+        border-radius: 3px;
+        margin-left: -6px;
+        color: white;
+        font-size: 127%;
+    
+    }
+
+    #TextClosure{
+
+        margin-left: 3%;
+        font-size: 11px;
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        
+    }
+
+}
+
