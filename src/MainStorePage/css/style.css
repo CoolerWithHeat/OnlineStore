@@ -211,7 +211,7 @@ button {
 .banner_bg_main {
     width: 100%;
     float: left;
-    background-image: url(https://www.pcworld.com/wp-content/uploads/2023/04/dell_xps_15_9500-100850513-orig-1.jpg?quality=50&strip=all);
+    background-image: url(https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/MainPageBackground.webp);
     height: auto;
     background-size: 100%;
     background-repeat: no-repeat;

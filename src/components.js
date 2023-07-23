@@ -54,7 +54,7 @@ export function ProductsPage(){
     const [typedText, setTypedText] = React.useState('');
     const SearchInputField = React.useRef(null)
     const SearchButton = React.useRef(null)
-    const language_details = [selectedLanguage == "english" ? <img id="USA-flag" src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" className="mr-2" alt="flag"/> :  <img id="RUSSIA-flag" src="https://www.youngpioneertours.com/wp-content/uploads/2020/03/russian-flag-russian-flag-russia-flag-of-russia.jpg" className="mr-2" alt="flag"/>, selectedLanguage]
+    const language_details = [selectedLanguage == "english" ? <img id="USA-flag" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/USA.jpg" className="mr-2" alt="flag"/> :  <img id="RUSSIA-flag" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Russia.jpg" className="mr-2" alt="flag"/>, selectedLanguage]
     
 
     const handleClickLogic =  () => {
@@ -213,8 +213,8 @@ export function ProductsPage(){
                  
                  <div className="header_box">
                     <div className="lang_box ">
-                       <a title="Language" className="nav-link" data-toggle="dropdown" aria-expanded="true">
-                       <small id="LanguageDetails">{language_details[0]} {language_details[1]}</small> <i className="fa fa-angle-down ml-2" aria-hidden="true"></i>
+                       <a title="Language" data-toggle="dropdown" aria-expanded="true">
+                            <small id="LanguageDetails">{language_details[0]} {language_details[1]}</small> <i className="fa fa-angle-down ml-2" aria-hidden="true"></i>
                        </a>
                        <div className="dropdown-menu ">
                           <a onClick={()=>UpdateLanguage(1)} href="#" className="dropdown-item">
@@ -2256,8 +2256,6 @@ export function SideBarAdvanced() {
         const userdataField = React.useRef()
         const SendButton = React.useRef()
         const responseWindowRef = React.useRef(null);
-        // const animationDuration = 500;
-        // const framesPerSecond = 60;
         function sendToSocket() {
             const userInput = userdataField.current.value;
             if (userInput) {

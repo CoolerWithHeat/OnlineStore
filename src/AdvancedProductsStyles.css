@@ -4,7 +4,6 @@
 
 }
 
-
 @media (max-width: 767px){
   #LanguageDetails{
     font-size: 13px;
@@ -26,6 +25,8 @@
 #USA-flag, #RUSSIA-flag{
   width: 35px;
   height: 20px;
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
 @media (max-width:360px) {
