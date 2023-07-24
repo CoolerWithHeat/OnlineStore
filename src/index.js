@@ -1,15 +1,12 @@
-import App from "./App";
 import { createRoot } from 'react-dom/client';
 import React from 'react';
-import { ChatComponent, ProductsPage, SideBarAdvanced, AdvancedProductCard, IntroHomePage, UserThread, ErrorMessage, ProductCard, StaffClientsMonitor, AdminChatBox, Navbar, SeperateContactMode, NavbarCartMenu, SearchField, ErrorWindow, ProviderButton, ProfileWindow, SidebarProductCard, NoPayloadSignal, BottomLine, GetCartProducts, GetHost } from "./components";
+import { ProductsPage, IntroHomePage, ErrorMessage, StaffClientsMonitor, AdminChatBox, SidebarProductCard, GetHost } from "./components";
 import AccountLoginRegisterform from "./LoginForm";
-import UISideBar from './CustomSidebar';
 import { Provider } from 'react-redux'
-import { CartProducts, ProductsBase, ResultProductsBase } from "./features/counter/ReduxBase";
-import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
+import { CartProducts, } from "./features/counter/ReduxBase";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { store } from "./app/store";
-import { each } from "jquery";
 
 
 const container = document.getElementById('root');
@@ -44,8 +41,8 @@ function PaymentWindow(){
   const [PaymentID, Update_PaymentID] = React.useState(1)
   
   async function getStyle(){
-    await import('./PaymentDropDown.css');
-    await import('./SideBarProductsStyles.scss');
+    await import('./css_files/PaymentDropDown.css');
+    await import('./css_files/SideBarProductsStyles.scss');
   }
 
   React.useEffect(Main=>{
@@ -60,7 +57,7 @@ function PaymentWindow(){
     RequestData()
     getStyle()
 
-  }, [])
+  })
 
 
   function ChangePayment(Element){
@@ -122,7 +119,6 @@ root.render(
         <Route path="AdminChatBox/" element={<AdminChatBox NoUsers={true}/>}/>
         <Route path="Payment/" element={<PaymentWindow/>}/>
         <Route path="Home/" element={<IntroHomePage/>}/>
-        <Route path="Contact/" element={<SeperateContactMode/>}/>
           
       </Routes>
 

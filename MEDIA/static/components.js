@@ -125,7 +125,7 @@ export function BottomLine(){
 export function ProfileWindow(){
     // ProfileWindowStyles.scss
     async function getStyle(){
-        let obj = await import('./ProfileWindowStyles.scss');
+        let obj = await import('./css_files/ProfileWindowStyles.scss');
     }
 
     getStyle()
@@ -195,7 +195,7 @@ export function SidebarProductCard(ProductProperties){
     const DispatchHandler = CartProducts.actions.UpdateButtonState
     const UpdateCartProducts = useDispatch(DispatchHandler)
     async function getStyle(){
-        let obj = await import('./SideBarProductsStyles.scss');
+        let obj = await import('./css_files/SideBarProductsStyles.scss');
     }
     const DeleteStyle = {cursor: "pointer"};
     const TitleStyle = {fontSize:"22px"};

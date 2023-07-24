@@ -1,15 +1,9 @@
 import React, { Component } from "react";
-import {WebsiteTranslationPack, CustomCounterBase, FetchedProductsBase, AnimatedButtonStates, SideBarButtonsState} from './features/counter/ReduxBase';
+import {WebsiteTranslationPack, CustomCounterBase, FetchedProductsBase, SideBarButtonsState} from './features/counter/ReduxBase';
 import { useSelector, useDispatch } from "react-redux";
 import { CartProducts, ProductsBase, ResultProductsBase, SupportStaffClients, ProfileInfo } from "./features/counter/ReduxBase";
-import { RecaptchaVerifier, updateProfile } from "firebase/auth";
-import { Link, json } from "react-router-dom";
-import { slide } from "react-burger-menu";
 import ReconnectingWebSocket from 'reconnecting-websocket';
-import debounce from 'lodash.debounce';
 import $ from 'jquery';
-import { settings } from "firebase/analytics";
-import './css_files/proto_chat.css'
 window.jQuery = $;
 window.$ = $;
 
@@ -42,7 +36,6 @@ export function ProductsPage(){
 
     const languagePack = useSelector(Main=>Main.LanguagePack)
     const languageUpdatePath = WebsiteTranslationPack.actions.Update_Language
-    const SideBarLanguagePack = languagePack.sidebar
     const ProductsPageLanguagePack = languagePack.products_page
     const LanguageState = useSelector(Main=>Main.LanguagePack.selected_language)
     const selectedLanguage = LanguageState == 2 ? 'russian' : 'english'
@@ -51,7 +44,6 @@ export function ProductsPage(){
     const SearchProductsUpdatePath =  ResultProductsBase.actions.StoreProducts
     const ProductsUpdatePath =  ProductsBase.actions.StoreProducts
     const dispatch = useDispatch()
-    const [typedText, setTypedText] = React.useState('');
     const SearchInputField = React.useRef(null)
     const SearchButton = React.useRef(null)
     const language_details = [selectedLanguage == "english" ? <img id="USA-flag" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/USA.jpg" className="mr-2" alt="flag"/> :  <img id="RUSSIA-flag" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Russia.jpg" className="mr-2" alt="flag"/>, selectedLanguage]
@@ -112,12 +104,8 @@ export function ProductsPage(){
 
     async function ImportStyles(type){
 
-        await import('./AdvancedProductsStyles.css')
+        await import('./css_files/AdvancedProductsStyles.css')
         
-    }
-
-    function GetCurrentLanguage(){
-
     }
 
     function UpdateLanguage(LanguageID){
@@ -133,7 +121,6 @@ export function ProductsPage(){
         link.type = 'text/css';
         link.href = 'https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/bootstrap.min.css';
         document.head.appendChild(link);
-        console.log(Base)
       }, []);
 
     React.useEffect(Main=>{
@@ -157,7 +144,6 @@ export function ProductsPage(){
         }else{
             Request_All_Products()
         }
-        console.log("Current language id is", LanguageState)
 
     }, [])
 
@@ -347,7 +333,7 @@ export function AdvancedProductCard(ProductDetails){
     }
     
     async function GetStyle(){
-        await import('./CustomButtonStyle.css')
+        await import('./css_files/CustomButtonStyle.css')
     }
 
 
@@ -502,7 +488,7 @@ export function SearchField(){
 
     React.useEffect(Main=>{
         async function GetStyle(){
-            await import('./SearchField.css')
+            await import('./css_files/SearchField.css')
         }
 
         GetStyle()
@@ -541,7 +527,7 @@ export function SearchField(){
 export function ErrorMessage(){
     
     return (<div id="ErrorWindow">
-        <h5 id="ErrorText">{localStorage.getItem('languageID') == 2 ? 'К сожалению, платежные системы еще не полностью интегрированы' : "Unfortunately, Payment Systems not fully Integrated Yet"}</h5>
+        <h5 id="ErrorText">{localStorage.getItem('languageID') === 2 ? 'К сожалению, платежные системы еще не полностью интегрированы' : "Unfortunately, Payment Systems not fully Integrated Yet"}</h5>
     </div>)
 
 }
@@ -594,7 +580,7 @@ export function ProfileWindow(){
     }
     
     async function getStyle(){
-        let obj = await import('./ProfileWindowStyles.scss');
+        let obj = await import('./css_files/ProfileWindowStyles.scss');
     }
 
     function Logout(){
@@ -612,9 +598,6 @@ export function ProfileWindow(){
         const emailElement = emailRef.current;
         const containerWidth = emailElement.offsetWidth;
         const textWidth = emailElement.scrollWidth;
-        console.log(emailElement)
-        console.log(containerWidth)
-        console.log(textWidth)
 
         if (textWidth > containerWidth) {
             const fontSize = containerWidth / textWidth * 18; // Adjust the initial font size (18px) based on the container width
@@ -623,7 +606,6 @@ export function ProfileWindow(){
 
         GetProfileDetails()
         getStyle()
-        console.log(ProfileInfos)
 
     }, [])
 
@@ -658,35 +640,6 @@ export function ProfileWindow(){
     )
 }
 
-export function SidebarButton(BtnProperties){
-
-    const CurrentAnimationNeededButton = useSelector(Main=>Main.SideBarButtons.BtnID)
-    const dispatch = useDispatch()
-    let letKnowRedux = SideBarButtonsState.actions.UpdateButtonState
-    const Animate = {backgroundColor:'#ffffff', animation: "squashstretch 1.4s ease-in-out 0s infinite alternate"}
-
-    const btnIndexes = {
-
-        1: <img id='CartIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Cart_ICON.png'/>,
-        2: <img id='UserIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/user_ICON.png'/>,
-        3: <img id='SupportIcon' src='https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/support_ICON.png'/>,
-        
-    }
-    
-
-    function ChangeState(){
-        dispatch(letKnowRedux(BtnProperties.index))
-    }
-
-    return (
-
-        <button onClick={ChangeState} style={CurrentAnimationNeededButton == BtnProperties.index ? Animate : null } id={`SideBarButton_${BtnProperties.index}`}>
-            {btnIndexes[BtnProperties.index]}
-        </button>
-
-    )
-
-}
 
 export function ErrorWindow(WindowProperties){
     return (
@@ -734,7 +687,7 @@ export function SidebarProductCard(ProductProperties){
     }
 
     return (        
-        //keys: id title price description image_url
+
         <div className="wrapper">
             <div className="container">
                 
@@ -776,78 +729,6 @@ export function SidebarProductCard(ProductProperties){
     )
 }
 
-export function Navbar(){
-    
-    const stateIndex = {
-        true: {backgroundColor:"white"},
-        false: {backgroundColor:"transparent"},
-    }
-
-    const focusStyle = {backgoundColor:""}
-    const [CartState, UpdateCartState] = React.useState([false, {backgroundColor:""}])
-    const Redirect = (Link) => window.location.href = `/${Link}`;
-
-    const ButtonStateChange = () => UpdateCartState(()=>{
-        const newState = [!CartState[0], stateIndex[!CartState[0]]]
-
-        return newState
-    }
-
-    )
-
-    async function getStyle(){
-        await import('./CustomNavbar.css');
-    }
-    getStyle()
-    const image_style = {borderStyle:'none', borderRadius:'28px', marginLeft:"20px",  height:'100%'}
-    return (
-
-            <div id="NavBarMain">
-                <img style={image_style} src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/topstore.jpg"/>
-                <button id="navbarOption"><a id="MainLink">Contact</a></button>
-                <button onClick={()=>Redirect("Home/")} id="navbarOption"><a id="MainLink">Home</a></button>
-                <button className="btn btn-primary" onClick={ButtonStateChange} style={CartState[1]} id="NavbarCart">
-                    
-                    <img id="NavbarCartIconArrow" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/LeftArrow_ICON.png"/>
-                    <img id="NavbarCartIcon" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/cartMain_ICON.png"/>
-                
-                </button>
-                
-                {CartState[0] ? <NavbarCartMenu/> : null}
-            </div>
-    
-    )
-
-}
-
-export function CustomCounter(){
-    
-    const CurrentValue = useSelector((Base) => Base.AdvancedCounter.CurrentValue)
-    const AddIn = CustomCounterBase.actions.Add_Or_ByFixedAmount
-    const AddOff = CustomCounterBase.actions.SubtractOne
-
-    const DispathAction = useDispatch()
-
-    function PerformingAction(isPositive){
-        
-        return DispathAction(AddIn([15, isPositive]))
-
-    }
-
-    return (
-
-        <div id="main">
-            
-            <div onClick={()=>PerformingAction(true)} id="LeftButton">+</div>
-                <div id="ValueHolder">  {CurrentValue}  </div>
-            <div onClick={()=>PerformingAction(false)} id="RightButton">-</div>
-
-        </div>
-
-    )
-
-}
-
 export function ProviderButton(BtnProperties){
 
     return (            
@@ -862,41 +743,10 @@ export function ProviderButton(BtnProperties){
 
 }
 
-export function Custom_HighEnd_Button(btnProps){
-
-    const style = {width:`${btnProps.width}px`}
-
-    const bottomize = {bottom:"0", position:"fixed", width:"89%",}
-    
-    return (
-
-        <div id={ btnProps.bottom ? "FocusedTypingExperience" : 'inputField'}>
-
-            <input id='TypeBox' type={"text"}/>
-
-            <button type="submit" id="CustomBootstrap">
-                <img id="TextingButtonImage" src={GetHost()+"/media/send_ICON.png"}/>
-            </button>
-
-        </div>
-
-    )
-} 
-
-export function ThirdWindow(){
-    return (
-
-        <div id="ThirdWindow">
-
-        </div>
-
-    )
-}
 
 export function AnimatedButton(ButtonProps){
     var [btnState, UpdateBtnState] = React.useState({initialImage:<img width='38px' height='37px' src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/add-cart.png"/>, loading:false}) 
     const CartAddRequestLink = (id)=>GetHost()+`/AdjustCartProducts/1/${id}/`
-    const ProductId = ButtonProps.id
     const DispatchMethodHandler = CartProducts.actions.UpdateButtonState
     const dispatch = useDispatch()
 
@@ -1007,29 +857,6 @@ export function AnimatedButton(ButtonProps){
 
 
 
-function GetProducts(single=false, id=0){
-
-    const dispatch = useDispatch()
-    const AddtoProducts = FetchedProductsBase.actions.UpdateProducts
-    const API_endpoint = GetHost()+`/GetProducts/${single ? id : "all"}`;
-
-
-    
-    React.useEffect(Main=>{
-
-        const request = fetch(API_endpoint).then(Main=>Main.json().then(Actual=>{
-            const Products = Actual.products
-            dispatch(AddtoProducts(Products))
-        }))
-
-    }, [])
-
-
-    const products = useSelector(Main=>Main.ProductsBase.RawProducts)
-    
-
-}
-
 export function ProductCard(CardProperties){
 
     const title = CardProperties.title
@@ -1088,17 +915,6 @@ export function ProductCard(CardProperties){
 
 }
 
-
-export function ChatTypingForm(){
-    return (
-        <div id='inputField'>
-            <input id="TypeBox" type="text"/>
-            <button type="button" class="btn btn-warning">Warning</button>
-        </div>
-    )
-}
-
-
 export function ProductDetailsLayer(LayerProperties){
 
     const component_adressed = {
@@ -1133,230 +949,10 @@ export function ProductDetailsLayer(LayerProperties){
 
 }
 
-export function ChatDialog(FormProperties){
-
-    const imageSide = FormProperties.Side == 'left' ? 'ProfileImageLeft' : 'ProfileImageRight'
-    const image_url = FormProperties.image_url
-    const text = FormProperties.text
-    const style = {
-        ProfileImageLeft: {
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            padding: '4px',
-            borderColor: 'rgb(196, 145, 145)',
-            borderWidth: '1px',
-            float: 'left',
-            backgroundPosition: 'center',
-          },
-          ProfileImageRight: {
-            borderRadius: '50%',
-            width: '40px',
-            height: '40px',
-            padding: '4px',
-            borderColor: 'rgb(196, 145, 145)',
-            borderWidth: '1px',
-            float: 'right',
-            backgroundPosition: 'center',
-          },
-          TextPlace: {
-            padding: '5px',
-            paddingLeft: '6px',
-            paddingBottom: '10px',
-            overflowY: 'visible',
-            color: 'white',
-            fontSize: '15px',
-          },
-          DiologElement: {
-            width: '200px',
-            minHeight: '60px',
-            borderRadius: '5px',
-            backgroundColor: FormProperties.staff ? 'rgb(255, 99, 71)' : 'rgb(66, 59, 59)',
-          },
-    }
-    const side = 'ProfileImage-' + FormProperties.Side
-
-    const Htmlcode = <div style={style['DiologElement']} id="DialogElement">
-                        <div id="imageFrame">
-                            <img style={style[imageSide]} width="50px" height="50px" src={image_url}/>
-                            <p id="TextPlace" style={style['TextPlace']}>{text}</p>
-                        </div>
-                    </div>
-
-    return Htmlcode
-}
-
-export function ChatForm(FormProperties){
-    var BoxReference = React.useRef(null)
-    const Messages = useSelector(Main=>Main.SupportStaff_Clients.AllMessages)
-    const MessagesPath = SupportStaffClients.actions.UpdateMessages
-    const ProfileInformation = useSelector(Main=>Main.Profile.ProfileDetails)
-    const dispatch = useDispatch()
-    const ChatLog = Messages.map((EachElement)=><ChatDialog Side={EachElement.SenderID == localStorage.getItem('TempID') ? 'left' : 'right'} staff={EachElement.SenderIsStaff} text={EachElement.message} image_url={EachElement.SenderIsStaff ? EachElement.StaffImage : EachElement.SenderImage}/>)    
-    
-    function ScrollDownToBottom(){
-        const ChatlogFrame = BoxReference.current
-        if (ChatlogFrame)
-            ChatlogFrame.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-    }
-    
-    async function GetMessages(){
-
-        var chatMessages = await fetch(GetHost()+'/GetClientMessages/'+localStorage.getItem('TempID'), {
-            method:'GET',
-            headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
-        })
-
-        const ParsedMessages = await chatMessages.json()
-        if (chatMessages.status == '200')
-            dispatch(MessagesPath(ParsedMessages.response))
-
-    }
-    
-    React.useEffect(()=>{
-        
-        GetMessages()
-
-    }, [])
-
-    React.useEffect(Main=>ScrollDownToBottom())
-
-    return (
-        
-        <div className="container">
-
-            <div className={FormProperties.focused ? "content-wrapperAltered" : "content-wrapper"}>
-
-                {/* <!-- Row start --> */}
-                <div className="row gutters">
-
-                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
-                        <div className="card m-0">
-
-                            <div className="row no-gutters">
-
-                                <div className="col-xl-8 col-lg-8 col-md-8 col-sm-9 col-9">
-                                    <div className="chat-container">
-                                        <ul ref={BoxReference} className="chat-box chatContainerScroll">
-                                            
-                                            {ChatLog.length == 0 ? <NoPayloadSignal message={'any questions?'}/> : ChatLog }
-                                            
-                                        <br/>
-                                        <br/>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* <!-- Row end --> */}
-                        </div>
-
-                    </div>
-
-                </div>
-                {/* <!-- Row end --> */}
-
-            </div>
-            {/* <!-- Content wrapper end --> */}
-
-        </div>
-    )
-}
-
-
-
-
-
-export function LeftSideMessage(MessageProperties){
-    const MessageCondition = {
-        left:   <li className="chat-left">
-                    <div className="chat-avatar">
-                        <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin"/>
-                        <div className="chat-name">Russell</div>
-                    </div>
-                    <div className="chat-text">Hello, I'm Russell.
-                        <br/>How can I help you today?</div>
-                    <div className="chat-hour">08:55 <span className="fa fa-check-circle"></span></div>
-                </li>,
-
-
-    right:  <li className="chat-right">
-                <div className="chat-hour">08:56 <span className="fa fa-check-circle"></span></div>
-                <div className="chat-text">Hi, Russell
-                    <br/> I need more information about Developer Plan.</div>
-                <div className="chat-avatar">
-                    <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin"/>
-                    <div className="chat-name">Sam</div>
-                </div>
-            </li>
-    }
-    return MessageCondition[MessageProperties.side]
-}
-
-function Admin_Inidicator_Button(ButtonProperties){
-
-    const MessagedUsers = useSelector(Main=>Main.SupportStaff_Clients.MessagedUsers)
-    const Base_Path = SupportStaffClients.actions.UpdateClickedButton
-    const ClickedBtn = useSelector(Main=>Main.SupportStaff_Clients.ClickedButtonID)
-    const clicked = ClickedBtn == ButtonProperties.id
-    const dispatch = useDispatch()
-    const messaged = MessagedUsers.includes(ButtonProperties.id)
-    const Indicator_style = {backgroundColor: messaged ? 'yellow' : 'blue'}
-    
-    const ChangeState = ()=>{
-
-        dispatch(Base_Path(ButtonProperties.id))
-        localStorage.setItem('SocketID', ButtonProperties.id)
-        window.location.pathname = `${window.location.pathname+String(ButtonProperties.id)}CW${localStorage.getItem('StaffID')}/`
-        
-    }
-
-    React.useEffect(Main=>{
-
-        const Mail_Icon_code = 'mail_icon' 
-        
-        async function GetBackendData(){
-            const url = GetHost()+`/GetIcon/${Mail_Icon_code}/`
-            const request = await fetch(url)
-            const response = await request.json()
-
-        }
-        GetBackendData()
-        
-    })
-    
-    return (
-
-        <div>
-            <div onClick={ChangeState} id="IndicatorStyle" style={Indicator_style}>
-                <p id="InidicatorText">User {ButtonProperties.id}</p>
-            </div>  
-        </div>
-
-    )
-
-}
-
-
-export function ConsumerChatDialog(ElementProperties){
-    const RightSide =    <div class="d-flex flex-row p-3">
-                            <div class="bg-white mr-2 p-3"><span class="text-muted">Hello and thankyou for visiting .</span></div>
-                            <img src="https://img.icons8.com/color/48/000000/circled-user-male-skin-type-7.png" width="30" height="30"/>
-                        </div>
-    
-    const LeftSide =    <div class="d-flex flex-row p-3">
-                            <img src="https://img.icons8.com/color/48/000000/circled-user-female-skin-type-7.png" width="30" height="30"/>
-                            <div class="chat ml-2 p-3">Hello and thankyou for visiting. Please click the video above</div>
-                        </div>
-    return (
-        ElementProperties.Side == 'left' ? LeftSide : RightSide
-    )   
-}
-
 export function CreateChatDialog(side, first_name=null, last_name=null, image_url=null, message=null, Custom=false){
     async function getConsumerChatStyles(){
         
-        await import('./ConsumerChatStyles.css');
+        await import('./css_files/ConsumerChatStyles.css');
         
     }
     getConsumerChatStyles()
@@ -1434,11 +1030,9 @@ export function StaffClientsMonitor(ComponentProperties){
 
     async function getStyle(){
         
-        await import('./AdminChatStyles.css');
+        await import('./css_files/AdminChatStyles.css');
         
     }
-
-    const ClickedID = GetUserID()
 
     const processedMessages = AllMessages.map(Each=>{
         const ClientID = localStorage.getItem('ConnectingClient')
@@ -1534,19 +1128,16 @@ export function AdminChatBox(WindowProperties){
     localStorage.removeItem('SocketID')
 
     const ClientID_base = useSelector(Main=>Main.SupportStaff_Clients.Client_IDs)
-    const Trigger = useSelector(Main=>Main.SupportStaff_Clients.SendTriggered)
     const MessagedUsers = useSelector(Main=>Main.SupportStaff_Clients.MessagedUsers)
     const Base_Path = SupportStaffClients.actions.UpdateClients
-    const UpdateText = SupportStaffClients.actions.UpdateStaffText
     const MessagedUsersBase = SupportStaffClients.actions.Update_Messaged_Users
-    const TriggerSend = SupportStaffClients.actions.TriggerSend
-    const ClickedID = useSelector(Main=>Main.SupportStaff_Clients.ClickedButtonID)
+
 
     const dispatch = useDispatch()
 
     async function getStyle(){
         
-        await import('./AdminChatStyles.css');
+        await import('./css_files/AdminChatStyles.css');
         
     }
 
@@ -1621,16 +1212,6 @@ export function AdminChatBox(WindowProperties){
 
 }
 
-export function SeperateContactMode(){
-    return (
-        <div id="MoreFocusedChat">
-
-            <ChatForm focused={true}/>
-            <Custom_HighEnd_Button bottom={true}/>
-
-        </div>
-    )
-}
 
 function CartItemForm(ItemProperties){
 
@@ -1648,7 +1229,7 @@ function CartItemForm(ItemProperties){
     }
 
     const image_url = ItemProperties.image_url
-    const RemoveFromCart = (id)=>{console.log(id, " removed from database!")}
+    const RemoveFromCart = (id)=>{}
 
     const RemoveRequestHandler = (id)=>{
         const link = GetHost()+`/AdjustCartProducts/0/${id}/`
@@ -1685,54 +1266,6 @@ function CartItemForm(ItemProperties){
         </div>
 
     )
-}
-
-
-export function NavbarCartMenu(){
-    const DispatchHandler = CartProducts.actions.UpdateButtonState
-    const UpdateCartProducts = useDispatch(DispatchHandler)
-    // async function GetStyles(){
-    //     await import('./Cart.css')
-    // }
-    React.useState(Main=>{
-        async function RequestData(){
-            const request = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
-            if (request.status == 200){
-                const request = await fetch(GetHost()+"/GetUsersCardProducts/", {
-                    headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
-                })
-                const rawData = await request.json()
-                UpdateCartProducts(DispatchHandler(rawData.result))
-                return rawData.result
-            }
-            else{
-                window.location.pathname = '../login/'
-            }
-        }    
-
-        RequestData()
-        // GetStyles()
-    }, [])
-
-    const Products = useSelector(Main=>Main.UserCartProducts.Products)
-    const TrashIconLink = useSelector(Main=>Main.UserCartProducts.TrashIcon)
-    const host = window.location.host
-
-
-    
-    const processedProducts = Products.map(each=><CartItemForm TrashIcon={TrashIconLink} title={each.title} id={each.id} key={each.id} price={each.price} description={each.description} image_url={each.image}/>)
-    
-    return (
-        
-        <div id="CartMenu">
-
-    {/* <GetCartProducts/>   */}
-            {processedProducts[0] ? processedProducts : <NoPayloadSignal message={"No Products Yet"}/>}
-
-        </div>
-
-    )
-
 }
 
 export function ChatComponent(ResponseProperties){
@@ -1774,7 +1307,7 @@ export function UserThread(ObjectProperties){
     const messaged = MessagedUsers.includes(ObjectProperties.id)
     async function getStyle(){
           
-      await import('./UsersMonitoring_Styles.css');
+      await import('./css_files/UsersMonitoring_Styles.css');
       
     }
 
@@ -1823,57 +1356,8 @@ export function UserThread(ObjectProperties){
   }
 
 
-   // ###########################################################################################################################
-    // ###########################################################################################################################
-    // ###########################################################################################################################
-    // ###########################################################################################################################
-    class ShadowDOMComponent extends Component {
-        constructor(props) {
-          super(props);
-          this.PageRef = React.createRef();
-        }
-
-        // async GetallStyles() {
-        //     await import('./HomePage/assets/css/main.css');
-        // }
-      
-        async componentDidMount() {
-
-          const shadowRoot = this.PageRef.current.attachShadow({ mode: 'open' });
-          shadowRoot.innerHTML = `
-
-          `
-        }
-      
-        render() {
-            import('./HomePage/assets/css/main.css')
-            .then((cssModule) => {
-              // Create a <style> element and set its content to the imported CSS module
-              const style = document.createElement('style');
-              style.textContent = cssModule.default;
-              this.shadowRoot.appendChild(style);
-            })
-            .catch((error) => {
-              console.error('Error loading CSS file:', error);
-            });
-          return (      
-            <div ref={this.PageRef}>
-                
-            </div>
-          );
-        }
-      }
-
-    // ###########################################################################################################################
-    // ###########################################################################################################################
-    // ###########################################################################################################################
-    // ###########################################################################################################################
-
-
-
 export function IntroHomePage(){
-    
-    const PageRef = React.useRef()
+
     var [images, Update_images] = React.useState([])
     async function GetImages(){
 
@@ -1897,10 +1381,6 @@ export function IntroHomePage(){
         GetImages()
         
     }, [])
-
-    React.useEffect(Main=>{
-
-    }, [images])
 
     return (
 
@@ -1935,11 +1415,6 @@ export function IntroHomePage(){
         </div>
 
         <div className="col-5 col-12-medium">
-
-            {/* <ul>
-                <img id="arrowSignal" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Curved_Arrow.svg/640px-Curved_Arrow.svg.png"/>
-                <li><a href="../Main/" className="button large icon solid fa-arrow-circle-right">Go Find out what we have</a></li>
-            </ul> */}
             
         </div>
         </div>
@@ -2106,12 +1581,9 @@ export function IntroHomePage(){
 export function SideBarAdvanced() {
 
     const languagePack = useSelector(Main=>Main.LanguagePack)
-    const languageUpdatePath = WebsiteTranslationPack.actions.Update_Language
     const SideBarLanguagePack = languagePack.sidebar
     const LanguageState = useSelector(Main=>Main.LanguagePack.selected_language)
-    const selectedLanguage = LanguageState == 2 ? 'russian' : 'english'
-    const dispatch = useDispatch()
-    
+    const selectedLanguage = LanguageState === 2 ? 'russian' : 'english'
     const containerRef = React.useRef(null);
     const navRef = React.useRef(null);
     const [clickedButton, Update_clickedButton] = React.useState(1)
@@ -2125,7 +1597,7 @@ export function SideBarAdvanced() {
         const UpdateCartProducts = useDispatch()
         
         async function getStyle(){
-            await import('./SideBarProductsStyles.scss');
+            await import('./css_files/SideBarProductsStyles.scss');
         }
 
         React.useEffect(Main=>{
@@ -2172,13 +1644,13 @@ export function SideBarAdvanced() {
         async function GetProfileDetails(){
 
             const request = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
-            if (request.status==200){
-                const UserDetailsRequest = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
+            if (request.status===200){
+                // const UserDetailsRequest = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
                 const request = await fetch(GetHost()+'/Get_UserInfo/', {
                     method: 'GET',
                     headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
                 })
-                if (request.status==200){
+                if (request.status===200){
                     const parsedData = await request.json()
                     dispatch(ProfileUpdatePath(parsedData.response))
                 }
@@ -2191,7 +1663,7 @@ export function SideBarAdvanced() {
         }
 
         async function getStyle(){
-            let obj = await import('./ProfileWindowStyles.scss');
+            let obj = await import('./css_files/ProfileWindowStyles.scss');
         } 
 
         function Logout(){
@@ -2212,8 +1684,6 @@ export function SideBarAdvanced() {
         }, [])
     
         const Style = {width:'60px', height:'60px', borderRadius:'50%',}
-        const SmallerText = {fontSize: '12px'}
-        const BiggerText = {fontSize: '15px'}
             
         return (
 
@@ -2224,7 +1694,7 @@ export function SideBarAdvanced() {
                 </div>
                 
                 <h1>
-                    {localStorage.getItem("languageID") == 1 ? "Profile" : 'Профиль'}
+                    {localStorage.getItem("languageID") === 1 ? "Profile" : 'Профиль'}
                 </h1>
                 
                 <div className="description">
@@ -2247,12 +1717,11 @@ export function SideBarAdvanced() {
     function Support_Window(){
 
         const socketRef = React.useRef(null);
-        const CurrentAnimationNeededButton = useSelector(Main=>Main.SideBarButtons.BtnID)
         const MessagesPath = SupportStaffClients.actions.UpdateMessages
         const Messages = useSelector(Main=>Main.SupportStaff_Clients.AllMessages)
         const AddToExistingBase = SupportStaffClients.actions.UpdateExistingMessages
         const dispatch = useDispatch()
-        const SocketProtocol = window.location.protocol == "https:" ? 'wss://' : 'ws://'
+        const SocketProtocol = window.location.protocol === "https:" ? 'wss://' : 'ws://'
         const userdataField = React.useRef()
         const SendButton = React.useRef()
         const responseWindowRef = React.useRef(null);
@@ -2289,7 +1758,6 @@ export function SideBarAdvanced() {
             if (responseWindowRef.current) {
               setTimeout(() => {
                 window.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-                console.log('scrolled!')
               }, 66);
             }
         }
@@ -2305,7 +1773,7 @@ export function SideBarAdvanced() {
             socket.onmessage = (BaseData)=>{
                 
                 const response = JSON.parse(BaseData.data)
-                if (response.status == 500){
+                if (response.status === 500){
                     window.location.pathname = '../login'
                 }
 
@@ -2330,14 +1798,14 @@ export function SideBarAdvanced() {
             socketRef.current = socket;
             const handleKeyPress = (event) => {
 
-                if (event.key == 'Enter'){
+                if (event.key === 'Enter'){
                     SendButton.current.click()
                 }
                 
             };
 
             async function getStyle(){
-                await import('./UserChatStyles.css')
+                await import('./css_files/UserChatStyles.css')
             }
             
             getStyle()
@@ -2354,7 +1822,7 @@ export function SideBarAdvanced() {
             <div id="MainChatBar">
                 <ul className="chat-list">
                     <div className="ResponsesWindow" ref={responseWindowRef}>
-                        {processedMessages.length == 0 ? <div id="QuestionAlert">{SideBarLanguagePack[selectedLanguage][4]}</div> : processedMessages}
+                        {processedMessages.length === 0 ? <div id="QuestionAlert">{SideBarLanguagePack[selectedLanguage][4]}</div> : processedMessages}
                     </div>
                 </ul>
                 <li id="TextFormField">
@@ -2376,7 +1844,7 @@ export function SideBarAdvanced() {
     
     React.useEffect(() => {
       async function GetallStyles() {
-        await import('./AdvancedSideBar.css');
+        await import('./css_files/AdvancedSideBar.css');
       }
       GetallStyles();
     });

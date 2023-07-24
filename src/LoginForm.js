@@ -13,7 +13,7 @@ function AccountLoginRegisterform(){
 
 
     async function getStyle(){
-        let obj = await import('./loginForm.css');
+        let obj = await import('./css_files/loginForm.css');
     }
 
     getStyle()
