@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import React from 'react';
-import { ProductsPage, IntroHomePage, ErrorMessage, StaffClientsMonitor, AdminChatBox, SidebarProductCard, GetHost } from "./components";
+import IntroHomePage from './homepage';
+import { ProductsPage, ErrorMessage, StaffClientsMonitor, AdminChatBox, SidebarProductCard, GetHost } from "./components";
 import AccountLoginRegisterform from "./LoginForm";
 import { Provider } from 'react-redux'
 import { CartProducts, } from "./features/counter/ReduxBase";
@@ -8,11 +9,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { store } from "./app/store";
 
-
 const container = document.getElementById('root');
 const root = createRoot(container);
-
-
 
 function MainPageArrangement(WindowProperties){
   
@@ -107,7 +105,6 @@ function PaymentWindow(){
 
 root.render(
   <Provider store={store}>
-
     <BrowserRouter>
 
       <Routes>

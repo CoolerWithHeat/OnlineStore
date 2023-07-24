@@ -47,7 +47,7 @@ export function ProductsPage(){
     const SearchInputField = React.useRef(null)
     const SearchButton = React.useRef(null)
     const language_details = [selectedLanguage == "english" ? <img id="USA-flag" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/USA.jpg" className="mr-2" alt="flag"/> :  <img id="RUSSIA-flag" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Russia.jpg" className="mr-2" alt="flag"/>, selectedLanguage]
-    
+    var [cssLoaded, Update_Css_status] = React.useState(false) 
 
     const handleClickLogic =  () => {
         const CartButton = document.getElementsByClassName("round-button-1")
@@ -104,7 +104,10 @@ export function ProductsPage(){
 
     async function ImportStyles(type){
 
-        await import('./css_files/AdvancedProductsStyles.css')
+        const cssLoads = await import('./css_files/AdvancedProductsStyles.css')
+        if (cssLoads)
+            Update_Css_status(Main=>true)
+        
         
     }
 
@@ -148,7 +151,7 @@ export function ProductsPage(){
     }, [])
 
     const imageStyle = {width:"270px", height:"160px"}
-    
+    if (cssLoaded)
     return (
         <div>
         <div className="banner_bg_main">
@@ -549,11 +552,11 @@ export function BottomLine(CheckProperties){
     if(Bottom_Line > 0)
         return (
             <button onClick={()=>Redirect('Payment')} id="BottomLine">{localStorage.getItem('languageID') == 2 ? "Отплатить" : "Pay off"}: ${Bottom_Line}</button>
-        )
+    )
     
     return (
             <button id="BottomLine">{CheckProperties.translated_text}</button>
-        )    
+    )    
 }
 
 export function ProfileWindow(){
@@ -1356,226 +1359,6 @@ export function UserThread(ObjectProperties){
   }
 
 
-export function IntroHomePage(){
-
-    var [images, Update_images] = React.useState([])
-    async function GetImages(){
-
-        const images = await fetch(GetHost()+'/GetIcon/MainPageImages/ForMainPage/')
-        const response = await images.json()
-        Update_images(Main=>response.MainPageImages)
-
-    }
-    
-    const RedirectToMainPage = ()=> setTimeout(() => {
-        window.location.pathname='../Main'
-    }, 333);
-
-    async function GetallStyles(){
-        await import('./HomePage/assets/css/main.css')
-    } 
-
-    React.useEffect(Main=>{
-      
-        GetallStyles()
-        GetImages()
-        
-    }, [])
-
-    return (
-
-        <div >
-          <div  id="page-wrapper">
-
-        <div id="header-wrapper">
-        <header id="header" className="container">
-
-        <div id="logo">
-        <h1><a>TopStore</a></h1>
-        <span>By Mansur</span>
-        </div>
-
-        <nav id="nav">
-        <ul>
-            <li><a>Fully Developed and Maintained By Mansur Davlatov</a></li>
-        </ul>
-        </nav>
-
-        </header>
-        </div>
-
-        <div id="banner-wrapper">
-        <div id="banner" className="box container">
-        <div className="row">
-        
-        <div className="col-7 col-12-medium">
-            <h2>Welcome !</h2>
-                <img id="arrowSignal" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/curve-down-arrow.png"/>
-                <button onClick={RedirectToMainPage} id="RedirectButton">Find the Best Laptop For Yourself!</button>
-        </div>
-
-        <div className="col-5 col-12-medium">
-            
-        </div>
-        </div>
-        </div>
-        </div>
-
-        <div id="features-wrapper">
-        <div className="container">
-        <div className="row">
-        <div className="col-4 col-12-medium">
-
-            <section className="box feature">
-            <a className="image featured"><img src={images[0]} alt="" /></a>
-            <div className="inner">
-                <header>
-                <h2>Dell XPS Premium Laptops</h2>
-  
-                </header>
-                <p>Dell has been one of the top premium laptop manifacturers today and as well as our business sponsor!</p>
-            </div>
-            </section>
-
-        </div>
-        <div className="col-4 col-12-medium">
-
-
-            <section className="box feature">
-            <a className="image featured"><img src={images[1]} alt="" /></a>
-            <div className="inner">
-                <header>
-                <h2>HP Spectre x360 series</h2>
-     
-                </header>
-                <p>Introducing the extraordinary HP Spectre x360 with the groundbreaking Ryzen 6000 series CPU! Prepare to be amazed by its unparalleled performance and unrivaled versatility</p>
-            </div>
-            </section>
-
-        </div>
-        <div className="col-4 col-12-medium">
-
-            <section className="box feature">
-            <a className="image featured"><img src={images[2]} alt=""/></a>
-            
-            <div className="inner">
-                <header>
-                    <h2>Oh, and finally ...</h2>
-                    <p>Dell's Latest Alienware Gaming Laptops</p>
-                </header>
-                    <p>Get ready to immerse yourself in the world of high-octane gaming with the Alienware m18's powerful Intel's 13th Gen series CPU </p>
-            </div>
-            
-            </section>
-
-        </div>
-        </div>
-        </div>
-        </div>
-
-
-        <div id="main-wrapper">
-        <div className="container">
-        <div className="row gtr-200">
-        <div className="col-4 col-12-medium">
-
-
-            <div id="sidebar">
-            <section className="widget thumbnails">
-
-                <button className="btn btn-secondary"> About Mansur Davlatov</button>
-                <div className="grid">
-            
-                </div>
-
-            </section>
-            </div>
-
-        </div>
-        <div className="col-8 col-12-medium imp-medium">
-
-            <div id="content">
-            <section className="last">
-                <h2>So what's all about me?</h2>
-                <p>
-                    This Website,  
-                    <strong> TopStore</strong>, is fully developed by me using <strong>html</strong>, <strong>css</strong>, <strong>javascript/React</strong>, <strong>Python/Django </strong> 
-                    as well as <strong>Django Rest Framework</strong> toolkit specifically designed for django as a part of back-end functionality. 
-                    You can explore the whole application experience once you click blue button on the top. 
-                    My full name is Mansur Davlatov Sheralliyevich, born in 2004, currently sophomore student of Information Management Systems at Webster University</p>
-                    <strong>Contact: +1 347 588 7492</strong>
-                    <br/>
-                        or
-                    <br/>
-                    <strong>Contact: +998 99 045 17 68</strong>
-                    
-            </section>
-            </div>
-
-        </div>
-        </div>
-        </div>
-        </div>
-
-        <div id="footer-wrapper">
-        <footer id="footer" className="container">
-        <div className="row">
-        <div className="col-3 col-6-medium col-12-small">
-
-        </div>
-        <div className="col-3 col-6-medium col-12-small">
-
-        </div>
-        <div className="col-3 col-6-medium col-12-small">
-
-        </div>
-
-        <div className="col-3 col-6-medium col-12-small">
-
-
-            <section className="widget contact last">
-            <h3>Contact Me</h3>
-            <ul>
-                <li><a className="icon brands fa-twitter"><span className="label">Twitter</span></a></li>
-                <li><a className="icon brands fa-facebook-f"><span className="label">Facebook</span></a></li>
-                <li><a className="icon brands fa-instagram"><span className="label">Instagram</span></a></li>
-                <li><a className="icon brands fa-dribbble"><span className="label">Dribbble</span></a></li>
-                <li><a className="icon brands fa-pinterest"><span className="label">Pinterest</span></a></li>
-            </ul>
-            <p>Abay Street, 16A<br />
-                Tashkent, Shaykhontoxur<br />
-                <strong>Contact: +998 99 045 17 68</strong>, only for phone calls</p>
-                
-                <br/> 
-                <strong>Contact: +1 347 588 7492 </strong>,  for both phone calls and messangers like Telegram or whatsApp
-            </section>
-
-        </div>
-
-        </div>
-        <div className="row">
-            <div className="col-12">
-
-
-                <section className="widget blurbs">
-                <h3>About</h3>
-                <p>Explore the best laptops you could find in the current tech industry, while being cheap as it is, our service also features free delivery if you do a purchase worth of over $999, so make sure you do not miss out this opportunity !</p>
-                </section>
-
-            </div>
-        </div>
-        <div className="row">
-            <div className="col-12">
-                
-            </div>
-        </div>
-        </footer>
-        </div>
-
-        </div>
-</div>
-    );
-}
 
 
 export function SideBarAdvanced() {
@@ -1588,17 +1371,26 @@ export function SideBarAdvanced() {
     const navRef = React.useRef(null);
     const [clickedButton, Update_clickedButton] = React.useState(1)
 
-
-
-
     function Cart_Products_Window(){
 
+        const CartWindow = React.useRef(null)
         const DispatchHandler = CartProducts.actions.UpdateButtonState
         const UpdateCartProducts = useDispatch()
-        
+        const responseWindowRef = React.useRef(null);
+
+
+        function scrollToBottom() {
+            const window = responseWindowRef.current
+            if (responseWindowRef.current) {
+              setTimeout(() => {
+                window.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+              }, 66);
+            }
+        }
         async function getStyle(){
             await import('./css_files/SideBarProductsStyles.scss');
         }
+
 
         React.useEffect(Main=>{
 
@@ -1609,6 +1401,7 @@ export function SideBarAdvanced() {
                 const request = await fetch(GetHost()+"/GetUsersCardProducts/", {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
                 const rawData = await request.json()
                 UpdateCartProducts(DispatchHandler(rawData.result))
+                scrollToBottom()
                 return rawData.result
 
             }
@@ -1623,13 +1416,19 @@ export function SideBarAdvanced() {
         
         const processedProducts = Products.map(each=><SidebarProductCard TrashIcon={TrashIcon} title={each.title} id={each.id} key={each.id} price={each.price} description={each.description} image_url={each.image} gpu={each.GPU_details} cpu={each.CPU_details} panel={each.Panel_details} ram={each.RAM_details}/>)
        
-        return (
-
-            <div id='SidebarCart'>
-                {processedProducts}
-                <BottomLine translated_text={SideBarLanguagePack[selectedLanguage][1]}/>
-                <br/>
-                <br/>
+        return (  
+            
+            <div id="MainChatBar">
+                <ul className="chat-list">
+                    <div className="ResponsesWindow" ref={responseWindowRef}>
+                        {processedProducts}
+                        <br/>
+                        <br/>
+                    </div>
+                </ul>
+                <li id="TextFormField">
+                    <BottomLine translated_text={SideBarLanguagePack[selectedLanguage][1]}/>
+                </li>
             </div>
 
         )
@@ -1645,8 +1444,7 @@ export function SideBarAdvanced() {
 
             const request = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
             if (request.status===200){
-                // const UserDetailsRequest = await fetch(GetHost()+'/Authentication_Check/', {headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}})
-                const request = await fetch(GetHost()+'/Get_UserInfo/', {
+               const request = await fetch(GetHost()+'/Get_UserInfo/', {
                     method: 'GET',
                     headers: {Authorization: `Token ${localStorage.getItem('WebKey')}`}
                 })
@@ -1725,6 +1523,7 @@ export function SideBarAdvanced() {
         const userdataField = React.useRef()
         const SendButton = React.useRef()
         const responseWindowRef = React.useRef(null);
+        
         function sendToSocket() {
             const userInput = userdataField.current.value;
             if (userInput) {

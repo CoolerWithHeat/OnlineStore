@@ -9,6 +9,18 @@ body{
 	background-color: rgba(255, 38, 0, 0.596);
 }
 
+
+#LoadingWindow{
+
+	display: inline-block;
+	left: 38%;
+	top: 40%;
+	height: 25%;
+	position: relative;
+
+}
+
+
 .form-control{
 	width: 70%;
 	height: 30px;

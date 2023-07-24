@@ -5,6 +5,17 @@ import firebaseConfig from "./firebase";
 import { initializeApp, registerVersion } from "firebase/app";
 import jwtDecode from 'jwt-decode'
 import { json } from "react-router-dom";
+import {ClipLoader} from 'react-spinners'
+
+
+export function LoadingWindow(){
+
+    return (
+        
+        <ClipLoader size={90} color="white" />
+
+    ) 
+}
 
 function AccountLoginRegisterform(){
     const LoginButton = React.useRef() 
@@ -23,8 +34,14 @@ function AccountLoginRegisterform(){
     var [ErrorState, UpdateErrorState] = React.useState(false)
     const app = initializeApp(firebaseConfig)
     const auth = getAuth(app)
-    React.useEffect(() => {
+    var [authenticationTriggered, Update_auth_status] = React.useState(false)
 
+    React.useEffect(() => {
+        if(localStorage.getItem('authenticationTriggered')){
+            
+            Update_auth_status(Main=>true)
+
+        }
         getRedirectResult(auth)
             .then((ProviderResponse) => {
                 if (ProviderResponse){
@@ -43,7 +60,9 @@ function AccountLoginRegisterform(){
                         if (Main.status === 200) {
                             Main.json().then(UserCreds=>{
                                 localStorage.setItem('WebKey', UserCreds.token)
-                                return window.location.pathname = '../Main'
+                                return setTimeout(() => {
+                                    window.location.pathname = '../Main'
+                                }, 333);
                             })
                         }
                         
@@ -60,8 +79,13 @@ function AccountLoginRegisterform(){
 
       }, []);
 
+      React.useEffect(Main=>{
+
+        console.log(authenticationTriggered)
+      })
+
     const StartOauth2Authentication = (AuthType) => {
-        
+        localStorage.setItem('authenticationTriggered', true)
         if (AuthType === 'google') {
             const googleProvider = new GoogleAuthProvider();
             signInWithRedirect(auth, googleProvider);
@@ -258,8 +282,17 @@ function AccountLoginRegisterform(){
     function ChangeOpenedWindow(){
         Update_openedWindow(Main=>!LoginWindow)
     }
-
-        return (
+        if (authenticationTriggered){
+            localStorage.removeItem('authenticationTriggered')
+            return (
+                <div className="main">
+                    <div id="LoadingWindow">
+                        <LoadingWindow/>
+                    </div>
+                </div>
+            )}
+        else
+            return (
             <div className="main">  	
             
                 <input type="checkbox" id="chk" aria-hidden="true"/>
