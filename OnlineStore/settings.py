@@ -72,13 +72,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'ProductsBase.https_middleware.HttpsMiddleware',
 ]
 
 ROOT_URLCONF = 'OnlineStore.urls'
 
 
-DEBUG = True
+# DEBUG = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
@@ -130,6 +129,8 @@ CORS_ALLOWED_ORIGINS = [
     # 'http://localhost:3000'
 
 ]
+
+# CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Password validation

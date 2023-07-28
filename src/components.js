@@ -23,7 +23,8 @@ export function GetHost(WithProtocol=true){
             return 'http://localhost:8000' 
         else    
             return url
-    }else{
+    }
+    else{
         const url = window.location.host
         if (url === "localhost:3000")
             return 'localhost:8000' 
@@ -44,7 +45,7 @@ export function ProductsPage(){
     const SearchProductsUpdatePath =  ResultProductsBase.actions.StoreProducts
     const ProductsUpdatePath =  ProductsBase.actions.StoreProducts
     const dispatch = useDispatch()
-    const SearchInputField = React.useRef(null)
+    const SearchInputField = React.useRef()
     const SearchButton = React.useRef(null)
     const language_details = [selectedLanguage == "english" ? <img id="USA-flag" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/USA.jpg" className="mr-2" alt="flag"/> :  <img id="RUSSIA-flag" src="https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/Russia.jpg" className="mr-2" alt="flag"/>, selectedLanguage]
     var [cssLoaded, Update_Css_status] = React.useState(false) 
@@ -142,7 +143,7 @@ export function ProductsPage(){
         ImportStyles()
 
         if (GetSearchKey()){
-            SearchInputField.current.value = GetSearchKey()
+            
             GetProducts(GetSearchKey())
         }else{
             Request_All_Products()
@@ -152,6 +153,7 @@ export function ProductsPage(){
 
     const imageStyle = {width:"270px", height:"160px"}
     if (cssLoaded)
+    SearchInputField.current.value = GetSearchKey()
     return (
         <div>
         <div className="banner_bg_main">
