@@ -165,8 +165,6 @@ class Authentication(APIView):
             'Facebook': FacebookResponseParser,
         
         }
-        # print(data)
-        # return Response({'success': True}, status=500)
 
         Auth_type = 'Facebook' if data.get('facebook', None) else 'Google' if data.get('google', None) else 'Custom-Authentication'
 

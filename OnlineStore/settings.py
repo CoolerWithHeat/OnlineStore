@@ -123,6 +123,7 @@ DATABASES = {
 CORS_ALLOWED_ORIGINS = [
 
     'https://www.mansurdev.store',
+    'https://online--store-afe40c94a79d.herokuapp.com',
     # 'http://www.mansurdev.store',
     # 'http://localhost:8000',
     # 'http://127.0.0.1:8000',
