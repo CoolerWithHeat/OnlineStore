@@ -16,7 +16,6 @@ import random, string
 
 def download_image(url, filename, save_to='/TemporaryStorage/'):
     response = requests.get(url)
-    print(url, filename)
     with open(save_to + filename, 'wb') as f:
         f.write(response.content)
 
