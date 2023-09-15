@@ -120,17 +120,17 @@ DATABASES = {
     'default': dj_database_url.config(default='sqlite:///db.sqlite3')
 }
 
-CORS_ALLOWED_ORIGINS = [
+# CORS_ALLOWED_ORIGINS = [
 
-    'https://www.mansurdev.store',
-    # 'http://www.mansurdev.store',
-    # 'http://localhost:8000',
-    # 'http://127.0.0.1:8000',
-    # 'http://localhost:3000'
+#     'https://www.mansurdev.store',
+#     # 'http://www.mansurdev.store',
+#     # 'http://localhost:8000',
+#     # 'http://127.0.0.1:8000',
+#     # 'http://localhost:3000'
 
-]
+# ]
 
-# CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 
 # Password validation
