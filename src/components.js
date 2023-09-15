@@ -24,6 +24,7 @@ export function GetHost(WithProtocol=true){
         else    
             return url
     }
+
     else{
         const url = window.location.host
         if (url === "localhost:3000")
