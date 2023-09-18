@@ -1,10 +1,11 @@
-
 import React from 'react';
 import { GetHost } from './components' 
 
 function IntroHomePage(){
+
     const [cssLoaded, setCssLoaded] = React.useState(false);
     var [images, Update_images] = React.useState([])
+
     async function GetImages(){
 
         const images = await fetch(GetHost()+'/GetIcon/MainPageImages/ForMainPage/')
@@ -28,12 +29,13 @@ function IntroHomePage(){
         GetImages()
         
     }, [])
+    
     if (cssLoaded)
 
     return (
 
         <div >
-          <div  id="page-wrapper">
+        <div  id="page-wrapper">
 
         <div id="header-wrapper">
         <header id="header" className="container">
@@ -79,7 +81,7 @@ function IntroHomePage(){
             <div className="inner">
                 <header>
                 <h2>Dell XPS Premium Laptops</h2>
-  
+
                 </header>
                 <p>Dell has been one of the top premium laptop manifacturers today and as well as our business sponsor!</p>
             </div>
@@ -94,7 +96,7 @@ function IntroHomePage(){
             <div className="inner">
                 <header>
                 <h2>HP Spectre x360 series</h2>
-     
+    
                 </header>
                 <p>Introducing the extraordinary HP Spectre x360 with the groundbreaking Ryzen 6000 series CPU! Prepare to be amazed by its unparalleled performance and unrivaled versatility</p>
             </div>

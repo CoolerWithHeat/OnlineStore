@@ -1,38 +1,4 @@
-/* body{
-    background:#eee;    
-}
-.chat-list {
-    padding: 0;
-    font-size: .8rem;
-}
- */
 
-/* export function CreateChatDialog(side, first_name=null, last_name=null, image_url=null, message=null, Custom=false){
-    if (side == 'right')
-        return  <li className="in">
-                    <div className="chat-img">
-                        <img alt="Avtar" src={image_url}/>
-                    </div>
-                    <div className="chat-body">
-                        <div className="chat-message">
-                            <h5>{first_name} {last_name}</h5>
-                            <p>{message ? message : 'No Message'}</p>
-                        </div>
-                    </div>
-                </li>
-    else
-        return  <li className="out">
-                    <div className="chat-img">
-                        <img alt="Avtar" src={image_url}/>
-                    </div>
-                    <div className="chat-body">
-                        <div className="chat-message">
-                            <h5>{first_name} {last_name}</h5>
-                            <p>{message ? message : 'No Message'}</p>
-                        </div>
-                    </div>
-                </li>
-} */
 
 @media (min-width:450px){
     #IndicatorStyle{

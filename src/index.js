@@ -21,7 +21,6 @@ function MainPageArrangement(WindowProperties){
 
       <ProductsPage/>
       
-
     </div>
     
   )
@@ -29,7 +28,7 @@ function MainPageArrangement(WindowProperties){
 }
 
 function PaymentWindow(){
-
+    
   const DispatchHandler = CartProducts.actions.UpdateButtonState
   const Bottom_Line = useSelector(Main=>Main.UserCartProducts.BottomLine)
   const UpdateCartProducts = useDispatch()
@@ -39,8 +38,10 @@ function PaymentWindow(){
   const [PaymentID, Update_PaymentID] = React.useState(1)
   
   async function getStyle(){
+    
     await import('./css_files/PaymentDropDown.css');
     await import('./css_files/SideBarProductsStyles.scss');
+
   }
 
   React.useEffect(Main=>{
@@ -104,6 +105,7 @@ function PaymentWindow(){
 }
 
 root.render(
+  
   <Provider store={store}>
     <BrowserRouter>
 

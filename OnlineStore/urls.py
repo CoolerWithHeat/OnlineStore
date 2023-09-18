@@ -35,4 +35,4 @@ urlpatterns = [
     path('Contact/', CentralCore),
     path('Authentication_Check/', Check_User_Authenticity),
     re_path(r'^.*/$', RedirectView.as_view(pattern_name='home'), name='catch-all'),
-] 
+]

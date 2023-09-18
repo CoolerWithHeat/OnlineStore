@@ -15,7 +15,6 @@ export const Get_Static_Url = (filename)=>{
 }
 
 export function GetHost(WithProtocol=true){
-
     
     if (WithProtocol){
         const url = window.location.protocol + '//' + window.location.host
@@ -32,6 +31,7 @@ export function GetHost(WithProtocol=true){
         else    
             return url
     }
+    
 }
 
 export function ProductsPage(){
@@ -64,6 +64,7 @@ export function ProductsPage(){
         const requestResult = await request.json()
         if (request.status == 200)
             dispatch(SearchProductsUpdatePath(requestResult.result))
+
 
     }
 
@@ -126,7 +127,7 @@ export function ProductsPage(){
         link.type = 'text/css';
         link.href = 'https://djangostaticfileshub.s3.eu-north-1.amazonaws.com/bootstrap.min.css';
         document.head.appendChild(link);
-      }, []);
+    }, []);
 
     React.useEffect(Main=>{
         const SearchFieldSpot = SearchInputField.current
@@ -1004,7 +1005,7 @@ export function StaffClientsMonitor(ComponentProperties){
             const chatBoxElement = chatBoxRef.current;
             chatBoxElement.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
         }
-      };
+    };
 
     async function GetMessages(){
 
@@ -1238,7 +1239,9 @@ function CartItemForm(ItemProperties){
     const RemoveFromCart = (id)=>{}
 
     const RemoveRequestHandler = (id)=>{
+        
         const link = GetHost()+`/AdjustCartProducts/0/${id}/`
+
         async function RequestStatus(){
             const request = await fetch(link, {
                 method:"POST",
@@ -1249,6 +1252,7 @@ function CartItemForm(ItemProperties){
             }
 
         }
+        
         RequestStatus()
 
     }

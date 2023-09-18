@@ -42,8 +42,8 @@ SECRET_KEY = 'django-insecure-%1o4pw*#5!p8w7fuyiz5+3_z-n7xpql_fpxag8p)96ze&ql+ej
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 # '127.0.0.1', "localhost"
-#ALLOWED_HOSTS = ['www.mansurdev.store']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['www.mansurdev.store']
+
 
 # Application definition
 
@@ -110,7 +110,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-ASGI_APPLICATION = 'OnlineStore.asgi.application'
+ASGI_APPLICATION = "OnlineStore.asgi.application"
 AUTH_USER_MODEL = 'ProductsBase.User'
 
 # Database
@@ -120,15 +120,15 @@ DATABASES = {
     'default': dj_database_url.config(default='sqlite:///db.sqlite3')
 }
 
-# CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = [
 
-#     'https://www.mansurdev.store',
-#     # 'http://www.mansurdev.store',
-#     # 'http://localhost:8000',
-#     # 'http://127.0.0.1:8000',
-#     # 'http://localhost:3000'
+    'https://www.mansurdev.store',
+    # 'http://www.mansurdev.store',
+    # 'http://localhost:8000',
+    # 'http://127.0.0.1:8000',
+    # 'http://localhost:3000'
 
-# ]
+]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
